@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#7c3aed">
+<meta name="description" content="مرکز خدمات آنلاین جاوید — خدمات دولتی، بیمه، خودرو، مالیات، ثنا، چاپ و تایپ.">
+<title>مرکز خدمات آنلاین جاوید</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#182420;
+    --ink-soft:#697870;
+    --line:#e4ece8;
+    --surface:#ffffff;
+    --brand:#7c3aed;
+    --brand-dark:#6d28d9;
+    --brand-2:#a78bfa;
+    --brand-tint:#f3f0ff;
+    --call:#e25d1f;
+    --call-dark:#c04a13;
+    --call-tint:#fff1e8;
+    --radius:18px;
+    --shadow-sm:0 2px 8px rgba(20,45,35,.04);
+    --shadow:0 8px 24px rgba(20,45,35,.07);
+  }
+  [data-theme="dark"]{
+    --ink:#e8f0eb;
+    --ink-soft:#94a39b;
+    --line:#26332c;
+    --surface:#16201c;
+    --brand:#a78bfa;
+    --brand-dark:#8b5cf6;
+    --brand-2:#c4b5fd;
+    --brand-tint:#1e1633;
+    --call:#fb923c;
+    --call-dark:#ea580c;
+    --call-tint:#2a1a10;
+    --shadow-sm:0 2px 8px rgba(0,0,0,.35);
+    --shadow:0 8px 24px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
+  }
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--ink);
+    font-family:"Vazirmatn","Tahoma",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(circle at 100% -5%,rgba(167,139,250,.10),transparent 30rem),
+      radial-gradient(circle at -5% 40%,rgba(20,184,166,.08),transparent 26rem),
+      radial-gradient(circle at 50% 100%,rgba(251,146,60,.06),transparent 30rem),
+      linear-gradient(180deg,#fafaff 0%,#ffffff 32%,#f7fafc 100%);
+    background-attachment:fixed;
+    transition:background .3s ease, color .25s ease;
+    overflow-x:hidden;
+  }
+  [data-theme="dark"] body{
+    background:
+      radial-gradient(circle at 100% -5%,rgba(167,139,250,.14),transparent 30rem),
+      radial-gradient(circle at -5% 40%,rgba(20,184,166,.10),transparent 26rem),
+      radial-gradient(circle at 50% 100%,rgba(251,146,60,.08),transparent 30rem),
+      linear-gradient(180deg,#0a1310 0%,#0d1411 32%,#0a1310 100%);
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:-1;
+    background-image:radial-gradient(rgba(124,58,237,.035) .7px, transparent .7px);
+    background-size:16px 16px;
+  }
+  [data-theme="dark"] body::before{
+    background-image:radial-gradient(rgba(167,139,250,.06) .7px, transparent .7px);
+  }
+  body.modal-open{overflow:hidden;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit;}
+  img{max-width:100%; display:block;}
+  svg{display:block;}
+  ::selection{background:rgba(124,58,237,.20);}
+
+  /* ===== Splash ===== */
+  #splash{
+    position:fixed; inset:0; z-index:9999;
+    background:
+      radial-gradient(circle at 30% 30%,rgba(124,58,237,.14),transparent 24rem),
+      radial-gradient(circle at 80% 70%,rgba(20,184,166,.10),transparent 24rem),
+      linear-gradient(180deg,#ffffff,#f7fafc);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition:opacity .55s ease, visibility .55s ease;
+  }
+  [data-theme="dark"] #splash{
+    background:
+      radial-gradient(circle at 30% 30%,rgba(167,139,250,.20),transparent 24rem),
+      radial-gradient(circle at 80% 70%,rgba(20,184,166,.16),transparent 24rem),
+      linear-gradient(180deg,#0a1310,#0d1411);
+  }
+  #splash.hide{opacity:0; visibility:hidden; pointer-events:none;}
+  #splash .sp-logo{
+    width:88px; height:88px; border-radius:24px;
+    background:linear-gradient(145deg,#a78bfa,#7c3aed 60%,#5b21b6);
+    display:flex; align-items:center; justify-content:center;
+    color:#fff;
+    box-shadow:0 20px 42px rgba(124,58,237,.35), inset 0 -4px 10px rgba(0,0,0,.15), inset 0 4px 10px rgba(255,255,255,.20);
+    animation:pop .55s cubic-bezier(.2,.8,.25,1) both;
+  }
+  #splash .sp-logo svg{width:44px; height:44px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.2));}
+  #splash h1{
+    margin:26px 0 8px; font-size:27px; font-weight:900;
+    background:linear-gradient(135deg,#7c3aed,#a78bfa,#14b8a6);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation:fadeUp .5s .2s both; letter-spacing:-.5px;
+  }
+  #splash p{margin:0; color:var(--ink-soft); font-size:14.5px; animation:fadeUp .5s .35s both; font-weight:500;}
+  #splash .sp-bar{
+    position:absolute; bottom:64px; width:210px; height:4px;
+    background:rgba(124,58,237,.10); border-radius:999px; overflow:hidden;
+  }
+  [data-theme="dark"] #splash .sp-bar{background:rgba(167,139,250,.15);}
+  #splash .sp-bar::after{
+    content:""; position:absolute; top:0; bottom:0; left:0; width:0;
+    background:linear-gradient(90deg,#a78bfa,#7c3aed,#14b8a6,#f97316);
+    border-radius:999px; animation:load 5s linear forwards;
+  }
+  @keyframes pop{from{opacity:0; transform:scale(.75) translateY(14px);} to{opacity:1; transform:scale(1) translateY(0);}}
+  @keyframes fadeUp{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+  @keyframes load{to{width:100%;}}
+
+  /* ===== Header ===== */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(255,255,255,.92);
+    border-bottom:1px solid rgba(220,230,225,.9);
+    box-shadow:0 4px 20px rgba(20,45,35,.045);
+    transition:background .3s ease, border-color .3s ease;
+  }
+  @media (min-width: 769px){
+    header{ backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); }
+  }
+  [data-theme="dark"] header{
+    background:rgba(13,20,17,.92);
+    border-bottom-color:rgba(38,51,44,.9);
+    box-shadow:0 4px 20px rgba(0,0,0,.35);
+  }
+  .header-top{
+    max-width:1100px; margin:0 auto; padding:13px 18px 10px;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .brand{display:flex; align-items:center; gap:11px; min-width:0; flex:1;}
+  .brand .mark{
+    width:44px; height:44px; border-radius:14px; flex:none;
+    background:linear-gradient(145deg,#a78bfa,#7c3aed 70%,#5b21b6);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 20px rgba(124,58,237,.28), inset 0 -3px 8px rgba(0,0,0,.15), inset 0 3px 8px rgba(255,255,255,.18);
+    transition:transform .3s ease;
+  }
+  .brand:hover .mark{transform:rotate(-5deg) scale(1.06);}
+  .brand .mark svg{width:23px; height:23px;}
+  .brand-text{min-width:0;}
+  .brand-text h2{
+    margin:0; font-size:16px; font-weight:800;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--ink);
+  }
+  .brand-text span{
+    font-size:11.5px; color:#74837c; display:block;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  [data-theme="dark"] .brand-text span{color:#8fa39a;}
+
+  .header-actions{display:flex; align-items:center; gap:8px; flex:none;}
+  .theme-toggle{
+    width:42px; height:42px; border-radius:50%; flex:none;
+    background:#fff; border:1px solid #dce5e0; color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 12px rgba(20,45,35,.08);
+    transition:transform .3s ease, background .3s ease, border-color .3s ease;
+  }
+  .theme-toggle:hover{transform:rotate(20deg) scale(1.08);}
+  .theme-toggle svg{width:19px; height:19px;}
+  .theme-toggle .icon-sun{display:none;}
+  [data-theme="dark"] .theme-toggle{
+    background:#1c2622; border-color:#2a3832; color:#fbbf24;
+  }
+  [data-theme="dark"] .theme-toggle .icon-sun{display:block;}
+  [data-theme="dark"] .theme-toggle .icon-moon{display:none;}
+
+  .call-btn{
+    display:inline-flex; align-items:center; gap:6px; flex:none;
+    background:linear-gradient(135deg,#f97316,#ea580c 60%,#c2410c);
+    color:#fff; border-radius:999px;
+    padding:10px 16px; font-size:12.5px; font-weight:800;
+    box-shadow:0 6px 16px rgba(234,88,12,.28);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .call-btn svg{width:14px; height:14px;}
+  .call-btn:hover{transform:translateY(-2px); box-shadow:0 10px 22px rgba(234,88,12,.38);}
+
+  .search-wrap{max-width:1100px; margin:0 auto; padding:0 18px 10px;}
+  body.view-category .search-wrap{display:none;}
+  .search-box{
+    display:flex; align-items:center; gap:9px;
+    background:#fff; border:1px solid #dce5e0; border-radius:14px;
+    padding:11px 14px; box-shadow:var(--shadow-sm);
+    transition:border-color .2s ease, box-shadow .2s ease, background .3s ease;
+  }
+  [data-theme="dark"] .search-box{background:#16201c; border-color:#26332c;}
+  .search-box:focus-within{
+    border-color:rgba(124,58,237,.55);
+    box-shadow:0 0 0 4px rgba(124,58,237,.10), var(--shadow);
+  }
+  .search-box > svg{width:17px; height:17px; color:#87968e; flex:none;}
+  .search-box input{
+    flex:1; min-width:0; border:none; outline:none; background:transparent;
+    font-family:inherit; font-size:14px; color:var(--ink);
+  }
+  .search-box input::placeholder{color:#9aa7a0;}
+  .search-clear{
+    width:26px; height:26px; border-radius:50%; flex:none;
+    background:#eef3f0; color:#65736c; font-size:18px; line-height:1;
+    display:grid; place-items:center;
+  }
+  [data-theme="dark"] .search-clear{background:#26332c; color:#94a39b;}
+
+  /* ===== Main ===== */
+  main{max-width:1100px; margin:0 auto; padding:24px 18px 60px;}
+  .view{display:none;}
+  .view.active{display:block; animation:viewIn .35s ease both;}
+  @keyframes viewIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+  /* ===== Hero — چند رنگ ===== */
+  .hero{
+    margin:0 0 34px; padding:34px 30px; border-radius:28px;
+    color:#fff; position:relative; overflow:hidden;
+    background:
+      radial-gradient(circle at 85% 15%,rgba(255,255,255,.22),transparent 15rem),
+      radial-gradient(circle at 15% 90%,rgba(250,204,21,.18),transparent 18rem),
+      linear-gradient(135deg,#7c3aed 0%,#5b21b6 25%,#0891b2 60%,#0d9488 100%);
+    box-shadow:0 24px 52px rgba(124,58,237,.25), inset 0 -6px 24px rgba(0,0,0,.12);
+  }
+  .hero::before{
+    content:""; position:absolute; left:-60px; top:-60px;
+    width:200px; height:200px; border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.15),transparent 70%);
+  }
+  .hero::after{
+    content:""; position:absolute; right:-90px; bottom:-150px;
+    width:320px; height:320px; border-radius:50%;
+    border:44px solid rgba(255,255,255,.08);
+  }
+  @media (min-width: 769px){
+    .hero::after{ animation:heroRotate 40s linear infinite; }
+  }
+  @keyframes heroRotate{to{transform:rotate(360deg);}}
+  .hero-badge{
+    display:inline-flex; align-items:center; gap:5px;
+    padding:7px 14px; border-radius:999px; font-size:12px; font-weight:800;
+    background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.22);
+    backdrop-filter:blur(8px); margin-bottom:14px;
+  }
+  .hero h1{
+    margin:0; font-size:31px; line-height:1.5; font-weight:900; letter-spacing:-.6px;
+    position:relative; z-index:1; text-shadow:0 2px 12px rgba(0,0,0,.15);
+  }
+  .hero h1 span{
+    background:linear-gradient(135deg,#fef3c7,#fbbf24,#fde68a);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p{
+    max-width:680px; margin:10px 0 22px; font-size:14.5px; line-height:2.05; opacity:.95;
+    position:relative; z-index:1;
+  }
+  .hero-actions{display:flex; gap:10px; flex-wrap:wrap; position:relative; z-index:1;}
+  .hero-btn{
+    display:inline-flex; align-items:center; gap:7px; min-height:46px;
+    padding:11px 20px; border-radius:13px; font-size:13.5px; font-weight:800;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+  }
+  .hero-btn svg{width:16px; height:16px;}
+  .hero-call{
+    background:linear-gradient(135deg,#fff,#fef3c7);
+    color:#6d28d9;
+  }
+  .hero-call:hover{transform:translateY(-3px); box-shadow:0 14px 30px rgba(0,0,0,.22);}
+  .hero-browse{
+    background:rgba(255,255,255,.13); color:#fff;
+    border:1px solid rgba(255,255,255,.30);
+    backdrop-filter:blur(8px);
+  }
+  .hero-browse:hover{background:rgba(255,255,255,.22); transform:translateY(-3px);}
+
+  /* ===== Sections ===== */
+  .section-head{
+    display:flex; align-items:flex-end; justify-content:space-between; gap:14px;
+    margin:0 0 20px;
+  }
+  .section-head .titles .eyebrow{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11.5px; font-weight:800; color:var(--brand);
+    letter-spacing:.6px; text-transform:uppercase;
+    padding:5px 11px; border-radius:999px;
+    background:linear-gradient(135deg,rgba(124,58,237,.10),rgba(167,139,250,.06));
+    border:1px solid rgba(124,58,237,.15);
+    margin-bottom:8px;
+  }
+  [data-theme="dark"] .section-head .titles .eyebrow{
+    background:linear-gradient(135deg,rgba(167,139,250,.15),rgba(196,181,253,.08));
+    border-color:rgba(167,139,250,.25);
+  }
+  .section-head .titles .eyebrow::before{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background:linear-gradient(135deg,#a78bfa,#7c3aed);
+    box-shadow:0 0 8px rgba(124,58,237,.6);
+  }
+  .section-head h2{margin:0; font-size:22px; font-weight:900; letter-spacing:-.4px;}
+  .section-head .hint{
+    font-size:12px; color:var(--ink-soft); font-weight:600;
+    background:#fff; border:1px solid var(--line);
+    border-radius:999px; padding:6px 12px;
+    box-shadow:var(--shadow-sm);
+  }
+  [data-theme="dark"] .section-head .hint{background:#16201c;}
+
+  .cat-grid{display:grid; gap:15px; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));}
+  .cat-card{
+    display:flex; align-items:center; gap:14px;
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:20px; padding:16px;
+    box-shadow:var(--shadow-sm);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .3s ease;
+    cursor:pointer;
+    position:relative; overflow:hidden;
+    contain:content;
+  }
+  .cat-card::before{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(circle at 100% 0%, var(--tint), transparent 60%);
+    opacity:.75; transition:opacity .25s ease; pointer-events:none;
+  }
+  [data-theme="dark"] .cat-card::before{opacity:.4;}
+  .cat-card > *{position:relative; z-index:1;}
+  .cat-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 18px 36px rgba(20,45,35,.10);
+    border-color:var(--accent);
+  }
+  [data-theme="dark"] .cat-card:hover{box-shadow:0 18px 36px rgba(0,0,0,.5);}
+  .cat-card:hover::before{opacity:1;}
+  .cat-card .cat-icon{
+    width:60px; height:60px; flex:none; border-radius:17px;
+    background:linear-gradient(145deg, var(--tint), var(--surface));
+    color:var(--accent);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden; position:relative;
+    box-shadow:0 6px 16px color-mix(in srgb, var(--accent) 20%, transparent), inset 0 0 0 1px rgba(255,255,255,.9);
+    transition:transform .3s ease;
+  }
+  [data-theme="dark"] .cat-card .cat-icon{box-shadow:0 6px 16px color-mix(in srgb, var(--accent) 30%, transparent), inset 0 0 0 1px rgba(255,255,255,.05);}
+  .cat-card:hover .cat-icon{transform:scale(1.08) rotate(-5deg);}
+  .cat-card .cat-icon svg{width:30px; height:30px;}
+  .cat-card .cat-icon img{width:100%; height:100%; object-fit:cover;}
+  .cat-card .cat-info{flex:1; min-width:0;}
+  .cat-card h3{margin:0 0 4px; font-size:15.5px; font-weight:800; color:var(--ink);}
+  .cat-card .cat-meta{
+    font-size:12px; color:var(--ink-soft); font-weight:600;
+    display:inline-flex; align-items:center; gap:5px;
+  }
+  .cat-card .cat-meta::before{
+    content:""; width:5px; height:5px; border-radius:50%; background:var(--accent);
+    box-shadow:0 0 6px color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+  .cat-card .cat-arrow{
+    width:34px; height:34px; flex:none; border-radius:50%;
+    background:linear-gradient(135deg, var(--tint), color-mix(in srgb, var(--accent) 15%, var(--surface)));
+    color:var(--accent);
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px; font-weight:800;
+    transition:transform .25s ease, box-shadow .25s ease;
+    box-shadow:0 3px 10px color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+  .cat-card:hover .cat-arrow{transform:translateX(-5px) scale(1.08); box-shadow:0 6px 14px color-mix(in srgb, var(--accent) 28%, transparent);}
+
+  /* ===== Category view ===== */
+  .back-link{
+    display:inline-flex; align-items:center; gap:7px;
+    font-size:13.5px; font-weight:800; color:var(--brand-dark);
+    background:linear-gradient(135deg, var(--brand-tint), color-mix(in srgb, var(--brand) 20%, var(--surface)));
+    border:1px solid rgba(124,58,237,.18);
+    padding:10px 17px; border-radius:999px; margin-bottom:22px;
+    transition:transform .18s ease, box-shadow .18s ease;
+    box-shadow:0 4px 12px rgba(124,58,237,.08);
+  }
+  [data-theme="dark"] .back-link{color:#c4b5fd; border-color:rgba(167,139,250,.30);}
+  .back-link:hover{transform:translateX(4px); box-shadow:0 8px 18px rgba(124,58,237,.15);}
+  .back-link svg{width:15px; height:15px;}
+
+  /* Category Hero — یکسان برای همه */
+  .cat-hero{
+    border-radius:24px; padding:26px 28px;
+    background:
+      radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 60%),
+      linear-gradient(135deg, var(--tint) 0%, var(--surface) 70%);
+    border:1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
+    margin-bottom:20px; position:relative; overflow:hidden;
+    display:flex; align-items:center; gap:20px;
+    box-shadow:0 12px 28px color-mix(in srgb, var(--accent) 12%, transparent);
+    min-height:120px;
+  }
+  .cat-hero::before{
+    content:""; position:absolute; right:-50px; top:-70px;
+    width:180px; height:180px; border-radius:50%;
+    background:radial-gradient(circle, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%);
+  }
+  .cat-hero::after{
+    content:""; position:absolute; left:-30px; bottom:-80px;
+    width:170px; height:170px; border-radius:50%;
+    border:28px solid color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+  .cat-hero > *{position:relative; z-index:1;}
+  .cat-hero .cat-hero-icon{
+    width:76px; height:76px; flex:none; border-radius:22px;
+    background:linear-gradient(145deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #000));
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 12px 26px color-mix(in srgb, var(--accent) 35%, transparent), inset 0 -4px 10px rgba(0,0,0,.18), inset 0 4px 10px rgba(255,255,255,.20);
+  }
+  .cat-hero .cat-hero-icon svg{width:38px; height:38px;}
+  .cat-hero .cat-hero-text{flex:1; min-width:0;}
+  .cat-hero .cat-hero-text h1{margin:0 0 5px; font-size:25px; font-weight:900; color:var(--accent); letter-spacing:-.5px;}
+  .cat-hero .cat-hero-text p{margin:0; font-size:13px; color:var(--ink-soft); font-weight:500; line-height:2;}
+
+  /* Note — بیرون از hero */
+  .cat-note-box{
+    margin:0 0 22px;
+    padding:13px 16px; border-radius:14px;
+    background:var(--surface);
+    border:1px solid color-mix(in srgb, var(--accent) 25%, var(--line));
+    color:var(--accent);
+    font-size:13px; font-weight:600; line-height:1.95;
+    display:flex; gap:10px; align-items:flex-start;
+    box-shadow:0 6px 14px color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+  .cat-note-box svg{width:18px; height:18px; flex:none; margin-top:3px;}
+
+  .items-grid{display:grid; gap:20px; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));}
+  .item-card{
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:22px; overflow:hidden;
+    box-shadow:var(--shadow-sm);
+    display:flex; flex-direction:column;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .3s ease;
+    position:relative;
+    contain:content;
+  }
+  .item-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 20px 40px color-mix(in srgb, var(--accent) 16%, transparent);
+    border-color:color-mix(in srgb, var(--accent) 40%, var(--line));
+  }
+  [data-theme="dark"] .item-card:hover{box-shadow:0 20px 40px rgba(0,0,0,.55);}
+  .item-media{
+    aspect-ratio:16/10;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255,255,255,.5), transparent 60%),
+      linear-gradient(145deg, var(--tint), color-mix(in srgb, var(--accent) 12%, var(--surface)));
+    color:var(--accent);
+    display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden;
+    border-bottom:1px solid color-mix(in srgb, var(--accent) 15%, var(--line));
+  }
+  [data-theme="dark"] .item-media{background:radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 60%), linear-gradient(145deg, var(--tint), color-mix(in srgb, var(--accent) 20%, var(--surface)));}
+  .item-media img{
+    width:100%; height:100%; object-fit:cover;
+    position:relative; z-index:1;
+    transition:transform .5s cubic-bezier(.2,.8,.25,1);
+  }
+  .item-card:hover .item-media img{transform:scale(1.06);}
+  .item-media svg{
+    width:74px; height:74px; opacity:.9;
+    position:relative; z-index:1;
+    filter:drop-shadow(0 4px 12px color-mix(in srgb, var(--accent) 25%, transparent));
+    transition:transform .35s ease;
+  }
+  .item-card:hover .item-media svg{transform:scale(1.1) rotate(-4deg);}
+  .item-media .price-corner{
+    position:absolute; top:12px; right:12px; z-index:2;
+    background:linear-gradient(135deg, rgba(255,255,255,.98), rgba(255,255,255,.90));
+    color:var(--accent); font-size:11.5px; font-weight:800;
+    border-radius:999px; padding:6px 12px;
+    box-shadow:0 6px 14px rgba(20,45,35,.14);
+    border:1px solid rgba(255,255,255,.7);
+    display:inline-flex; align-items:center; gap:5px;
+  }
+  [data-theme="dark"] .item-media .price-corner{background:linear-gradient(135deg, rgba(22,32,28,.95), rgba(22,32,28,.88)); border-color:rgba(255,255,255,.08);}
+  .item-media .price-corner svg{width:12px; height:12px; filter:none;}
+  .item-body{padding:16px 16px 18px; display:flex; flex-direction:column; flex:1; gap:10px;}
+  .item-title{margin:0; font-size:16px; font-weight:800; line-height:1.6; color:var(--ink);}
+  .item-desc{margin:0; font-size:12.8px; line-height:1.95; color:var(--ink-soft); font-weight:500;}
+  .item-foot{margin-top:auto; padding-top:12px; display:flex; gap:8px;}
+  .contact-btn{
+    flex:1;
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 85%, #000) 0%, var(--accent) 100%);
+    color:#fff; border-radius:13px; padding:12px 16px;
+    font-size:13px; font-weight:800;
+    box-shadow:0 8px 18px color-mix(in srgb, var(--accent) 25%, transparent), inset 0 -3px 8px rgba(0,0,0,.15), inset 0 3px 8px rgba(255,255,255,.15);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .contact-btn svg{width:15px; height:15px;}
+  .contact-btn:hover{transform:translateY(-2px); box-shadow:0 14px 26px color-mix(in srgb, var(--accent) 38%, transparent), inset 0 -3px 8px rgba(0,0,0,.15), inset 0 3px 8px rgba(255,255,255,.15);}
+
+  .empty-state{
+    text-align:center; padding:56px 20px;
+    background:var(--surface); border:1px dashed var(--line); border-radius:20px;
+    color:var(--ink-soft);
+  }
+  .empty-state .emoji{font-size:46px; margin-bottom:12px;}
+  .empty-state p{margin:0; font-size:14.5px; font-weight:600;}
+
+  #searchResults{display:none;}
+  #searchResults.show{display:block;}
+  body.searching #categoriesSection{display:none;}
+  body.searching .hero{display:none;}
+
+  /* ===== Support ===== */
+  .support-section{
+    margin-top:56px; padding:32px 26px; border-radius:26px;
+    color:#fff; position:relative; overflow:hidden;
+    background:
+      radial-gradient(circle at 90% 0%,rgba(250,204,21,.20),transparent 22rem),
+      radial-gradient(circle at 10% 100%,rgba(20,184,166,.22),transparent 22rem),
+      linear-gradient(135deg,#7c3aed,#5b21b6 45%,#0d9488);
+    box-shadow:0 24px 52px rgba(124,58,237,.28), inset 0 -8px 30px rgba(0,0,0,.15), inset 0 8px 30px rgba(255,255,255,.08);
+  }
+  .support-section::before{
+    content:""; position:absolute; left:-90px; top:-120px;
+    width:260px; height:260px; border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.12),transparent 70%);
+  }
+  .support-section::after{
+    content:""; position:absolute; right:-100px; bottom:-140px;
+    width:280px; height:280px; border-radius:50%;
+    border:38px solid rgba(255,255,255,.08);
+  }
+  .support-section > *{position:relative; z-index:1;}
+  .support-section h3{margin:0 0 8px; font-size:23px; font-weight:900; letter-spacing:-.4px;}
+  .support-section .lead{margin:0 0 20px; font-size:13.5px; opacity:.94; line-height:2;}
+  .support-grid{display:grid; gap:13px; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); margin-bottom:16px;}
+  .support-card{
+    display:flex; align-items:center; gap:13px;
+    background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.18);
+    border-radius:16px; padding:14px 16px;
+    transition:background .25s ease, transform .25s ease;
+    box-shadow:0 6px 16px rgba(0,0,0,.10);
+  }
+  .support-card:hover{background:rgba(255,255,255,.22); transform:translateY(-2px);}
+  .support-card .avatar{
+    width:46px; height:46px; flex:none; border-radius:14px;
+    background:linear-gradient(145deg,rgba(255,255,255,.28),rgba(255,255,255,.14));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:inset 0 2px 6px rgba(255,255,255,.20), inset 0 -2px 6px rgba(0,0,0,.10);
+  }
+  .support-card .avatar svg{width:22px; height:22px;}
+  .support-card .info{flex:1; min-width:0;}
+  .support-card .info strong{display:block; font-size:14.5px; font-weight:800; margin-bottom:3px;}
+  .support-card .info span{font-size:13px; opacity:.95; direction:ltr; display:inline-block; letter-spacing:.6px; font-weight:600;}
+
+  .address-box{
+    display:flex; align-items:flex-start; gap:13px;
+    background:rgba(255,255,255,.11); border:1px solid rgba(255,255,255,.16);
+    border-radius:16px; padding:14px 16px;
+    box-shadow:0 6px 16px rgba(0,0,0,.08);
+  }
+  .address-box .avatar{
+    width:46px; height:46px; flex:none; border-radius:14px;
+    background:linear-gradient(145deg,rgba(255,255,255,.28),rgba(255,255,255,.14));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:inset 0 2px 6px rgba(255,255,255,.20), inset 0 -2px 6px rgba(0,0,0,.10);
+  }
+  .address-box .avatar svg{width:22px; height:22px;}
+  .address-box .txt{flex:1; min-width:0;}
+  .address-box .txt strong{display:block; font-size:14px; font-weight:800; margin-bottom:4px;}
+  .address-box .txt span{font-size:12.5px; opacity:.94; line-height:2;}
+
+  /* ===== Modal ===== */
+  .modal-backdrop{
+    position:fixed; inset:0; z-index:300;
+    background:rgba(18,32,26,.58);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+    opacity:0; visibility:hidden;
+    transition:opacity .25s ease, visibility .25s ease;
+    overflow-y:auto;
+  }
+  @media (min-width: 769px){
+    .modal-backdrop{ backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+  }
+  [data-theme="dark"] .modal-backdrop{background:rgba(0,0,0,.75);}
+  .modal-backdrop.show{opacity:1; visibility:visible;}
+  .modal{
+    background:var(--surface); border-radius:24px;
+    padding:26px 22px 22px; max-width:440px; width:100%;
+    box-shadow:0 30px 70px rgba(20,45,35,.35);
+    transform:scale(.94) translateY(14px);
+    transition:transform .3s cubic-bezier(.2,.8,.25,1), background .3s ease;
+    position:relative; overflow:hidden;
+    margin:auto;
+  }
+  [data-theme="dark"] .modal{box-shadow:0 30px 70px rgba(0,0,0,.65);}
+  .modal::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:5px;
+    background:linear-gradient(90deg,#a78bfa,#7c3aed,#14b8a6,#f97316);
+  }
+  .modal-backdrop.show .modal{transform:scale(1) translateY(0);}
+  .modal-close{
+    position:absolute; top:14px; left:14px;
+    width:34px; height:34px; border-radius:50%;
+    background:#f0f4f2; color:#5a6862;
+    font-size:20px; line-height:1;
+    display:grid; place-items:center;
+    transition:background .18s ease, transform .18s ease;
+    z-index:2;
+  }
+  [data-theme="dark"] .modal-close{background:#26332c; color:#94a39b;}
+  .modal-close:hover{background:#e4ebe7; transform:rotate(90deg);}
+  [data-theme="dark"] .modal-close:hover{background:#324138;}
+  .modal-icon{
+    width:64px; height:64px; border-radius:19px; margin:4px auto 12px;
+    background:linear-gradient(145deg, #ede9fe, #ddd6fe);
+    color:#7c3aed;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 22px rgba(124,58,237,.22), inset 0 -3px 8px rgba(0,0,0,.06), inset 0 3px 8px rgba(255,255,255,.6);
+  }
+  [data-theme="dark"] .modal-icon{background:linear-gradient(145deg, #2a1f4a, #1f1638); color:#a78bfa;}
+  .modal-icon svg{width:30px; height:30px;}
+  .modal h3{margin:0 0 6px; font-size:18px; font-weight:900; text-align:center; letter-spacing:-.3px; color:var(--ink);}
+  .modal .modal-sub{margin:0 0 18px; font-size:12.5px; color:var(--ink-soft); text-align:center; line-height:2; font-weight:500;}
+  .modal-sub .item-name{
+    display:inline-block; font-weight:800; color:var(--brand-dark);
+    background:linear-gradient(135deg, var(--brand-tint), color-mix(in srgb, var(--brand) 25%, var(--surface)));
+    border-radius:9px; padding:3px 11px; margin:0 3px;
+    box-shadow:0 2px 6px rgba(124,58,237,.10);
+  }
+  [data-theme="dark"] .modal-sub .item-name{color:#c4b5fd;}
+
+  .contact-person{
+    background:linear-gradient(145deg, color-mix(in srgb, var(--brand) 5%, var(--surface)), var(--surface));
+    border:1px solid var(--line);
+    border-radius:16px; padding:13px;
+    margin-bottom:11px;
+    transition:border-color .22s ease, transform .22s ease;
+  }
+  .contact-person:hover{border-color:color-mix(in srgb, var(--brand) 40%, var(--line));}
+  .contact-person .person-head{display:flex; align-items:center; gap:11px; margin-bottom:10px;}
+  .contact-person .person-head .avatar{
+    width:42px; height:42px; flex:none; border-radius:13px;
+    background:linear-gradient(145deg, var(--brand-tint), color-mix(in srgb, var(--brand) 22%, var(--surface)));
+    color:var(--brand);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:inset 0 2px 5px rgba(255,255,255,.5), inset 0 -2px 5px rgba(0,0,0,.05);
+  }
+  .contact-person .person-head .avatar svg{width:21px; height:21px;}
+  .contact-person .person-head .pinfo{flex:1; min-width:0;}
+  .contact-person .person-head strong{display:block; font-size:14px; font-weight:800; margin-bottom:2px; color:var(--ink);}
+  .contact-person .person-head span{font-size:12.5px; color:var(--brand-dark); font-weight:700; direction:ltr; display:inline-block; letter-spacing:.5px;}
+  [data-theme="dark"] .contact-person .person-head span{color:#c4b5fd;}
+
+  .person-actions{display:grid; grid-template-columns:repeat(3,1fr); gap:8px;}
+  .act-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    padding:10px 8px; border-radius:11px;
+    font-size:12.5px; font-weight:800;
+    transition:transform .16s ease, box-shadow .16s ease;
+    color:#fff;
+  }
+  .act-btn svg{width:15px; height:15px; flex:none;}
+  .act-btn:hover{transform:translateY(-2px);}
+  .act-call{background:linear-gradient(135deg,#f97316,#c2410c); box-shadow:0 5px 13px rgba(234,88,12,.28);}
+  .act-rubika{background:linear-gradient(135deg,#8b5cf6,#6d28d9); box-shadow:0 5px 13px rgba(139,92,246,.28);}
+  .act-eitaa{background:linear-gradient(135deg,#f59e0b,#d97706); box-shadow:0 5px 13px rgba(245,158,11,.28);}
+  .act-btn:hover{box-shadow:0 9px 20px rgba(0,0,0,.20);}
+
+  /* ===== Footer ===== */
+  footer{text-align:center; color:var(--ink-soft); font-size:12px; padding:28px 18px 42px; line-height:2;}
+  footer b{color:var(--ink);}
+
+  /* ===== To top ===== */
+  .to-top{
+    position:fixed; left:18px; bottom:18px; z-index:70;
+    width:48px; height:48px; border-radius:50%;
+    background:linear-gradient(145deg,#1e293b,#0f172a);
+    color:#fff; font-size:20px;
+    display:grid; place-items:center;
+    box-shadow:0 10px 24px rgba(18,30,25,.28);
+    opacity:0; visibility:hidden; transform:translateY(10px);
+    transition:.25s ease;
+  }
+  [data-theme="dark"] .to-top{background:linear-gradient(145deg,#a78bfa,#7c3aed); color:#fff;}
+  .to-top.show{opacity:1; visibility:visible; transform:translateY(0);}
+  .to-top:hover{transform:translateY(-3px);}
+
+  /* ===== Responsive / Performance ===== */
+  @media (max-width: 900px){
+    /* Reduce heavy effects */
+    .hero::before, .hero::after, .support-section::before, .support-section::after, .cat-hero::after{display:none;}
+    .cat-card::before{opacity:.5;}
+    .cat-card, .item-card, .contact-btn, .cat-card .cat-icon, .cat-card .cat-arrow{transition-duration:.18s;}
+    .item-media img{transition:none;}
+    .item-card:hover .item-media img{transform:none;}
+  }
+  @media (max-width: 700px){
+    .hero{padding:26px 22px; border-radius:22px; margin-bottom:26px;}
+    .hero h1{font-size:23px;}
+    .hero p{font-size:13px;}
+    main{padding:20px 15px 55px;}
+    .items-grid{grid-template-columns:1fr; gap:16px;}
+    .section-head h2{font-size:19px;}
+    .cat-grid{grid-template-columns:1fr; gap:13px;}
+    .cat-hero{padding:20px; flex-direction:column; text-align:center; gap:14px; min-height:0;}
+    .cat-hero .cat-hero-icon{width:68px; height:68px; border-radius:19px;}
+    .cat-hero .cat-hero-icon svg{width:34px; height:34px;}
+    .cat-hero .cat-hero-text h1{font-size:21px;}
+    .support-section{padding:26px 20px; border-radius:22px; margin-top:42px;}
+    .support-section h3{font-size:20px;}
+    .header-top{padding:11px 15px 8px;}
+    .search-wrap{padding:0 15px 9px;}
+    .brand-text h2{font-size:14.5px;}
+    .brand .mark{width:40px; height:40px; border-radius:12px;}
+    .brand .mark svg{width:21px; height:21px;}
+    .call-btn{padding:9px 14px; font-size:12px;}
+    .theme-toggle{width:40px; height:40px;}
+    .item-media svg{width:58px; height:58px;}
+    .section-head{flex-direction:column; align-items:flex-start; gap:9px;}
+    #splash .sp-logo{width:78px; height:78px; border-radius:22px;}
+    #splash .sp-logo svg{width:38px; height:38px;}
+    #splash h1{font-size:23px;}
+  }
+  @media (max-width: 420px){
+    .brand-text span{display:none;}
+    .item-body{padding:14px;}
+    .item-title{font-size:15px;}
+    .item-desc{font-size:12.5px;}
+    .modal{padding:22px 16px 18px; border-radius:20px;}
+    .hero h1{font-size:21px;}
+    .person-actions{grid-template-columns:1fr; gap:6px;}
+    .act-btn{padding:11px 8px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== SPLASH ===== -->
+<div id="splash" aria-hidden="true">
+  <div class="sp-logo" id="splashLogo"></div>
+  <h1>خوش آمدید</h1>
+  <p>مرکز خدمات آنلاین جاوید</p>
+  <div class="sp-bar"></div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-top">
+    <a href="#home" class="brand" id="brandLink">
+      <span class="mark" id="brandIcon"></span>
+      <span class="brand-text">
+        <h2>مرکز خدمات آنلاین جاوید</h2>
+        <span>خدمات دولتی • بیمه • قبض • خودرو • مالیات • ثنا • چاپ</span>
+      </span>
+    </a>
+    <div class="header-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="تغییر حالت روشن/تاریک">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <button class="call-btn" id="headerCallBtn" aria-label="تماس سریع">
+        <span id="headerCallIcon"></span>
+        <span>تماس</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="search-wrap" id="searchWrap">
+    <div class="search-box">
+      <span id="searchIcon"></span>
+      <input id="searchInput" type="text" placeholder="جستجوی خدمت... مثلاً: مالیات، خلافی، ثنا" aria-label="جستجوی خدمات">
+      <button class="search-clear" id="searchClear" type="button" aria-label="پاک کردن جستجو" hidden>×</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main>
+  <section id="view-home" class="view">
+    <div class="hero">
+      <div class="hero-badge">⚡ سریع • مطمئن • حضوری</div>
+      <h1>خدمات آنلاین، <span>ساده و سریع</span></h1>
+      <p>خدمات دولتی، بیمه، خودرو، مالیات، ثنا، چاپ و ده‌ها خدمت دیگر — همه در یکجا، با پشتیبانی تلفنی مستقیم.</p>
+      <div class="hero-actions">
+        <button class="hero-btn hero-call" id="heroCallBtn" type="button"></button>
+        <button class="hero-btn hero-browse" id="heroBrowseBtn" type="button">مشاهده خدمات ↓</button>
+      </div>
+    </div>
+
+    <div id="categoriesSection">
+      <div class="section-head">
+        <div class="titles">
+          <span class="eyebrow">دسته‌بندی خدمات</span>
+          <h2>چه کاری می‌خواهید انجام دهید؟</h2>
+        </div>
+        <span class="hint" id="totalCount"></span>
+      </div>
+      <div class="cat-grid" id="catGrid"></div>
+    </div>
+
+    <div id="searchResults"></div>
+
+    <section class="support-section" id="supportSection">
+      <h3>پشتیبانی</h3>
+      <p class="lead">برای ثبت‌نام، انجام کار یا هر سوالی درباره خدمات، با یکی از راه‌های زیر با ما در تماس باشید.</p>
+      <div class="support-grid" id="supportGrid"></div>
+      <div class="address-box" id="addressBox"></div>
+    </section>
+  </section>
+
+  <section id="view-category" class="view">
+    <a href="#home" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      بازگشت به همه خدمات
+    </a>
+    <div id="categoryContent"></div>
+  </section>
+</main>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-backdrop" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="بستن">×</button>
+    <div class="modal-icon" id="modalIcon"></div>
+    <h3 id="modalTitle">تماس یا پیام</h3>
+    <p class="modal-sub" id="modalSub"></p>
+    <div class="phone-list" id="modalPhones"></div>
+  </div>
+</div>
+
+<button class="to-top" id="toTop" aria-label="بازگشت به بالا">↑</button>
+
+<footer>
+  © تمامی حقوق محفوظ است — <b>قیمت تمامی خدمات توافقی می‌باشد.</b>
+</footer>
+
+<script>
+/* ============================================================
+   اطلاعات پشتیبانی
+============================================================ */
+const SUPPORT = [
+  { name: "محمد جاوید", phone: "09142552768", display: "0914 255 2768" },
+  { name: "هادی جاوید",  phone: "09195080321", display: "0919 508 0321" }
+];
+const ADDRESS = "تهران، شهرک ولیعصر، خیابان سجادی جنوبی، کوچه صاحب‌الزمان غربی، مغازه جاوید";
+
+/* ============================================================
+   آیکون‌ها
+============================================================ */
+const ICON_PATHS = {
+  briefcase:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="3" y1="12.5" x2="21" y2="12.5"/>',
+  shield:'<path d="M12 2.5l7.5 3.2V11c0 5-3.2 8.6-7.5 10.5C7.7 19.6 4.5 16 4.5 11V5.7L12 2.5z"/>',
+  idcard:'<rect x="2.5" y="5.5" width="19" height="13" rx="2"/><circle cx="8.2" cy="12" r="2"/><line x1="13" y1="9.7" x2="18.5" y2="9.7"/><line x1="13" y1="13.3" x2="18.5" y2="13.3"/>',
+  gavel:'<line x1="12" y1="3" x2="12" y2="21"/><path d="M5 7h14"/><path d="M8 7l-3.2 6.2a3.2 3.2 0 0 0 6.4 0z"/><path d="M19.2 7l-3.2 6.2a3.2 3.2 0 0 0 6.4 0z"/>',
+  lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/>',
+  car:'<path d="M3.5 13l1.4-4.3A2 2 0 0 1 6.8 7.3h10.4a2 2 0 0 1 1.9 1.4L20.5 13"/><rect x="2.5" y="13" width="19" height="6" rx="2"/><circle cx="7.5" cy="19.3" r="1.5"/><circle cx="16.5" cy="19.3" r="1.5"/>',
+  motorcycle:'<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h5.5l2.7-5.4h-4L11.2 15H9z"/><path d="M13.5 8h4.2"/><path d="M17.7 8l1.3 4"/>',
+  fuel:'<path d="M6.5 3h6.5v18H6.5z"/><line x1="6.5" y1="10" x2="13" y2="10"/><path d="M13 8.3h1.8a2 2 0 0 1 2 2V16a1.4 1.4 0 0 0 2.8 0V9.2l-2.1-2.1"/>',
+  road:'<path d="M9.5 3L4.5 21"/><path d="M14.5 3l5 18"/><line x1="12" y1="5.5" x2="12" y2="8"/><line x1="12" y1="11" x2="12" y2="13.5"/><line x1="12" y1="16.5" x2="12" y2="19"/>',
+  water:'<path d="M12 3.2s6.5 7 6.5 11.3a6.5 6.5 0 0 1-13 0C5.5 10.2 12 3.2 12 3.2z"/>',
+  bolt:'<polygon points="13 2 4.5 14 11 14 10 22 19.5 10 13 10"/>',
+  flame:'<path d="M12 2.5c1.6 2.4-1.3 3.6-1.6 6a3.6 3.6 0 0 0 7.2 0c0-1.8-.9-2.9-1.8-4.4.6 3.3-1.7 3.4-1.8 1-.1-1.1-1-1.7-2-2.6z"/>',
+  mobile:'<rect x="7.5" y="2.5" width="9" height="19" rx="2"/><line x1="10.8" y1="18" x2="13.2" y2="18"/>',
+  phone:'<path d="M4.5 4.8c-.4 6.8 4 15.7 14.7 14.7l1.3-4-4.3-1.7-1.6 1.9c-2.4-1.1-4-2.8-5-5l1.9-1.6-1.7-4.3z"/>',
+  train:'<rect x="5.5" y="3" width="13" height="13.5" rx="3.5"/><circle cx="9" cy="14" r="1.1"/><circle cx="15" cy="14" r="1.1"/><path d="M8 20.5l-2 2M16 20.5l2 2"/><line x1="5.5" y1="9" x2="18.5" y2="9"/>',
+  plane:'<path d="M21.5 12.2l-8-2.7-2.8-6.3-1.8.9 1.8 5.6-6.2 1.8v1.8l6.2 1.8-1.8 5.6 1.8.9 2.8-6.3 8-2.7z"/>',
+  bus:'<rect x="3.5" y="5" width="17" height="12" rx="2.2"/><circle cx="7.5" cy="19" r="1.4"/><circle cx="16.5" cy="19" r="1.4"/><line x1="3.5" y1="11" x2="20.5" y2="11"/>',
+  graduation:'<path d="M12 3.5L2.5 8l9.5 4.5L21.5 8 12 3.5z"/><path d="M6.2 10.2v4.4c0 1.5 2.9 3 5.8 3s5.8-1.5 5.8-3v-4.4"/>',
+  mail:'<rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M3.3 6.5l8.7 6.7 8.7-6.7"/>',
+  calendar:'<rect x="3.5" y="5" width="17" height="16" rx="2"/><line x1="3.5" y1="10" x2="20.5" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/>',
+  bank:'<path d="M3 10L12 4l9 6"/><rect x="4.5" y="10" width="15" height="8.5"/><line x1="2.5" y1="20.5" x2="21.5" y2="20.5"/>',
+  percent:'<line x1="19" y1="5" x2="5" y2="19"/><circle cx="7" cy="7" r="2.3"/><circle cx="17" cy="17" r="2.3"/>',
+  printer:'<path d="M6.5 9V3.5h11V9"/><rect x="4" y="9" width="16" height="7.5" rx="1.5"/><path d="M6.5 16.5h11v4.5h-11z"/>',
+  pen:'<path d="M3.5 20.5l3.7-.9L18.6 8.2l-2.8-2.8L4.4 16.8z"/><path d="M14.4 4.4l3 3"/>',
+  megaphone:'<path d="M3.5 10v4.2h4l7 3.8V6.2l-7 3.8z"/><path d="M14.5 9a3.3 3.3 0 0 1 0 6.2"/>',
+  ruler:'<path d="M3.3 16.7L16.7 3.3l4 4L7.3 20.7z"/><line x1="9.5" y1="10.5" x2="11.3" y2="12.3"/><line x1="12.3" y1="7.7" x2="14.1" y2="9.5"/>',
+  passport:'<rect x="4.5" y="2.5" width="15" height="19" rx="2"/><circle cx="12" cy="10" r="2.8"/><line x1="8.3" y1="16.7" x2="15.7" y2="16.7"/>',
+  wallet:'<rect x="2.5" y="6" width="19" height="13.5" rx="2"/><path d="M15.5 12.2h4.5v4H15.5a2 2 0 0 1 0-4z"/>',
+  receipt:'<path d="M6 2.5v19l2.6-1.7 2.6 1.7 2.6-1.7 2.6 1.7 2.6-1.7v-19z"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/>',
+  pin:'<path d="M12 21s7-6.7 7-12.2A7 7 0 0 0 5 8.8C5 14.3 12 21 12 21z"/><circle cx="12" cy="8.8" r="2.4"/>',
+  money:'<rect x="2.5" y="6.5" width="19" height="11" rx="2"/><circle cx="12" cy="12" r="2.7"/>',
+  search:'<circle cx="10.5" cy="10.5" r="6.5"/><line x1="19.5" y1="19.5" x2="15.3" y2="15.3"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>',
+  tag:'<path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+  bellRing:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/><path d="M2 8c0-2.4 1-4.6 2.6-6.1"/><path d="M22 8c0-2.4-1-4.6-2.6-6.1"/>',
+  chat:'<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
+  award:'<circle cx="12" cy="9" r="6"/><path d="M9 14.5L8 22l4-2 4 2-1-7.5"/>',
+  city:'<path d="M3 21V8l7-5 7 5v13"/><path d="M3 21h18"/><rect x="9" y="12" width="6" height="6"/><line x1="12" y1="12" x2="12" y2="18"/>',
+  heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>',
+  home:'<path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2z"/>',
+  fileText:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/>',
+  clipboard:'<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/>',
+  wifi:'<path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><line x1="12" y1="20" x2="12" y2="20"/>',
+  wrench:'<path d="M14.7 6.3a4 4 0 0 0 5 5l-2.6 2.6-2.4-2.4L4.3 22l-2.3-2.3 10.3-10.4-2.4-2.4z"/>',
+  phoneOff:'<path d="M10.7 13.3a16.4 16.4 0 0 1 2.7-2 1 1 0 0 0 .3-1.5L12 6.7a1 1 0 0 1 .2-1.4l3.5-2.6a1 1 0 0 1 1.4.2l4.3 5.7"/><path d="M3 3l18 18"/><path d="M8.5 8.5A11 11 0 0 0 3.5 18l3.8 3 3-3.7a11 11 0 0 0-1.8-8.8z"/>',
+  scan:'<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="3" y1="12" x2="21" y2="12"/>',
+  book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+  image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
+  school:'<path d="M3 10l9-5 9 5"/><path d="M5 10v10h14V10"/><rect x="9" y="14" width="6" height="6"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/>',
+  star:'<polygon points="12 2 15 9 22 9.3 17 14 18.5 21 12 17.5 5.5 21 7 14 2 9.3 9 9"/>',
+  layers:'<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>'
+};
+function icon(key, cls){
+  const inner = ICON_PATHS[key] || ICON_PATHS.briefcase;
+  return `<svg class="${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+}
+
+/* ============================================================
+   داده‌ها — با تمام موارد جدید
+============================================================ */
+const DATA = [
+  { id:"services", icon:"briefcase", title:"خدمات", accent:"#0d9488", tint:"#e6fffa", items:[
+    { name:"وام ازدواج", icon:"money", desc:"از ۱۱ صبح الی ۱۷ عصر باز است — مبلغ وام ۳۰۰ تا ۳۵۰ میلیون تومان" },
+    { name:"وام فرزندآوری", icon:"money", desc:"از ۱۱ صبح الی ۱۷ عصر باز است — مبلغ وام هر فرزند ۴۴ میلیون تومان" },
+    { name:"سجام", icon:"idcard" },
+    { name:"همیاب ۲۴", icon:"mobile", desc:"ثبت گوشی سرقتی و مفقودی شما" },
+    { name:"تاییدیه پستی", icon:"mail" },
+    { name:"گواهینامه یک روزه موتور", icon:"idcard" },
+    { name:"کارت سوخت", icon:"fuel" },
+    { name:"اعتبار سنجی", icon:"idcard" },
+    { name:"دوگانه سوز خودرو", icon:"fuel" },
+    { name:"گواهینامه مهارت", icon:"award" },
+    { name:"ثبت نام کارت ملی هوشمند", icon:"idcard" },
+    { name:"ثبت نام تهران من", icon:"city" },
+    { name:"سخا", icon:"heart" },
+    { name:"املاک و اسکان", icon:"home" },
+    { name:"جواب آزمایش", icon:"fileText" },
+    { name:"وام مستاجری", icon:"money" },
+    { name:"ثبت نام سماح", icon:"clipboard" },
+    { name:"استعلام گواهینامه مهارت", icon:"award" },
+    { name:"قولنامه کد رهگیری دار", icon:"fileText" },
+    { name:"گواهی اشتغال به تحصیل", icon:"graduation" },
+    { name:"گواهی اشتغال به کار", icon:"briefcase" },
+  ]},
+
+  { id:"insurance", icon:"shield", title:"بیمه", accent:"#2563eb", tint:"#eff6ff",
+    subgroups:[
+      { title:"سازمان تامین اجتماعی", items:[
+        { name:"سابقه بیمه", icon:"idcard" },
+        { name:"پرداخت بیمه", icon:"wallet" },
+        { name:"ثبت افراد تحت تکفل", icon:"idcard" },
+        { name:"فیش حقوقی", icon:"receipt" },
+        { name:"کسر از حقوق", icon:"receipt" },
+        { name:"حکم مستمری ( افزایش )", icon:"receipt" },
+      ]}
+    ],
+    items:[
+      { name:"پرداخت بیمه ملت", icon:"shield" },
+      { name:"اقساط بیمه ایران", icon:"shield" },
+      { name:"پرداخت بیمه پاسارگارد", icon:"shield" },
+      { name:"یافتن ادامه قبض بیمه پاسارگارد", icon:"receipt" },
+      { name:"بیمه ورزشی", icon:"shield" },
+      { name:"بیمه سلامت ایران", icon:"shield" },
+      { name:"پرداخت بیمه کشاورزی", icon:"shield" },
+      { name:"سابقه بیمه کشاورزی", icon:"idcard" },
+      { name:"وام بازنشستگی", icon:"money" },
+      { name:"بیمه اربعین", icon:"shield" },
+      { name:"پرداخت بیمه سرمد", icon:"shield" },
+      { name:"ثبت نام بیمه تکمیلی", icon:"heart" },
+      { name:"پرداخت بیمه اختیاری", icon:"shield" },
+      { name:"پرداخت بیمه مشاغل آزاد", icon:"briefcase" },
+      { name:"پرداخت بیمه کارگر ساختمانی", icon:"shield" },
+      { name:"پرداخت بیمه زنان خانه دار", icon:"home" },
+      { name:"پرداخت بیمه رانندگان", icon:"car" },
+    ]
+  },
+
+  { id:"education", icon:"graduation", title:"آموزش و پرورش", accent:"#7c3aed", tint:"#f3f0ff", items:[
+    { name:"کنکور", icon:"graduation" },
+    { name:"سنجش", icon:"graduation" },
+    { name:"تاییدیه مدارک تحصیلی", icon:"idcard" },
+    { name:"کارنامه تحصیلی", icon:"receipt" },
+    { name:"ثبت نام آزمون غربالگری", icon:"clipboard" },
+    { name:"ثبت نام آزمون استعداد یابی", icon:"award" },
+    { name:"پیش ثبت نام مدرسه", icon:"school" },
+    { name:"ثبت نام کتاب درسی", icon:"book" },
+    { name:"سرویس مدرسه", icon:"bus" },
+  ]},
+
+  { id:"subsidy", icon:"wallet", title:"یارانه", accent:"#d97706", tint:"#fef3c7", items:[
+    { name:"استعلام و اعتراض به یارانه", icon:"money" },
+    { name:"استعلام و اعتراض کالابرگ", icon:"receipt" },
+  ]},
+
+  { id:"bills", icon:"receipt", title:"قبض", accent:"#0891b2", tint:"#ecfeff", items:[
+    { name:"قبض آب", icon:"water" },
+    { name:"قبض برق", icon:"bolt" },
+    { name:"قبض گاز", icon:"flame" },
+    { name:"پرداخت بدهی ایرانسل", icon:"mobile" },
+    { name:"پرداخت بدهی رایتل", icon:"mobile" },
+    { name:"پرداخت بدهی همراه اول", icon:"mobile" },
+    { name:"پرداخت تلفن ثابت", icon:"phone" },
+    { name:"وصل قطعی تلفن ثابت", icon:"phone" },
+    { name:"شارژ مددجویان (زندانیان)", icon:"wallet" },
+    { name:"عوارض خروج از کشور", icon:"passport" },
+    { name:"بسته اینترنت همراه اول و ایرانسل و رایتل", icon:"wifi" },
+    { name:"وصل خرابی تلفن", icon:"wrench" },
+    { name:"وصل قطعی همراه اول و ایرانسل و رایتل", icon:"phoneOff" },
+  ]},
+
+  { id:"car", icon:"car", title:"ماشین", accent:"#e11d48", tint:"#fff1f2", items:[
+    { name:"استعلام و پرداخت خلافی خودرو", icon:"road" },
+    { name:"استعلام و پرداخت خلافی موتور", icon:"motorcycle" },
+    { name:"استعلام و پرداخت مالیات نقل و انتقال", icon:"percent" },
+    { name:"استعلام و پرداخت طرح ترافیک", icon:"road" },
+    { name:"استعلام و پرداخت عوارض آزادراه", icon:"road" },
+    { name:"استعلام و پرداخت عوارض سالیانه (شهرداری)", icon:"receipt" },
+    { name:"شارژ آزادراهی", icon:"wallet" },
+    { name:"نوبت نمایندگی سایپا", icon:"calendar" },
+    { name:"نوبت نمایندگی ایران خودرو", icon:"calendar" },
+    { name:"بیمه شخص ثالث", icon:"shield" },
+    { name:"استعلام بیمه شخص ثالث", icon:"shield", desc:"با پلاک و کد ملی شخص انجام می‌شود" },
+    { name:"نوبت دهی تعویض پلاک", icon:"calendar" },
+  ]},
+
+  { id:"travel", icon:"plane", title:"سفر", accent:"#4f46e5", tint:"#eef2ff", items:[
+    { name:"بلیط قطار", icon:"train" },
+    { name:"بلیط هواپیما", icon:"plane" },
+    { name:"بلیط اتوبوس", icon:"bus" },
+  ]},
+
+  { id:"sana", icon:"gavel", title:"ثنا", accent:"#a21caf", tint:"#fdf4ff", items:[
+    { name:"ابلاغیه قضایی", icon:"bellRing", desc:"مشاهده و پیگیری ابلاغیه‌های قضایی در سامانه ثنا" },
+    { name:"فرم ثنا ( برگه اطلاعات ثنا )", icon:"fileText" },
+    { name:"ثبت نام و احراز هویت ثنا", icon:"idcard" },
+    { name:"دریافت رمز ثنا ( رمز شخصی )", icon:"lock" },
+    { name:"دریافت سوء پیشینه", icon:"idcard" },
+    { name:"تغییر اطلاعات ثنا", icon:"idcard" },
+    { name:"تایپ و چاپ لایحه دادگاه", icon:"pen" },
+    { name:"پیگیری پرونده", icon:"gavel" },
+    { name:"نوبت دهی قضایی", icon:"calendar" },
+  ]},
+
+  { id:"carreg", icon:"car", title:"ثبت نام ماشین", accent:"#16a34a", tint:"#f0fdf4", items:[
+    { name:"ثبت نام ایران خودرو", icon:"car" },
+    { name:"ثبت نام سایپا", icon:"car" },
+    { name:"ثبت نام بهمن موتور", icon:"car" },
+  ]},
+
+  { id:"tax", icon:"percent", title:"مالیات", accent:"#ea580c", tint:"#fff7ed", items:[
+    { name:"ثبت نام اظهارنامه مالیاتی", icon:"receipt" },
+    { name:"پرداخت قبض مالیات", icon:"wallet" },
+    { name:"ثبت نام و تشکیل پرونده مالیاتی", icon:"idcard" },
+    { name:"دریافت کد اقتصادی", icon:"idcard" },
+    { name:"ثبت نام گام ۴ مالیات", icon:"idcard" },
+    { name:"پیگیری پرونده مالیاتی", icon:"gavel" },
+    { name:"مشاهده و پرداخت بدهی مالیاتی", icon:"wallet" },
+    { name:"ابلاغیه‌های مالیاتی", icon:"mail" },
+    { name:"تغییر اطلاعات مودی", icon:"idcard" },
+    { name:"ثبت شماره حساب / حساب‌های بانکی", icon:"bank" },
+    { name:"غیرفعال سازی کارتخوان", icon:"lock" },
+  ]},
+
+  { id:"print", icon:"printer", title:"چاپ", accent:"#475569", tint:"#f1f5f9",
+    note:"تمامی چاپ‌ها به صورت سیاه و سفید می‌باشند و برگه‌ها به صورت A4 هستند.",
+    items:[
+      { name:"کپی", icon:"printer" },
+      { name:"پرینت", icon:"printer" },
+      { name:"تایپ و چاپ آگهی استخدامی", icon:"megaphone" },
+      { name:"تایپ و چاپ آگهی فروش", icon:"megaphone" },
+      { name:"انواع تایپ", icon:"pen" },
+      { name:"اندازه گیری طرح تتو", icon:"ruler" },
+      { name:"اسکن", icon:"scan" },
+      { name:"فکس", icon:"printer" },
+      { name:"تحقیق", icon:"book" },
+      { name:"فتوشاپ", icon:"image" },
+    ]
+  },
+];
+
+/* ============================================================
+   Utilities
+============================================================ */
+function normalizeText(v){
+  return String(v || "").toLowerCase()
+    .replace(/ي/g,"ی").replace(/ى/g,"ی").replace(/ك/g,"ک")
+    .replace(/[\u200c\u200f\u200e]/g," ")
+    .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+    .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+    .replace(/\s+/g," ").trim();
+}
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function categoryCount(cat){
+  return (cat.items ? cat.items.length : 0) + (cat.subgroups ? cat.subgroups.reduce((a,s) => a + s.items.length, 0) : 0);
+}
+function findCategory(id){ return DATA.find(c => c.id === id); }
+
+/* ============================================================
+   Templates
+============================================================ */
+function categoryCardHTML(cat){
+  const img = cat.img ? `<img src="${cat.img}" alt="${escapeHTML(cat.title)}" loading="lazy" decoding="async">` : icon(cat.icon);
+  return `
+    <a class="cat-card" href="#cat-${cat.id}" style="--accent:${cat.accent}; --tint:${cat.tint};">
+      <span class="cat-icon">${img}</span>
+      <span class="cat-info">
+        <h3>${escapeHTML(cat.title)}</h3>
+        <span class="cat-meta">${categoryCount(cat)} خدمت</span>
+      </span>
+      <span class="cat-arrow">‹</span>
+    </a>`;
+}
+
+function itemCardHTML(catId, item, idx, accent){
+  const media = item.img ? `<img src="${item.img}" alt="${escapeHTML(item.name)}" loading="lazy" decoding="async">` : icon(item.icon);
+  const desc = item.desc ? `<p class="item-desc">${escapeHTML(item.desc)}</p>` : "";
+  return `
+    <article class="item-card" style="--accent:${accent}; --tint:${accent}15;">
+      <div class="item-media">
+        <span class="price-corner">${icon('tag')}<span>توافقی</span></span>
+        ${media}
+      </div>
+      <div class="item-body">
+        <h4 class="item-title">${escapeHTML(item.name)}</h4>
+        ${desc}
+        <div class="item-foot">
+          <button class="contact-btn" type="button" data-action="contact" data-name="${escapeHTML(item.name)}">
+            ${icon('phone')}<span>تماس برای انجام کار</span>
+          </button>
+        </div>
+      </div>
+    </article>`;
+}
+
+function categoryHeroHTML(cat){
+  return `
+    <div class="cat-hero" style="--accent:${cat.accent}; --tint:${cat.tint};">
+      <div class="cat-hero-icon">${icon(cat.icon)}</div>
+      <div class="cat-hero-text">
+        <h1>${escapeHTML(cat.title)}</h1>
+        <p>${categoryCount(cat)} خدمت در این دسته — برای انجام هر کار روی دکمه تماس بزنید.</p>
+      </div>
+    </div>`;
+}
+
+function noteBoxHTML(cat){
+  if(!cat.note) return "";
+  return `
+    <div class="cat-note-box" style="--accent:${cat.accent};">
+      ${icon('printer')}<span>${escapeHTML(cat.note)}</span>
+    </div>`;
+}
+
+function renderCategoryView(cat){
+  let html = categoryHeroHTML(cat) + noteBoxHTML(cat);
+
+  if(cat.subgroups){
+    cat.subgroups.forEach((sg, sgi) => {
+      html += `
+        <div style="margin:8px 0 24px;">
+          <h3 style="margin:0 0 16px; font-size:16.5px; font-weight:800; color:${cat.accent}; display:flex; align-items:center; gap:10px;">
+            <span style="width:5px; height:20px; border-radius:3px; background:linear-gradient(180deg,${cat.accent},${cat.accent}90); box-shadow:0 2px 8px ${cat.accent}50;"></span>
+            ${escapeHTML(sg.title)}
+          </h3>
+          <div class="items-grid">
+            ${sg.items.map((it, i) => itemCardHTML(cat.id, it, "sg" + sgi + "_" + i, cat.accent)).join("")}
+          </div>
+        </div>`;
+    });
+  }
+
+  if(cat.items && cat.items.length){
+    html += `<div class="items-grid">${cat.items.map((it, i) => itemCardHTML(cat.id, it, i, cat.accent)).join("")}</div>`;
+  }
+
+  document.getElementById("categoryContent").innerHTML = html;
+}
+
+/* ============================================================
+   Theme Toggle
+============================================================ */
+const themeToggle = document.getElementById("themeToggle");
+const savedTheme = localStorage.getItem("javid-theme");
+
+function setTheme(theme){
+  if(theme === "dark"){
+    document.documentElement.setAttribute("data-theme", "dark");
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+  }
+  localStorage.setItem("javid-theme", theme);
+}
+if(savedTheme){
+  setTheme(savedTheme);
+} else if(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches){
+  setTheme("dark");
+}
+themeToggle.addEventListener("click", () => {
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  setTheme(isDark ? "light" : "dark");
+});
+
+/* ============================================================
+   Static icons
+============================================================ */
+document.getElementById("splashLogo").innerHTML = icon('star');
+document.getElementById("brandIcon").innerHTML = icon('layers');
+document.getElementById("searchIcon").innerHTML = icon('search');
+document.getElementById("headerCallIcon").innerHTML = icon('phone');
+document.getElementById("heroCallBtn").innerHTML = icon('phone') + "<span>تماس سریع با ما</span>";
+
+/* ============================================================
+   Render home
+============================================================ */
+function renderHome(){
+  document.getElementById("catGrid").innerHTML = DATA.map(categoryCardHTML).join("");
+  const total = DATA.reduce((a, c) => a + categoryCount(c), 0);
+  document.getElementById("totalCount").textContent = `${DATA.length} دسته • ${total} خدمت`;
+
+  document.getElementById("supportGrid").innerHTML = SUPPORT.map(s => `
+    <div class="support-card">
+      <span class="avatar">${icon('user')}</span>
+      <span class="info">
+        <strong>${escapeHTML(s.name)}</strong>
+        <span>${s.display}</span>
+      </span>
+    </div>`).join("");
+
+  document.getElementById("addressBox").innerHTML = `
+    <span class="avatar">${icon('pin')}</span>
+    <span class="txt">
+      <strong>آدرس</strong>
+      <span>${escapeHTML(ADDRESS)}</span>
+    </span>`;
+}
+
+/* ============================================================
+   Router
+============================================================ */
+const views = {
+  home: document.getElementById("view-home"),
+  category: document.getElementById("view-category")
+};
+
+function setView(name){
+  Object.values(views).forEach(v => v.classList.remove("active"));
+  views[name].classList.add("active");
+  document.body.classList.toggle("view-category", name === "category");
+}
+function route(){
+  const hash = (location.hash || "#home").replace(/^#/, "");
+  if(hash.startsWith("cat-")){
+    const catId = hash.slice(4);
+    const cat = findCategory(catId);
+    if(cat){
+      renderCategoryView(cat);
+      setView("category");
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
+    }
+  }
+  setView("home");
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+window.addEventListener("hashchange", route);
+
+/* ============================================================
+   Search
+============================================================ */
+const searchInput = document.getElementById("searchInput");
+const searchClear = document.getElementById("searchClear");
+const searchResults = document.getElementById("searchResults");
+
+function allItems(){
+  const out = [];
+  DATA.forEach(cat => {
+    if(cat.items) cat.items.forEach(it => out.push({ cat, item: it }));
+    if(cat.subgroups) cat.subgroups.forEach(sg => sg.items.forEach(it => out.push({ cat, item: it })));
+  });
+  return out;
+}
+const ALL_ITEMS = allItems();
+
+let searchTimer = null;
+function applySearch(){
+  const q = normalizeText(searchInput.value);
+  searchClear.hidden = !searchInput.value;
+
+  if(!q){
+    document.body.classList.remove("searching");
+    searchResults.classList.remove("show");
+    searchResults.innerHTML = "";
+    return;
+  }
+
+  const matches = ALL_ITEMS.filter(({ item }) => normalizeText(item.name + " " + (item.desc || "")).includes(q));
+  document.body.classList.add("searching");
+  searchResults.classList.add("show");
+
+  if(!matches.length){
+    searchResults.innerHTML = `<div class="empty-state"><div class="emoji">🔍</div><p>خدمتی با این عنوان پیدا نشد.</p></div>`;
+    return;
+  }
+
+  searchResults.innerHTML = `
+    <div class="section-head">
+      <div class="titles">
+        <span class="eyebrow">نتایج جستجو</span>
+        <h2>${matches.length} خدمت پیدا شد</h2>
+      </div>
+    </div>
+    <div class="items-grid">
+      ${matches.map(({ cat, item }, i) => itemCardHTML(cat.id, item, "search_" + i, cat.accent)).join("")}
+    </div>`;
+}
+searchInput.addEventListener("input", () => {
+  if(searchTimer) clearTimeout(searchTimer);
+  searchTimer = setTimeout(applySearch, 120);
+}, { passive: true });
+searchClear.addEventListener("click", () => { searchInput.value = ""; applySearch(); searchInput.focus(); });
+
+/* ============================================================
+   Contact Modal
+============================================================ */
+const modal = document.getElementById("contactModal");
+const modalIcon = document.getElementById("modalIcon");
+const modalSub = document.getElementById("modalSub");
+const modalPhones = document.getElementById("modalPhones");
+const modalClose = document.getElementById("modalClose");
+
+function rubikaLink(phone){ return `https://rubika.ir/${phone}`; }
+function eitaaLink(phone){ return `https://eitaa.com/${phone}`; }
+
+function contactPersonHTML(person){
+  return `
+    <div class="contact-person">
+      <div class="person-head">
+        <span class="avatar">${icon('user')}</span>
+        <div class="pinfo">
+          <strong>${escapeHTML(person.name)}</strong>
+          <span>${person.display}</span>
+        </div>
+      </div>
+      <div class="person-actions">
+        <a class="act-btn act-call" href="tel:${person.phone}" title="تماس تلفنی">
+          ${icon('phone')}<span>تماس</span>
+        </a>
+        <a class="act-btn act-rubika" href="${rubikaLink(person.phone)}" target="_blank" rel="noopener" title="روبیکا">
+          ${icon('chat')}<span>روبیکا</span>
+        </a>
+        <a class="act-btn act-eitaa" href="${eitaaLink(person.phone)}" target="_blank" rel="noopener" title="ایتا">
+          ${icon('chat')}<span>ایتا</span>
+        </a>
+      </div>
+    </div>`;
+}
+
+function openContactModal(itemName){
+  modalIcon.innerHTML = icon('phone');
+  if(itemName){
+    modalSub.innerHTML = `برای انجام این کار — <span class="item-name">${escapeHTML(itemName)}</span> — با یکی از راه‌های زیر با ما در تماس باشید.`;
+  } else {
+    modalSub.innerHTML = `برای مشاوره و انجام خدمات، با یکی از راه‌های زیر با ما در تماس باشید.`;
+  }
+  modalPhones.innerHTML = SUPPORT.map(contactPersonHTML).join("");
+  modal.classList.add("show");
+  document.body.classList.add("modal-open");
+}
+function closeContactModal(){
+  modal.classList.remove("show");
+  document.body.classList.remove("modal-open");
+}
+modalClose.addEventListener("click", closeContactModal);
+modal.addEventListener("click", e => { if(e.target === modal) closeContactModal(); });
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && modal.classList.contains("show")) closeContactModal();
+});
+
+document.addEventListener("click", e => {
+  const btn = e.target.closest("[data-action='contact']");
+  if(!btn) return;
+  openContactModal(btn.dataset.name);
+});
+
+document.getElementById("headerCallBtn").addEventListener("click", () => openContactModal(null));
+document.getElementById("heroCallBtn").addEventListener("click", () => openContactModal(null));
+
+/* ============================================================
+   Hero Browse — scroll to first category
+============================================================ */
+document.getElementById("heroBrowseBtn").addEventListener("click", () => {
+  const target = document.getElementById("categoriesSection");
+  const headerH = document.querySelector("header").offsetHeight;
+  const top = target.getBoundingClientRect().top + window.pageYOffset - headerH - 8;
+  window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+});
+
+/* ============================================================
+   To top
+============================================================ */
+const toTop = document.getElementById("toTop");
+let scrollTick = false;
+window.addEventListener("scroll", () => {
+  if(scrollTick) return;
+  scrollTick = true;
+  requestAnimationFrame(() => {
+    toTop.classList.toggle("show", window.scrollY > 500);
+    scrollTick = false;
+  });
+}, { passive: true });
+toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+/* ============================================================
+   Splash — 5s auto
+============================================================ */
+const splash = document.getElementById("splash");
+document.body.style.overflow = "hidden";
+setTimeout(() => {
+  splash.classList.add("hide");
+  document.body.style.overflow = "";
+  setTimeout(() => { splash.style.display = "none"; }, 700);
+}, 5000);
+
+/* ============================================================
+   Init
+============================================================ */
+renderHome();
+route();
+</script>
+</body>
+</html>

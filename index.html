@@ -1,1022 +1,235 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>مرکز خدمات آنلاین جاوید | خدمات دولتی، بیمه، خودرو و مالیات</title>
-  <!-- فونت وزیرمتن -->
-  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
-  <style>
-    :root {
-      --bg-body: #090d16;
-      --bg-card: #111827;
-      --bg-card-hover: #1f2937;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --primary: #6366f1;
-      --primary-hover: #818cf8;
-      --border-color: #1f2937;
-      --border-glow: rgba(99, 102, 241, 0.4);
-      --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background-color: var(--bg-body);
-      color: var(--text-main);
-      line-height: 1.7;
-      min-height: 100vh;
-    }
-
-    /* افکت RGB متحرک ملایم برای بردرها و المان‌های خاص */
-    @keyframes rgbGlow {
-      0% { border-color: #6366f1; box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
-      33% { border-color: #ec4899; box-shadow: 0 0 15px rgba(236, 72, 153, 0.3); }
-      66% { border-color: #06b6d4; box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
-      100% { border-color: #6366f1; box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
-    }
-
-    .rgb-border {
-      animation: rgbGlow 6s infinite linear;
-    }
-
-    /* هدر سایت */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(9, 13, 22, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color);
-      padding: 0.85rem 1.5rem;
-    }
-
-    .nav-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      text-decoration: none;
-      color: var(--text-main);
-    }
-
-    .brand-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 1.5rem;
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
-    }
-
-    .brand-text h1 {
-      font-size: 1.2rem;
-      font-weight: 800;
-      background: linear-gradient(to left, #818cf8, #f472b6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .brand-text p {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .search-box {
-      flex: 1;
-      min-width: 260px;
-      max-width: 450px;
-      position: relative;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 0.7rem 2.7rem 0.7rem 2.2rem;
-      border-radius: 99px;
-      border: 1px solid var(--border-color);
-      background: var(--bg-card);
-      color: var(--text-main);
-      font-size: 0.92rem;
-      outline: none;
-      transition: all 0.3s;
-    }
-
-    .search-box input:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);
-    }
-
-    .search-icon {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-    }
-
-    .clear-search {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 1.2rem;
-      display: none;
-    }
-
-    .btn-call-top {
-      background: linear-gradient(135deg, #f97316, #ea580c);
-      color: #fff;
-      text-decoration: none;
-      padding: 0.6rem 1.25rem;
-      border-radius: 99px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35);
-      transition: transform 0.2s;
-    }
-
-    .btn-call-top:hover {
-      transform: scale(1.05);
-    }
-
-    /* محتوای اصلی */
-    main {
-      max-width: 1280px;
-      margin: 1.5rem auto;
-      padding: 0 1.25rem;
-    }
-
-    /* بنر هیرو */
-    .hero {
-      background: linear-gradient(135deg, rgba(30, 27, 75, 0.9), rgba(15, 23, 42, 0.95)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%236366f1" fill-opacity="0.03" x="0" y="0" width="50" height="50"/></svg>');
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: 28px;
-      padding: 3rem 2rem;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-      margin-bottom: 2.5rem;
-    }
-
-    .hero-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .badge {
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 0.45rem 1rem;
-      border-radius: 99px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      backdrop-filter: blur(8px);
-    }
-
-    .status-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-    .status-open { background-color: #22c55e; box-shadow: 0 0 12px #22c55e; }
-    .status-closed { background-color: #ef4444; box-shadow: 0 0 12px #ef4444; }
-
-    .hero h2 {
-      font-size: 2.3rem;
-      font-weight: 900;
-      margin-bottom: 1rem;
-      background: linear-gradient(to left, #fff, #cbd5e1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero p {
-      max-width: 700px;
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .btn-primary-glow {
-      background: linear-gradient(135deg, #6366f1, #4f46e5);
-      color: #fff;
-      padding: 0.75rem 1.6rem;
-      border-radius: 14px;
-      text-decoration: none;
-      font-weight: 700;
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .btn-primary-glow:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(99, 102, 241, 0.6);
-    }
-
-    .btn-secondary-glass {
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 0.75rem 1.6rem;
-      border-radius: 14px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-
-    .btn-secondary-glass:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    /* نوار قرص‌های دسترسی سریع */
-    .quick-bar {
-      display: flex;
-      gap: 0.75rem;
-      overflow-x: auto;
-      padding-bottom: 1rem;
-      margin-bottom: 2.5rem;
-      scrollbar-width: thin;
-    }
-
-    .q-pill {
-      white-space: nowrap;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 0.6rem 1.1rem;
-      border-radius: 99px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s;
-    }
-
-    .q-pill:hover, .q-pill.active {
-      background: #6366f1;
-      border-color: #818cf8;
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
-      color: #fff;
-    }
-
-    /* بخش عناوین */
-    .sec-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .sec-title h3 {
-      font-size: 1.5rem;
-      font-weight: 800;
-    }
-
-    .sec-badge {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      padding: 0.35rem 0.9rem;
-      border-radius: 99px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-
-    /* گرید کارت‌های دسته‌بندی با استایل RGB */
-    .grid-categories {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 3rem;
-    }
-
-    .cat-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 1.35rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      box-shadow: var(--shadow-card);
-      transition: all 0.25s ease;
-    }
-
-    .cat-box:hover {
-      transform: translateY(-5px);
-      border-color: #6366f1;
-      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.25);
-    }
-
-    .cat-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .cat-icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .cat-icon svg {
-      width: 30px;
-      height: 30px;
-    }
-
-    .cat-details h4 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-
-    .cat-details span {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .cat-action-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      transition: 0.2s;
-    }
-
-    .cat-box:hover .cat-action-icon {
-      background: #6366f1;
-      color: #fff;
-    }
-
-    /* صفحه اختصاصی هر خدمت (Modal View) */
-    .service-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
-      padding: 1.5rem;
-      overflow-y: auto;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .service-modal.active {
-      display: flex;
-    }
-
-    .modal-content {
-      background: var(--bg-card);
-      border: 1px solid rgba(99, 102, 241, 0.4);
-      border-radius: 24px;
-      max-width: 750px;
-      width: 100%;
-      padding: 2rem;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
-      position: relative;
-      animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes modalPop {
-      0% { transform: scale(0.9); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .modal-header h3 {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: #818cf8;
-    }
-
-    .close-modal {
-      background: rgba(255, 255, 255, 0.08);
-      border: none;
-      color: #fff;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.2s;
-    }
-
-    .close-modal:hover {
-      background: #ef4444;
-    }
-
-    .services-grid-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1rem;
-      max-height: 60vh;
-      overflow-y: auto;
-      padding-left: 0.5rem;
-    }
-
-    .service-row {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .service-row span {
-      font-size: 0.95vmax;
-      font-size: 0.92rem;
-    }
-
-    .btn-order {
-      background: #6366f1;
-      color: #fff;
-      text-decoration: none;
-      padding: 0.45rem 0.9rem;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      white-space: nowrap;
-      transition: 0.2s;
-    }
-
-    .btn-order:hover {
-      background: #4f46e5;
-    }
-
-    /* بخش تماس و ارتباط */
-    .contact-section {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 28px;
-      padding: 2.5rem;
-      box-shadow: var(--shadow-card);
-      margin-bottom: 3rem;
-    }
-
-    .contact-section h3 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-    }
-
-    .contact-section > p {
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .contact-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 1.5rem;
-    }
-
-    .contact-card h4 {
-      font-size: 1.15rem;
-      margin-bottom: 0.5rem;
-      color: #fff;
-    }
-
-    .phone-big {
-      font-size: 1.3rem;
-      font-weight: 900;
-      color: #818cf8;
-      direction: ltr;
-      display: inline-block;
-      margin-bottom: 1rem;
-    }
-
-    .social-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-
-    .btn-soc {
-      background: var(--bg-body);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: 0.2s;
-    }
-
-    .btn-soc:hover {
-      border-color: #6366f1;
-      color: #818cf8;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      border-top: 1px solid var(--border-color);
-    }
-  </style>
-</head>
-<body>
-
-  <!-- هدر -->
-  <header>
-    <div class="nav-container">
-      <a href="#" class="brand">
-        <div class="brand-icon">⚡</div>
-        <div class="brand-text">
-          <h1>مرکز خدمات آنلاین جاوید</h1>
-          <p>خدمات دولتی، بیمه، خودرو، مالیات، ثنا و چاپ</p>
-        </div>
-      </a>
-
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="جستجوی سریع خدمت... (مثلاً سجام، خلافی، مالیات)" oninput="liveSearch(this.value)" />
-        <button class="clear-search" id="clearBtn" onclick="clearSearchInput()">×</button>
-      </div>
-
-      <a href="tel:09142552768" class="btn-call-top">📞 تماس فوری</a>
-    </div>
-  </header>
-
-  <main>
-    <!-- بنر اصلی -->
-    <section class="hero rgb-border">
-      <div class="hero-badges">
-        <div class="badge">
-          <span>⚡ انجام سریع امور حضوری و غیرحضوری</span>
-        </div>
-        <!-- ساعت و وضعیت زنده ایران -->
-        <div class="badge" id="shopStatusBadge">
-          <span class="status-dot status-closed"></span>
-          <span id="shopStatusText">در حال بررسی ساعت کاری...</span>
-        </div>
-      </div>
-
-      <h2>خدمات آنلاین، هوشمند و بدون معطلی</h2>
-      <p>تمامی خدمات اداری، دولتی، بیمه، ماشین، مالیات، ثنا، مای‌مدیو و چاپ با بالاترین دقت و امنیت توسط تیم تخصصی جاوید انجام می‌شود.</p>
-
-      <div class="hero-actions">
-        <a href="#categories" class="btn-primary-glow">مشاهده دسته‌بندی خدمات ↓</a>
-        <a href="#contact" class="btn-secondary-glass">ارتباط با پشتیبانی</a>
-      </div>
-    </section>
-
-    <!-- قرص‌های دسترسی سریع -->
-    <div class="quick-bar" id="quickBar"></div>
-
-    <!-- گرید دسته‌بندی‌ها -->
-    <section id="categories">
-      <div class="sec-title">
-        <h3>دسته‌بندی خدمات تخصصی</h3>
-        <span class="sec-badge" id="totalBadge">۱۱ دسته • ۱۱۸ خدمت فعال</span>
-      </div>
-      <div class="grid-categories" id="categoriesGrid"></div>
-    </section>
-
-    <!-- بخش تماس -->
-    <section class="contact-section" id="contact">
-      <h3>پشتیبانی و ارتباط مستقیم با ما</h3>
-      <p>جهت استعلام هزینه‌ها، ارسال مدارک و ثبت سفارش فوری از طریق راه‌های زیر با ما در ارتباط باشید:</p>
-
-      <div class="contact-grid">
-        <div class="contact-card">
-          <h4>👤 محمد جاوید</h4>
-          <div class="phone-big">0914 255 2768</div>
-          <div class="social-buttons">
-            <a href="tel:09142552768" class="btn-soc">📞 تماس</a>
-            <a href="https://rubika.ir/09142552768" target="_blank" class="btn-soc">💬 روبیکا</a>
-            <a href="https://eitaa.com/09142552768" target="_blank" class="btn-soc">📨 ایتا</a>
-          </div>
-        </div>
-
-        <div class="contact-card">
-          <h4>👤 هادی جاوید</h4>
-          <div class="phone-big">0919 508 0321</div>
-          <div class="social-buttons">
-            <a href="tel:09195080321" class="btn-soc">📞 تماس</a>
-            <a href="https://rubika.ir/09195080321" target="_blank" class="btn-soc">💬 روبیکا</a>
-            <a href="https://eitaa.com/09195080321" target="_blank" class="btn-soc">📨 ایتا</a>
-          </div>
-        </div>
-
-        <div class="contact-card">
-          <h4>📍 آدرس حضوری (۱۰ صبح تا ۲۲ شب)</h4>
-          <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 1rem;" id="addressText">
-            تهران، شهرک ولیعصر، خیابان سجادی جنوبی، کوچه صاحب‌الزمان غربی، مغازه جاوید
-          </p>
-          <div class="social-buttons">
-            <a href="https://nshn.ir/?q=%D8%AA%D9%87%D8%B1%D8%A7%D9%86%20%D8%B4%D9%87%D8%B1%DA%A9%20%D9%88%D9%84%DB%8C%D8%B5%D8%B5%D8%B1%20%D8%AE%DB%8C%D8%A7%D8%A8%D8%A7%D9%86%20%D8%B3%D8%AC%D8%A7%D8%AF%DB%8C%20%D8%AC%D9%86%D9%88%D8%A8%DB%8C" target="_blank" class="btn-soc">🗺️ مسیریابی نشان</a>
-            <button class="btn-soc" onclick="copyAddress()">📋 کپی آدرس</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    © تمامی حقوق برای <strong>مرکز خدمات آنلاین جاوید</strong> محفوظ است — قیمت تمامی خدمات توافقی می‌باشد.
-  </footer>
-
-  <!-- مودال صفحه اختصاصی هر خدمت -->
-  <div class="service-modal" id="serviceModal" onclick="if(event.target === this) closeModal()">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modalTitle">عنوان دسته</h3>
-        <button class="close-modal" onclick="closeModal()">✕</button>
-      </div>
-      <div class="services-grid-list" id="modalServicesList"></div>
-    </div>
-  </div>
-
-  <script>
-    // ۱. ساعت زنده ایران برای نمایش دقیق وضعیت باز/بسته بودن
-    function updateIranClockStatus() {
-      const badge = document.getElementById('shopStatusBadge');
-      const dot = badge.querySelector('.status-dot');
-      const text = document.getElementById('shopStatusText');
-
-      try {
-        const now = new Date();
-        const formatter = new Intl.DateTimeFormat('en-US', {
-          timeZone: 'Asia/Tehran',
-          hour: 'numeric',
-          minute: 'numeric',
-          hour12: false
-        });
-        const parts = formatter.formatToParts(now);
-        const hour = parseInt(parts.find(p => p.type === 'hour').value, 10);
-        const minute = parseInt(parts.find(p => p.type === 'minute').value, 10);
-        const timeStr = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-
-        // ساعت کاری ۱۰ صبح تا ۲۲ شب
-        const isOpen = hour >= 10 && hour < 22;
-
-        if (isOpen) {
-          dot.className = 'status-dot status-open';
-          text.textContent = `اکنون باز است • ساعت ایران ${timeStr} (۱۰ صبح تا ۲۲ شب)`;
-        } else {
-          dot.className = 'status-dot status-closed';
-          text.textContent = `اکنون بسته است • ساعت ایران ${timeStr} (شروع کار ۱۰ صبح)`;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مرکز خدمات آنلاین جاوید | خدمات دولتی، بیمه، خودرو و مالیات</title>
+    
+    <!-- لینک به استایل‌های شما (اولویت اول بر اساس CSS اولیه) -->
+    <style>
+        /* متغیرهای تم روشن و تاریک */
+        :root {
+            --bg-color: #0b0f19;
+            --text-color: #f3f4f6;
+            --card-bg: #111827;
+            --card-border: #1f2937;
+            --primary-color: #8b5cf6;
+            --accent-color: #6366f1;
+            --hover-color: #374151;
         }
-      } catch (e) {
-        badge.style.display = 'none';
-      }
-    }
-    updateIranClockStatus();
-    setInterval(updateIranClockStatus, 30000);
 
-    // ۲. داده‌های کامل ۱۱ دسته و ۱۱۸ خدمت
-    const categoriesData = [
-      {
-        id: 'gov',
-        title: 'خدمات عمومی و دولتی',
-        count: '۲۱ خدمت',
-        color: '#3b82f6',
-        bg: 'rgba(59, 130, 246, 0.12)',
-        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>`,
-        items: [
-          'احراز هویت سجام و کارگزاری', 'ثبت‌نام و تغییر کد پستی (GNAF)', 'دریافت گواهی عدم سوءپیشینه',
-          'ثبت‌نام سامانه سخا (نظام وظیفه و گذرنامه)', 'درخواست و پیگیری کارت ملی هوشمند', 'تغییر آدرس و نشانی در ثبت احوال',
-          'استعلام و ثبت‌نام وام ازدواج و فرزندآوری', 'ثبت‌نام مسکن ملی (نهضت ملی مسکن)', 'دریافت ابلاغیه و فیش حقوقی بازنشستگان',
-          'ثبت‌نام کارت سوخت المثنی', 'نوبت‌دهی تعویض پلاک و مراکز اداری', 'استعلام شماره شبا و حساب بانکی',
-          'ثبت‌نام در درگاه ملی مجوزها', 'دریافت گواهی امضای الکترونیک', 'استعلام ممنوع‌الخروجی',
-          'ثبت درخواست انشعابات آب، برق و گاز', 'تنظیم وکالت‌نامه و قراردادهای عادی', 'ثبت شکایت در سامانه ۱۲۴ و تعزیرات',
-          'پیگیری مرسولات پستی', 'ثبت‌نام آزمون‌های استخدامی', 'سایر امور اداری و اینترنتی'
-        ]
-      },
-      {
-        id: 'insurance',
-        title: 'بیمه و تامین اجتماعی',
-        count: '۲۴ خدمت',
-        color: '#10b981',
-        bg: 'rgba(16, 185, 129, 0.12)',
-        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>`,
-        items: [
-          'مشاهده و چاپ سوابق بیمه تامین اجتماعی', 'دریافت فیش و پرداخت حق بیمه خویش‌فرما', 'ثبت‌نام بیمه زنان خانه‌دار و دانشجویی',
-          'درخواست بیمه بیکاری و پیگیری پرونده', 'استعلام و تمدید اعتبار بیمه سلامت', 'خدمات ساتا و بیمه نیروهای مسلح',
-          'صدور و تمدید بیمه‌نامه شخص ثالث خودرو', 'صدور بیمه‌نامه بدنه با تخفیف', 'صدور بیمه‌نامه شخص ثالث موتورسیکلت',
-          'دریافت گواهی کسر از حقوق بازنشستگان', 'ثبت شماره شبای تامین اجتماعی', 'نوبت‌دهی درمانگاه‌های تامین اجتماعی',
-          'استعلام نسخ الکترونیک پزشکی', 'درخواست غرامت دستمزد ایام بیماری', 'ثبت درخواست کمک‌هزینه ازدواج و پروتز',
-          'ارسال لیست بیمه کارفرمایان', 'صدور مفاصاحساب بیمه', 'تغییر شعبه بیمه تامین اجتماعی',
-          'استعلام اصالت بیمه‌نامه', 'بیمه حوادث و مسئولیت', 'بیمه تکمیلی درمان',
-          'مشاوره بازنشستگی و خرید سابقه', 'ثبت اعتراض به سوابق بیمه', 'چاپ دفترچه و حکم بازنشستگی'
-        ]
-      },
-      {
-        id: 'edu',
-        title: 'آموزش و پرورش و مای مدیو',
-        count: '۱۰ خدمت',
-        color: '#8b5cf6',
-        bg: 'rgba(139, 92, 246, 0.12)',
-        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
-        items: [
-          'ورود و ثبت‌نام در سامانه مای مدیو (my.medu.ir)', 'ثبت‌نام کتاب‌های درسی دانش‌آموزان', 'دریافت کارنامه و سوابق تحصیلی',
-          'ثبت‌نام مدارس شاهد و نمونه دولتی', 'ثبت‌نام آزمون تیزهوشان (سمپاد)', 'تاییدیه تحصیلی دیپلم و پیش‌دانشگاهی',
-          'انتخاب رشته کنکور سراسری و دانشگاه آزاد', 'ثبت‌نام آزمون‌های سازمان سنجش', 'استعلام کد سوابق تحصیلی',
-          'درخواست انتقال و جابجایی دانش‌آموز'
-        ]
-      },
-      {
-        id: 'car',
-        title: 'ماشین و موتور',
-        count: '۱۲ خدمت',
-        color: '#f59e0b',
-        bg: 'rgba(245, 158, 11, 0.12)',
-        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14v-5l-2-5H7l-2 5v5z"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/></svg>`,
-        items: [
-          'استعلام و پرداخت خلافی خودرو و موتور', 'نوبت‌دهی تعویض پلاک اینترنتی', 'پرداخت عوارض آزادراهی و طرح ترافیک',
-          'پرداخت مالیات نقل و انتقال خودرو', 'استعلام پلاک‌های فعال به نام شخص', 'پیگیری وضعیت صدور کارت ماشین و برگ سبز',
-          'استعلام و پرداخت عوارض سالیانه شهرداری خودرو', 'نوبت‌دهی معاینه فنی خودرو', 'ثبت درخواست کارت سوخت المثنی',
-          'استعلام نمره منفی گواهینامه', 'پیگیری صدور و ارسال گواهینامه', 'احراز محل سکونت در سامانه سخا برای پلاک'
-        ]
-      },
-      {
-        id: 'sana',
-        title: 'ثنا و خدمات قضایی',
-        count: '۹ خدمت',
-        color: '#ef4444',
-        bg: 'rgba(239, 68, 68, 0.12)',
-        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7h18M6 7l-3 7h6l-3-7zM18 7l-3 7h6l-3-7z"/></svg>`,
-        items: [
-          'ثبت‌نام غیرحضوری سامانه ثنا (عدالت همراه)', 'مشاهده و چاپ ابلاغیه‌های قضایی', 'بازیابی رمز عبور و شماره ثنا',
-          'تغییر شماره موبایل و آدرس در ثنا', 'نوبت‌دهی دفاتر خدمات الکترونیک قضایی', 'پیگیری روند پرونده‌های قضایی',
-          'استعلام اصالت گواهی عدم سوءپیشینه', 'تنظیم لایحه، دادخواست و شکواییه', 'استعلام ممنوع‌الخروجی قضایی'
-        ]
-      },
-      {
-        id: 'tax',
-        title: 'مالیات و کارتخوان',
-        count: '۱۱ خدمت',
-        color: '#06b6d4',
-        bg: 'rgba(6, 182, 212, 0.12)',
-        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 12h4M14 12h4M6 16h12M6 8h12"/></svg>`,
-        items: [
-          'ثبت‌نام کد اقتصادی و تشکیل پرونده مالیاتی', 'اتصال دستگاه کارتخوان (POS) به پرونده مالیاتی', 'تنظیم و ارسال اظهارنامه مالیاتی مشاغل',
-          'تکمیل فرم تبصره ماده ۱۰۰ مالیاتی', 'استعلام و پرداخت بدهی مالیاتی', 'دریافت گواهی ثبت‌نام مالیات بر ارزش افزوده',
-          'تغییر حساب بانکی متصل به کارتخوان', 'غیرفعال‌سازی پرونده مالیاتی و کارتخوان', 'دریافت کد رهگیری مالیاتی اجاره‌نامه',
-          'استعلام ممنوع‌الخروجی مالیاتی', 'مشاوره و ثبت اعتراض به برگ تشخیص مالیات'
-        ]
-      },
-      {
-        id: 'bills',
-        title: 'قبض و سیم‌کارت',
-        count: '۱۳ خدمت',
-        color: '#0ea5e9',
-        bg: 'rgba(14, 165, 233, 0.12)',
-        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01M9 6h6"/></svg>`,
-        items: [
-          'استعلام و پرداخت قبض برق، آب و گاز', 'استعلام و پرداخت قبض تلفن ثابت و همراه', 'خرید شارژ و بسته‌های اینترنتی کلیه اپراتورها',
-          'استعلام تعداد سیم‌کارت‌های ثبت‌شده با کد ملی', 'ثبت و استعلام کد رجیستری گوشی (همتا)', 'انتقال مالکیت گوشی در سامانه همتا',
-          'رفع مسدودی سیم‌کارت و پیگیری قبض میان‌دوره', 'تغییر تعرفه و طرح‌های اینترنتی', 'ثبت‌نام سیم‌کارت جدید و ترابرد',
-          'فعال‌سازی و غیرفعال‌سازی پیامک‌های تبلیغاتی', 'استعلام بدهی قبوض معوقه', 'چاپ رسید رسمی پرداخت قبوض', 'پیگیری مشکلات آنتن‌دهی و اینترنت'
-        ]
-      },
-      {
-        id: 'travel',
-        title: 'بلیط سفر',
-        count: '۳ خدمت',
-        color: '#14b8a6',
-        bg: 'rgba(20, 184, 166, 0.12)',
-        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.2-1.1.6L3 8l6 4-4 4-3-1-1 1 4 2 2 4 1-1-1-3 4-4 4 6 1.2-.7c.4-.2.7-.6.6-1.1z"/></svg>`,
-        items: [
-          'صدور بلیط هواپیما (داخلی و خارجی) با کمترین نرخ',
-          'رزرو و صدور بلیط قطار کلیه مسیرها',
-          'صدور بلیط اتوبوس VIP به تمام شهرها'
-        ]
-      },
-      {
-        id: 'car-reg',
-        title: 'ثبت نام ماشین',
-        count: '۳ خدمت',
-        color: '#6366f1',
-        bg: 'rgba(99, 102, 241, 0.12)',
-        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>`,
-        items: [
-          'ثبت‌نام سامانه یکپارچه تخصیص خودرو (ایران‌خودرو و سایپا)',
-          'ثبت‌نام طرح مادران (جوانی جمعیت) و خودروهای فرسوده',
-          'افتتاح حساب وکالتی و پیگیری قرعه‌کشی و واریز وجه'
-        ]
-      },
-      {
-        id: 'subsidy',
-        title: 'یارانه و کالابرگ',
-        count: '۲ خدمت',
-        color: '#22c55e',
-        bg: 'rgba(34, 197, 94, 0.12)',
-        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>`,
-        items: [
-          'استعلام دهک خانوار، ثبت اعتراض یارانه و تفکیک یارانه',
-          'استعلام اعتبار کالابرگ الکترونیکی و یارانه معیشتی'
-        ]
-      },
-      {
-        id: 'print',
-        title: 'چاپ، تایپ و فتوشاپ',
-        count: '۱۰ خدمت',
-        color: '#ec4899',
-        bg: 'rgba(236, 72, 153, 0.12)',
-        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>`,
-        items: [
-          'پرینت رنگی و سیاه‌وسفید با کیفیت بالا', 'تایپ فوری متون فارسی و انگلیسی، پایان‌نامه و تحقیق',
-          'طراحی و ویرایش حرفه‌ای عکس با فتوشاپ', 'تغییر پس‌زمینه و آماده سازی عکس پرسنلی ۳×۴',
-          'اسکن مدارک و تبدیل فایل‌ها (PDF به Word و بالعکس)', 'طراحی کارت ویزیت، تراکت و بنر تبلیغاتی',
-          'تنظیم رزومه کاری حرفه‌ای', 'کپی برابر اصل و لمینت (پرس کارت)',
-          'سیمی کردن جزوه و کتاب', 'ارسال فایل از طریق روبیکا و ایتا و تحویل فوری'
-        ]
-      }
-    ];
+        [data-theme="light"] {
+            --bg-color: #f3f4f6;
+            --text-color: #1f2937;
+            --card-bg: #ffffff;
+            --card-border: #e5e7eb;
+            --primary-color: #7c3aed;
+            --accent-color: #4f46e5;
+            --hover-color: #f9fafb;
+        }
 
-    // ۳. رندر کردن کارت‌های دسته‌بندی و قرص‌های سریع
-    const grid = document.getElementById('categoriesGrid');
-    const quickBar = document.getElementById('quickBar');
+        /* پایبندی به ساختار و استایل‌های اصلی کد شما */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: Tahoma, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    function renderUI() {
-      grid.innerHTML = '';
-      quickBar.innerHTML = '';
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--card-border);
+        }
 
-      categoriesData.forEach(cat => {
-        // ساخت دکمه قرصی سریع
-        const pill = document.createElement('button');
-        pill.className = 'q-pill';
-        pill.textContent = cat.title;
-        pill.onclick = () => openCategoryModal(cat.id);
-        quickBar.appendChild(pill);
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-        // ساخت کارت دسته‌بندی
-        const card = document.createElement('div');
-        card.className = 'cat-box';
-        card.onclick = () => openCategoryModal(cat.id);
-        card.innerHTML = `
-          <div class="cat-info">
-            <div class="cat-icon" style="background: ${cat.bg}; color: ${cat.color};">
-              ${cat.svg}
-            </div>
-            <div class="cat-details">
-              <h4>${cat.title}</h4>
-              <span>${cat.count}</span>
-            </div>
-          </div>
-          <div class="cat-action-icon">‹</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
+        /* محل قرارگیری لوگو برای گیت‌هاب (فایل خود را با نام دلخواه در پوشه ریشه گیت‌هاب آپلود کنید) */
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
 
-    // ۴. مدیریت مودال صفحه اختصاصی هر خدمت
-    function openCategoryModal(catId) {
-      const cat = categoriesData.find(c => c.id === catId);
-      if (!cat) return;
+        .theme-toggle-btn {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
 
-      const modal = document.getElementById('serviceModal');
-      const title = document.getElementById('modalTitle');
-      const list = document.getElementById('modalServicesList');
+        .theme-toggle-btn:hover {
+            background: var(--accent-color);
+        }
 
-      title.textContent = `${cat.title} (${cat.items.length} خدمت)`;
-      list.innerHTML = cat.items.map(item => `
-        <div class="service-row">
-          <span>• ${item}</span>
-          <a href="#contact" class="btn-order" onclick="closeModal()">سفارش ↗</a>
+        .search-section {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 16px;
+            outline: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-right: 4px solid var(--primary-color);
+            padding-right: 10px;
+        }
+
+        .grid-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .service-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+
+        .service-info span {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        /* جایگاه عکس دلخواه خدمات برای آپلود در گیت‌هاب */
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        footer {
+            margin-top: 50px;
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 30px 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <!-- هدر سایت با دکمه تغییر تم و جایگاه عکس لوگو -->
+    <header>
+        <div class="logo-area">
+            <!-- 
+              نکته گیت‌هاب: عکس لوگو را با نام logo.png در مخزن خود آپلود کنید 
+              یا مسیر دلخواه خود را جایگزین مقدار زیر کنید.
+            -->
+            <img src="logo.png" alt="لوگو جاوید" class="logo-img" onerror="this.style.display='none'">
+            <h2>مرکز خدمات آنلاین جاوید</h2>
         </div>
-      `).join('');
+        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()">☀️ حالت روشن</button>
+    </header>
 
-      modal.classList.add('active');
-    }
+    <!-- بخش جستجوی سریع -->
+    <section class="search-section">
+        <input type="text" class="search-box" placeholder="جستجوی سریع خدمت... (مثلاً سجام، خلافی، مالیات)">
+    </section>
 
-    function closeModal() {
-      document.getElementById('serviceModal').classList.remove('active');
-    }
-
-    // ۵. جستجوی زنده در بین تمامی خدمات
-    function liveSearch(query) {
-      const clearBtn = document.getElementById('clearBtn');
-      const modal = document.getElementById('serviceModal');
-      const title = document.getElementById('modalTitle');
-      const list = document.getElementById('modalServicesList');
-
-      const q = query.trim();
-      clearBtn.style.display = q ? 'block' : 'none';
-
-      if (!q) {
-        modal.classList.remove('active');
-        return;
-      }
-
-      const found = [];
-      categoriesData.forEach(cat => {
-        cat.items.forEach(item => {
-          if (item.includes(q) || cat.title.includes(q)) {
-            found.push({ title: item, category: cat.title });
-          }
-        });
-      });
-
-      title.textContent = `نتایج جستجو برای «${q}» (${found.length} مورد)`;
-      if (found.length === 0) {
-        list.innerHTML = `<div style="padding: 1.5rem; color: var(--text-muted); text-align: center;">موردی یافت نشد. می‌توانید مستقیماً از طریق دکمه تماس با ما در ارتباط باشید.</div>`;
-      } else {
-        list.innerHTML = found.map(f => `
-          <div class="service-row">
-            <div>
-              <div>${f.title}</div>
-              <small style="color: var(--text-muted); font-size: 0.75rem;">دسته: ${f.category}</small>
+    <!-- بخش اصلی دسته‌بندی خدمات -->
+    <div class="container" id="contact">
+        <div class="section-title">دسته‌بندی خدمات تخصصی</div>
+        
+        <div class="grid-services">
+            <!-- کارت خدمت ۱ -->
+            <div class="service-card">
+                <div class="service-info">
+                    <h3>خدمات عمومی و دولتی</h3>
+                    <span>۲۱ خدمت</span>
+                </div>
+                <!-- جایگاه عکس گیت‌هاب برای آیکون این کارت (مثلاً images/service1.png) -->
+                <img src="images/service1.png" alt="خدمات دولتی" class="service-icon" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%238b5cf6\' stroke-width=\'2\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><path d=\'M9 3v18\'/></svg>'">
             </div>
-            <a href="#contact" class="btn-order" onclick="closeModal()">انجام ↗</a>
-          </div>
-        `).join('');
-      }
 
-      modal.classList.add('active');
-    }
+            <!-- کارت خدمت ۲ -->
+            <div class="service-card">
+                <div class="service-info">
+                    <h3>بیمه و تامین اجتماعی</h3>
+                    <span>۲۴ خدمت</span>
+                </div>
+                <img src="images/service2.png" alt="بیمه" class="service-icon" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%238b5cf6\' stroke-width=\'2\'><path d=\'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\'/></svg>'">
+            </div>
 
-    function clearSearchInput() {
-      const input = document.getElementById('searchInput');
-      input.value = '';
-      liveSearch('');
-      input.focus();
-    }
+            <!-- کارت خدمت ۳ -->
+            <div class="service-card">
+                <div class="service-info">
+                    <h3>آموزش و پرورش و مای مدیو</h3>
+                    <span>۱۰ خدمت</span>
+                </div>
+                <img src="images/service3.png" alt="آموزش" class="service-icon" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%238b5cf6\' stroke-width=\'2\'><path d=\'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z\'/><path d=\'M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z\'/></svg>'">
+            </div>
+        </div>
+    </div>
 
-    // ۶. کپی کردن آدرس
-    function copyAddress() {
-      const addr = document.getElementById('addressText').textContent.trim();
-      navigator.clipboard.writeText(addr).then(() => {
-        alert('آدرس مغازه با موفقیت کپی شد!');
-      });
-    }
+    <!-- فوتر و راه‌های ارتباطی -->
+    <footer>
+        <p>پشتیبانی و ارتباط مستقیم با ما | آدرس حضوری (۱۰ صبح تا ۲۲ شب)</p>
+    </footer>
 
-    renderUI();
-  </script>
+    <!-- اسکریپت جاوااسکریپت برای تغییر حالت دارک و لایت -->
+    <script>
+        const body = document.body;
+        const themeToggleBtn = document.getElementById('themeToggle');
+
+        function toggleTheme() {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                themeToggleBtn.textContent = '🌙 حالت تاریک';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggleBtn.textContent = '☀️ حالت روشن';
+            }
+        }
+    </script>
 </body>
 </html>

@@ -1,1348 +1,1043 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#7c3aed">
-<meta name="description" content="مرکز خدمات آنلاین جاوید — خدمات دولتی، بیمه، خودرو، مالیات، ثنا، مای مدیو، چاپ و تایپ.">
-<title>مرکز خدمات آنلاین جاوید</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#182420;
-    --ink-soft:#697870;
-    --line:#e4ece8;
-    --surface:#ffffff;
-    --brand:#7c3aed;
-    --brand-dark:#6d28d9;
-    --brand-2:#a78bfa;
-    --brand-tint:#f3f0ff;
-    --call:#e25d1f;
-    --call-dark:#c04a13;
-    --call-tint:#fff1e8;
-    --radius:18px;
-    --shadow-sm:0 2px 8px rgba(20,45,35,.04);
-    --shadow:0 8px 24px rgba(20,45,35,.07);
-  }
-  [data-theme="dark"]{
-    --ink:#e8f0eb;
-    --ink-soft:#94a39b;
-    --line:#26332c;
-    --surface:#16201c;
-    --brand:#a78bfa;
-    --brand-dark:#8b5cf6;
-    --brand-2:#c4b5fd;
-    --brand-tint:#1e1633;
-    --call:#fb923c;
-    --call-dark:#ea580c;
-    --call-tint:#2a1a10;
-    --shadow-sm:0 2px 8px rgba(0,0,0,.35);
-    --shadow:0 8px 24px rgba(0,0,0,.45);
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
-  }
-  body{
-    margin:0;
-    min-height:100vh;
-    color:var(--ink);
-    font-family:"Vazirmatn","Tahoma",sans-serif;
-    -webkit-font-smoothing:antialiased;
-    background:
-      radial-gradient(circle at 100% -5%,rgba(167,139,250,.10),transparent 30rem),
-      radial-gradient(circle at -5% 40%,rgba(20,184,166,.08),transparent 26rem),
-      radial-gradient(circle at 50% 100%,rgba(251,146,60,.06),transparent 30rem),
-      linear-gradient(180deg,#fafaff 0%,#ffffff 32%,#f7fafc 100%);
-    background-attachment:fixed;
-    transition:background .3s ease, color .25s ease;
-    overflow-x:hidden;
-  }
-  [data-theme="dark"] body{
-    background:
-      radial-gradient(circle at 100% -5%,rgba(167,139,250,.14),transparent 30rem),
-      radial-gradient(circle at -5% 40%,rgba(20,184,166,.10),transparent 26rem),
-      radial-gradient(circle at 50% 100%,rgba(251,146,60,.08),transparent 30rem),
-      linear-gradient(180deg,#0a1310 0%,#0d1411 32%,#0a1310 100%);
-  }
-  body::before{
-    content:""; position:fixed; inset:0; pointer-events:none; z-index:-1;
-    background-image:radial-gradient(rgba(124,58,237,.035) .7px, transparent .7px);
-    background-size:16px 16px;
-  }
-  [data-theme="dark"] body::before{
-    background-image:radial-gradient(rgba(167,139,250,.06) .7px, transparent .7px);
-  }
-  body.modal-open{overflow:hidden;}
-  a{color:inherit; text-decoration:none;}
-  button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit;}
-  img{max-width:100%; display:block;}
-  svg{display:block;}
-  ::selection{background:rgba(124,58,237,.20);}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مرکز خدمات آنلاین جاوید | خدمات دولتی، بیمه، خودرو و مالیات</title>
+  <!-- فونت وزیرمتن برای نمایش استاندارد و مدرن فارسی -->
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+  <style>
+    :root {
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 10px 25px rgba(79, 70, 229, 0.12);
+      --hero-gradient: linear-gradient(135deg, #312e81 0%, #4f46e5 50%, #0ea5e9 100%);
+    }
 
-  /* ===== Splash ===== */
-  #splash{
-    position:fixed; inset:0; z-index:9999;
-    background:
-      radial-gradient(circle at 30% 30%,rgba(124,58,237,.14),transparent 24rem),
-      radial-gradient(circle at 80% 70%,rgba(20,184,166,.10),transparent 24rem),
-      linear-gradient(180deg,#ffffff,#f7fafc);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    transition:opacity .45s ease, visibility .45s ease;
-  }
-  [data-theme="dark"] #splash{
-    background:
-      radial-gradient(circle at 30% 30%,rgba(167,139,250,.20),transparent 24rem),
-      radial-gradient(circle at 80% 70%,rgba(20,184,166,.16),transparent 24rem),
-      linear-gradient(180deg,#0a1310,#0d1411);
-  }
-  #splash.hide{opacity:0; visibility:hidden; pointer-events:none;}
-  #splash .sp-logo{
-    width:84px; height:84px; border-radius:24px;
-    background:linear-gradient(145deg,#a78bfa,#7c3aed 60%,#5b21b6);
-    display:flex; align-items:center; justify-content:center;
-    color:#fff;
-    box-shadow:0 20px 42px rgba(124,58,237,.35), inset 0 -4px 10px rgba(0,0,0,.15), inset 0 4px 10px rgba(255,255,255,.20);
-    animation:pop .45s cubic-bezier(.2,.8,.25,1) both;
-  }
-  #splash .sp-logo svg{width:42px; height:42px;}
-  #splash h1{
-    margin:22px 0 6px; font-size:25px; font-weight:900;
-    background:linear-gradient(135deg,#7c3aed,#a78bfa,#14b8a6);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    animation:fadeUp .4s .1s both;
-  }
-  #splash p{margin:0; color:var(--ink-soft); font-size:14px; animation:fadeUp .4s .2s both; font-weight:600;}
-  #splash .sp-bar{
-    position:absolute; bottom:56px; width:190px; height:4px;
-    background:rgba(124,58,237,.12); border-radius:999px; overflow:hidden;
-  }
-  #splash .sp-bar::after{
-    content:""; position:absolute; top:0; bottom:0; left:0; width:0;
-    background:linear-gradient(90deg,#a78bfa,#7c3aed,#14b8a6,#f97316);
-    border-radius:999px; animation:load 1.4s linear forwards;
-  }
-  @keyframes pop{from{opacity:0; transform:scale(.75) translateY(14px);} to{opacity:1; transform:scale(1) translateY(0);}}
-  @keyframes fadeUp{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
-  @keyframes load{to{width:100%;}}
+    body.dark-mode {
+      --bg-body: #0b1120;
+      --bg-card: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #6366f1;
+      --primary-hover: #818cf8;
+      --border-color: #334155;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.4);
+      --hero-gradient: linear-gradient(135deg, #1e1b4b 0%, #3730a3 50%, #0369a1 100%);
+    }
 
-  /* ===== Header ===== */
-  header{
-    position:sticky; top:0; z-index:50;
-    background:rgba(255,255,255,.94);
-    border-bottom:1px solid rgba(220,230,225,.9);
-    box-shadow:0 4px 20px rgba(20,45,35,.045);
-    transition:background .3s ease, border-color .3s ease;
-  }
-  @media (min-width: 769px){
-    header{ backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); }
-  }
-  [data-theme="dark"] header{
-    background:rgba(13,20,17,.94);
-    border-bottom-color:rgba(38,51,44,.9);
-    box-shadow:0 4px 20px rgba(0,0,0,.35);
-  }
-  .header-top{
-    max-width:1100px; margin:0 auto; padding:12px 18px 9px;
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-  }
-  .brand{display:flex; align-items:center; gap:11px; min-width:0; flex:1;}
-  .brand .mark{
-    width:44px; height:44px; border-radius:14px; flex:none;
-    background:linear-gradient(145deg,#a78bfa,#7c3aed 70%,#5b21b6);
-    color:#fff; display:flex; align-items:center; justify-content:center;
-    box-shadow:0 8px 20px rgba(124,58,237,.28);
-    transition:transform .3s ease;
-  }
-  .brand:hover .mark{transform:rotate(-5deg) scale(1.06);}
-  .brand .mark svg{width:23px; height:23px;}
-  .brand-text{min-width:0;}
-  .brand-text h2{
-    margin:0; font-size:16px; font-weight:800;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--ink);
-  }
-  .brand-text span{
-    font-size:11.5px; color:#74837c; display:block;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  }
-  [data-theme="dark"] .brand-text span{color:#8fa39a;}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+    }
 
-  .header-actions{display:flex; align-items:center; gap:8px; flex:none;}
-  .theme-toggle{
-    width:40px; height:40px; border-radius:50%; flex:none;
-    background:#fff; border:1px solid #dce5e0; color:var(--ink);
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 4px 12px rgba(20,45,35,.08);
-    transition:transform .3s ease, background .3s ease;
-  }
-  .theme-toggle:hover{transform:rotate(20deg) scale(1.08);}
-  .theme-toggle svg{width:18px; height:18px;}
-  .theme-toggle .icon-sun{display:none;}
-  [data-theme="dark"] .theme-toggle{background:#1c2622; border-color:#2a3832; color:#fbbf24;}
-  [data-theme="dark"] .theme-toggle .icon-sun{display:block;}
-  [data-theme="dark"] .theme-toggle .icon-moon{display:none;}
+    html {
+      scroll-behavior: smooth;
+    }
 
-  .call-btn{
-    display:inline-flex; align-items:center; gap:6px; flex:none;
-    background:linear-gradient(135deg,#f97316,#ea580c 60%,#c2410c);
-    color:#fff; border-radius:999px;
-    padding:9px 15px; font-size:12.5px; font-weight:800;
-    box-shadow:0 6px 16px rgba(234,88,12,.28);
-    transition:transform .18s ease, box-shadow .18s ease;
-  }
-  .call-btn svg{width:14px; height:14px;}
-  .call-btn:hover{transform:translateY(-2px); box-shadow:0 10px 22px rgba(234,88,12,.38);}
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      line-height: 1.6;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-  .search-wrap{max-width:1100px; margin:0 auto; padding:0 18px 10px;}
-  body.view-category .search-wrap{display:none;}
-  .search-box{
-    display:flex; align-items:center; gap:9px;
-    background:#fff; border:1px solid #dce5e0; border-radius:14px;
-    padding:10px 14px; box-shadow:var(--shadow-sm);
-    transition:border-color .2s ease, box-shadow .2s ease;
-  }
-  [data-theme="dark"] .search-box{background:#16201c; border-color:#26332c;}
-  .search-box:focus-within{
-    border-color:rgba(124,58,237,.55);
-    box-shadow:0 0 0 4px rgba(124,58,237,.10), var(--shadow);
-  }
-  .search-box > svg{width:17px; height:17px; color:#87968e; flex:none;}
-  .search-box input{
-    flex:1; min-width:0; border:none; outline:none; background:transparent;
-    font-family:inherit; font-size:14px; color:var(--ink);
-  }
-  .search-box input::placeholder{color:#9aa7a0;}
-  .search-clear{
-    width:26px; height:26px; border-radius:50%; flex:none;
-    background:#eef3f0; color:#65736c; font-size:18px; line-height:1;
-    display:grid; place-items:center;
-  }
-  [data-theme="dark"] .search-clear{background:#26332c; color:#94a39b;}
+    /* هدر و نوار جستجو */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.75rem 1.5rem;
+      transition: background 0.3s ease;
+    }
 
-  /* ===== Main ===== */
-  main{max-width:1100px; margin:0 auto; padding:22px 18px 60px;}
-  .view{display:none;}
-  .view.active{display:block; animation:viewIn .32s ease both;}
-  @keyframes viewIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+    body.dark-mode header {
+      background: rgba(15, 23, 42, 0.85);
+    }
 
-  /* ===== Hero ===== */
-  .hero{
-    margin:0 0 26px; padding:32px 28px; border-radius:26px;
-    color:#fff; position:relative; overflow:hidden;
-    background:
-      radial-gradient(circle at 85% 15%,rgba(255,255,255,.22),transparent 15rem),
-      radial-gradient(circle at 15% 90%,rgba(250,204,21,.18),transparent 18rem),
-      linear-gradient(135deg,#7c3aed 0%,#5b21b6 25%,#0891b2 60%,#0d9488 100%);
-    box-shadow:0 20px 44px rgba(124,58,237,.22);
-  }
-  .hero-top-row{
-    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;
-    margin-bottom:14px; position:relative; z-index:1;
-  }
-  .hero-badge{
-    display:inline-flex; align-items:center; gap:6px;
-    padding:6px 13px; border-radius:999px; font-size:12px; font-weight:800;
-    background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.24);
-    backdrop-filter:blur(8px);
-  }
-  .status-pill{
-    display:inline-flex; align-items:center; gap:6px;
-    padding:6px 12px; border-radius:999px; font-size:11.5px; font-weight:700;
-    background:rgba(0,0,0,.24); border:1px solid rgba(255,255,255,.18);
-  }
-  .status-dot{
-    width:8px; height:8px; border-radius:50%; background:#4ade80;
-    box-shadow:0 0 8px #4ade80;
-  }
-  .status-dot.closed{background:#fbbf24; box-shadow:0 0 8px #fbbf24;}
-  .hero h1{
-    margin:0; font-size:29px; line-height:1.45; font-weight:900; letter-spacing:-.5px;
-    position:relative; z-index:1;
-  }
-  .hero h1 span{
-    background:linear-gradient(135deg,#fef3c7,#fbbf24,#fde68a);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
-  .hero p{
-    max-width:680px; margin:10px 0 20px; font-size:14px; line-height:2; opacity:.95;
-    position:relative; z-index:1;
-  }
-  .hero-actions{display:flex; gap:10px; flex-wrap:wrap; position:relative; z-index:1;}
-  .hero-btn{
-    display:inline-flex; align-items:center; gap:7px; min-height:44px;
-    padding:10px 18px; border-radius:13px; font-size:13.5px; font-weight:800;
-    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
-    box-shadow:0 8px 20px rgba(0,0,0,.12);
-  }
-  .hero-btn svg{width:16px; height:16px;}
-  .hero-call{background:linear-gradient(135deg,#fff,#fef3c7); color:#6d28d9;}
-  .hero-call:hover{transform:translateY(-2px); box-shadow:0 12px 26px rgba(0,0,0,.20);}
-  .hero-browse{
-    background:rgba(255,255,255,.15); color:#fff;
-    border:1px solid rgba(255,255,255,.32);
-  }
-  .hero-browse:hover{background:rgba(255,255,255,.24); transform:translateY(-2px);}
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
 
-  /* ===== Quick Chips Bar ===== */
-  .quick-chips{
-    display:flex; gap:8px; overflow-x:auto; padding:2px 2px 14px; margin-bottom:14px;
-    scrollbar-width:none;
-  }
-  .quick-chips::-webkit-scrollbar{display:none;}
-  .chip{
-    flex:none; display:inline-flex; align-items:center; gap:6px;
-    padding:8px 14px; border-radius:999px; font-size:12.5px; font-weight:700;
-    background:var(--surface); border:1px solid var(--line); color:var(--ink);
-    box-shadow:var(--shadow-sm); transition:all .2s ease;
-  }
-  .chip:hover{border-color:var(--brand); color:var(--brand); transform:translateY(-1px);}
-  .chip svg{width:14px; height:14px; color:var(--brand);}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
 
-  /* ===== Sections ===== */
-  .section-head{
-    display:flex; align-items:flex-end; justify-content:space-between; gap:14px;
-    margin:0 0 18px;
-  }
-  .section-head .titles .eyebrow{
-    display:inline-flex; align-items:center; gap:6px;
-    font-size:11.5px; font-weight:800; color:var(--brand);
-    padding:5px 11px; border-radius:999px;
-    background:linear-gradient(135deg,rgba(124,58,237,.10),rgba(167,139,250,.06));
-    border:1px solid rgba(124,58,237,.15);
-    margin-bottom:7px;
-  }
-  .section-head .titles .eyebrow::before{
-    content:""; width:6px; height:6px; border-radius:50%;
-    background:linear-gradient(135deg,#a78bfa,#7c3aed);
-  }
-  .section-head h2{margin:0; font-size:21px; font-weight:900; letter-spacing:-.4px;}
-  .section-head .hint{
-    font-size:12px; color:var(--ink-soft); font-weight:600;
-    background:var(--surface); border:1px solid var(--line);
-    border-radius:999px; padding:6px 12px;
-  }
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--hero-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.3rem;
+      box-shadow: var(--shadow-sm);
+    }
 
-  .cat-grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));}
-  .cat-card{
-    display:flex; align-items:center; gap:14px;
-    background:var(--surface); border:1px solid var(--line);
-    border-radius:20px; padding:15px;
-    box-shadow:var(--shadow-sm);
-    transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-    cursor:pointer; position:relative; overflow:hidden;
-  }
-  .cat-card::before{
-    content:""; position:absolute; inset:0;
-    background:radial-gradient(circle at 100% 0%, var(--tint), transparent 60%);
-    opacity:.75; pointer-events:none;
-  }
-  [data-theme="dark"] .cat-card::before{opacity:.4;}
-  .cat-card > *{position:relative; z-index:1;}
-  .cat-card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 14px 28px rgba(20,45,35,.09);
-    border-color:var(--accent);
-  }
-  .cat-card .cat-icon{
-    width:56px; height:56px; flex:none; border-radius:16px;
-    background:linear-gradient(145deg, var(--tint), var(--surface));
-    color:var(--accent);
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 6px 16px color-mix(in srgb, var(--accent) 18%, transparent);
-    transition:transform .25s ease;
-  }
-  .cat-card:hover .cat-icon{transform:scale(1.07) rotate(-4deg);}
-  .cat-card .cat-icon svg{width:28px; height:28px;}
-  .cat-card .cat-info{flex:1; min-width:0;}
-  .cat-card h3{margin:0 0 4px; font-size:15.5px; font-weight:800; color:var(--ink);}
-  .cat-card .cat-meta{
-    font-size:12px; color:var(--ink-soft); font-weight:600;
-    display:inline-flex; align-items:center; gap:5px;
-  }
-  .cat-card .cat-meta::before{
-    content:""; width:5px; height:5px; border-radius:50%; background:var(--accent);
-  }
-  .cat-card .cat-arrow{
-    width:32px; height:32px; flex:none; border-radius:50%;
-    background:var(--tint); color:var(--accent);
-    display:flex; align-items:center; justify-content:center;
-    font-size:18px; font-weight:800;
-    transition:transform .22s ease;
-  }
-  .cat-card:hover .cat-arrow{transform:translateX(-4px);}
+    .brand-text h1 {
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
 
-  /* ===== Category view ===== */
-  .back-link{
-    display:inline-flex; align-items:center; gap:7px;
-    font-size:13.5px; font-weight:800; color:var(--brand-dark);
-    background:var(--brand-tint);
-    border:1px solid rgba(124,58,237,.18);
-    padding:9px 16px; border-radius:999px; margin-bottom:18px;
-    transition:transform .18s ease;
-  }
-  [data-theme="dark"] .back-link{color:#c4b5fd; border-color:rgba(167,139,250,.30);}
-  .back-link:hover{transform:translateX(4px);}
-  .back-link svg{width:15px; height:15px;}
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
 
-  .cat-hero{
-    border-radius:22px; padding:22px 24px;
-    background:linear-gradient(135deg, var(--tint) 0%, var(--surface) 75%);
-    border:1px solid color-mix(in srgb, var(--accent) 20%, var(--line));
-    margin-bottom:18px;
-    display:flex; align-items:center; gap:18px;
-  }
-  .cat-hero .cat-hero-icon{
-    width:68px; height:68px; flex:none; border-radius:20px;
-    background:linear-gradient(145deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #000));
-    color:#fff; display:flex; align-items:center; justify-content:center;
-    box-shadow:0 10px 22px color-mix(in srgb, var(--accent) 30%, transparent);
-  }
-  .cat-hero .cat-hero-icon svg{width:34px; height:34px;}
-  .cat-hero .cat-hero-text h1{margin:0 0 4px; font-size:23px; font-weight:900; color:var(--accent);}
-  .cat-hero .cat-hero-text p{margin:0; font-size:13px; color:var(--ink-soft); font-weight:500; line-height:1.9;}
+    .search-box {
+      flex: 1;
+      min-width: 260px;
+      max-width: 480px;
+      position: relative;
+    }
 
-  .cat-note-box{
-    margin:0 0 20px; padding:12px 15px; border-radius:14px;
-    background:var(--surface);
-    border:1px solid color-mix(in srgb, var(--accent) 25%, var(--line));
-    color:var(--accent); font-size:13px; font-weight:600; line-height:1.9;
-    display:flex; gap:10px; align-items:flex-start;
-  }
-  .cat-note-box svg{width:18px; height:18px; flex:none; margin-top:3px;}
+    .search-box input {
+      width: 100%;
+      padding: 0.65rem 2.5rem 0.65rem 2.2rem;
+      border-radius: 99px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-body);
+      color: var(--text-main);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
 
-  .items-grid{display:grid; gap:18px; grid-template-columns:repeat(auto-fill, minmax(295px, 1fr));}
-  .item-card{
-    background:var(--surface); border:1px solid var(--line);
-    border-radius:20px; overflow:hidden;
-    box-shadow:var(--shadow-sm);
-    display:flex; flex-direction:column;
-    transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-  }
-  .item-card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 16px 32px color-mix(in srgb, var(--accent) 14%, transparent);
-    border-color:color-mix(in srgb, var(--accent) 40%, var(--line));
-  }
-  .item-media{
-    aspect-ratio:16/9;
-    background:linear-gradient(145deg, var(--tint), color-mix(in srgb, var(--accent) 12%, var(--surface)));
-    color:var(--accent);
-    display:flex; align-items:center; justify-content:center;
-    position:relative; overflow:hidden;
-    border-bottom:1px solid color-mix(in srgb, var(--accent) 15%, var(--line));
-  }
-  .item-media svg{width:64px; height:64px; opacity:.92; transition:transform .3s ease;}
-  .item-card:hover .item-media svg{transform:scale(1.08) rotate(-4deg);}
-  .item-media .price-corner{
-    position:absolute; top:11px; right:11px; z-index:2;
-    background:rgba(255,255,255,.96);
-    color:var(--accent); font-size:11.5px; font-weight:800;
-    border-radius:999px; padding:5px 11px;
-    box-shadow:0 4px 12px rgba(20,45,35,.12);
-    display:inline-flex; align-items:center; gap:5px;
-  }
-  [data-theme="dark"] .item-media .price-corner{background:rgba(22,32,28,.95);}
-  .item-media .price-corner svg{width:12px; height:12px;}
-  .item-body{padding:15px 16px 16px; display:flex; flex-direction:column; flex:1; gap:9px;}
-  .item-title{margin:0; font-size:15.5px; font-weight:800; line-height:1.55; color:var(--ink);}
-  .item-desc{margin:0; font-size:12.6px; line-height:1.85; color:var(--ink-soft); font-weight:500;}
-  .item-docs{
-    background:color-mix(in srgb, var(--accent) 7%, var(--surface));
-    border:1px dashed color-mix(in srgb, var(--accent) 30%, var(--line));
-    border-radius:11px; padding:8px 11px;
-    font-size:12px; color:var(--ink); line-height:1.75;
-  }
-  .item-docs strong{color:var(--accent); font-weight:800;}
-  .item-foot{margin-top:auto; padding-top:10px; display:flex; gap:8px;}
-  .contact-btn{
-    flex:1; display:inline-flex; align-items:center; justify-content:center; gap:8px;
-    background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 85%, #000) 0%, var(--accent) 100%);
-    color:#fff; border-radius:12px; padding:11px 14px;
-    font-size:13px; font-weight:800;
-    box-shadow:0 6px 15px color-mix(in srgb, var(--accent) 22%, transparent);
-    transition:transform .18s ease;
-  }
-  .contact-btn svg{width:15px; height:15px;}
-  .contact-btn:hover{transform:translateY(-2px);}
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
 
-  .empty-state{
-    text-align:center; padding:48px 20px;
-    background:var(--surface); border:1px dashed var(--line); border-radius:20px;
-    color:var(--ink-soft);
-  }
-  .empty-state .emoji{font-size:42px; margin-bottom:10px;}
-  .empty-state p{margin:0; font-size:14px; font-weight:600;}
+    .search-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
 
-  #searchResults{display:none;}
-  #searchResults.show{display:block;}
-  body.searching #categoriesSection, body.searching .hero, body.searching .quick-chips{display:none;}
+    .clear-search {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: none;
+    }
 
-  /* ===== Support ===== */
-  .support-section{
-    margin-top:48px; padding:28px 24px; border-radius:24px;
-    color:#fff; position:relative; overflow:hidden;
-    background:
-      radial-gradient(circle at 90% 0%,rgba(250,204,21,.20),transparent 22rem),
-      radial-gradient(circle at 10% 100%,rgba(20,184,166,.22),transparent 22rem),
-      linear-gradient(135deg,#7c3aed,#5b21b6 45%,#0d9488);
-    box-shadow:0 20px 44px rgba(124,58,237,.24);
-  }
-  .support-section h3{margin:0 0 6px; font-size:22px; font-weight:900;}
-  .support-section .lead{margin:0 0 18px; font-size:13.5px; opacity:.94; line-height:1.9;}
-  .support-grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fill, minmax(270px,1fr)); margin-bottom:16px;}
-  .support-card{
-    background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.20);
-    border-radius:18px; padding:15px;
-    backdrop-filter:blur(8px);
-  }
-  .support-card-top{display:flex; align-items:center; gap:12px; margin-bottom:12px;}
-  .support-card .avatar{
-    width:44px; height:44px; flex:none; border-radius:13px;
-    background:rgba(255,255,255,.22);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .support-card .avatar svg{width:21px; height:21px;}
-  .support-card .info strong{display:block; font-size:14.5px; font-weight:800; margin-bottom:2px;}
-  .support-card .info span{font-size:13px; opacity:.95; direction:ltr; display:inline-block; letter-spacing:.5px; font-weight:700;}
-  .support-links{display:grid; grid-template-columns:repeat(3,1fr); gap:7px;}
-  .s-link{
-    display:inline-flex; align-items:center; justify-content:center; gap:5px;
-    padding:8px 6px; border-radius:10px; font-size:12px; font-weight:800;
-    background:rgba(255,255,255,.18); color:#fff; border:1px solid rgba(255,255,255,.18);
-    transition:background .18s ease, transform .18s ease;
-  }
-  .s-link:hover{background:rgba(255,255,255,.30); transform:translateY(-1px);}
-  .s-link svg{width:14px; height:14px;}
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
 
-  .address-box{
-    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:13px;
-    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18);
-    border-radius:18px; padding:15px 16px;
-  }
-  .address-main{display:flex; align-items:flex-start; gap:12px; flex:1; min-width:220px;}
-  .address-box .avatar{
-    width:44px; height:44px; flex:none; border-radius:13px;
-    background:rgba(255,255,255,.22);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .address-box .avatar svg{width:21px; height:21px;}
-  .address-box .txt strong{display:block; font-size:14px; font-weight:800; margin-bottom:3px;}
-  .address-box .txt span{font-size:12.5px; opacity:.95; line-height:1.9;}
-  .address-actions{display:flex; gap:8px; flex-wrap:wrap;}
-  .copy-addr-btn{
-    display:inline-flex; align-items:center; gap:6px;
-    padding:9px 14px; border-radius:11px; font-size:12px; font-weight:800;
-    background:#fff; color:#6d28d9; box-shadow:0 4px 12px rgba(0,0,0,.15);
-    transition:transform .18s ease;
-  }
-  .copy-addr-btn svg{width:14px; height:14px;}
-  .copy-addr-btn:hover{transform:translateY(-2px);}
-  .map-btn{
-    display:inline-flex; align-items:center; gap:6px;
-    padding:9px 14px; border-radius:11px; font-size:12px; font-weight:800;
-    background:rgba(255,255,255,.2); color:#fff; border:1px solid rgba(255,255,255,.3);
-    transition:transform .18s ease;
-  }
-  .map-btn svg{width:14px; height:14px;}
-  .map-btn:hover{transform:translateY(-2px); background:rgba(255,255,255,.3);}
+    .btn-theme {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: transform 0.2s;
+    }
 
-  /* ===== Modal ===== */
-  .modal-backdrop{
-    position:fixed; inset:0; z-index:300;
-    background:rgba(18,32,26,.60);
-    display:flex; align-items:center; justify-content:center;
-    padding:20px; opacity:0; visibility:hidden;
-    transition:opacity .22s ease, visibility .22s ease;
-    overflow-y:auto;
-  }
-  [data-theme="dark"] .modal-backdrop{background:rgba(0,0,0,.75);}
-  .modal-backdrop.show{opacity:1; visibility:visible;}
-  .modal{
-    background:var(--surface); border-radius:24px;
-    padding:24px 20px 20px; max-width:440px; width:100%;
-    box-shadow:0 30px 70px rgba(20,45,35,.35);
-    transform:scale(.94) translateY(14px);
-    transition:transform .25s cubic-bezier(.2,.8,.25,1);
-    position:relative; overflow:hidden; margin:auto;
-  }
-  .modal::before{
-    content:""; position:absolute; top:0; left:0; right:0; height:5px;
-    background:linear-gradient(90deg,#a78bfa,#7c3aed,#14b8a6,#f97316);
-  }
-  .modal-backdrop.show .modal{transform:scale(1) translateY(0);}
-  .modal-close{
-    position:absolute; top:14px; left:14px;
-    width:34px; height:34px; border-radius:50%;
-    background:#f0f4f2; color:#5a6862; font-size:20px;
-    display:grid; place-items:center;
-  }
-  [data-theme="dark"] .modal-close{background:#26332c; color:#94a39b;}
-  .modal-icon{
-    width:60px; height:60px; border-radius:18px; margin:4px auto 12px;
-    background:linear-gradient(145deg, #ede9fe, #ddd6fe); color:#7c3aed;
-    display:flex; align-items:center; justify-content:center;
-  }
-  [data-theme="dark"] .modal-icon{background:linear-gradient(145deg, #2a1f4a, #1f1638); color:#a78bfa;}
-  .modal-icon svg{width:28px; height:28px;}
-  .modal h3{margin:0 0 6px; font-size:18px; font-weight:900; text-align:center; color:var(--ink);}
-  .modal .modal-sub{margin:0 0 16px; font-size:12.5px; color:var(--ink-soft); text-align:center; line-height:1.95;}
-  .modal-sub .item-name{
-    display:inline-block; font-weight:800; color:var(--brand-dark);
-    background:var(--brand-tint); border-radius:8px; padding:2px 10px; margin:0 3px;
-  }
-  [data-theme="dark"] .modal-sub .item-name{color:#c4b5fd;}
+    .btn-theme:hover {
+      transform: scale(1.05);
+    }
 
-  .contact-person{
-    background:color-mix(in srgb, var(--brand) 5%, var(--surface));
-    border:1px solid var(--line); border-radius:16px; padding:13px; margin-bottom:10px;
-  }
-  .contact-person .person-head{display:flex; align-items:center; gap:11px; margin-bottom:10px;}
-  .contact-person .person-head .avatar{
-    width:40px; height:40px; flex:none; border-radius:12px;
-    background:var(--brand-tint); color:var(--brand);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .contact-person .person-head .avatar svg{width:20px; height:20px;}
-  .contact-person .person-head strong{display:block; font-size:14px; font-weight:800; color:var(--ink);}
-  .contact-person .person-head span{font-size:12.5px; color:var(--brand-dark); font-weight:700; direction:ltr; display:inline-block;}
-  [data-theme="dark"] .contact-person .person-head span{color:#c4b5fd;}
+    .btn-call-top {
+      background: #ea580c;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.55rem 1.1rem;
+      border-radius: 99px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s;
+    }
 
-  .person-actions{display:grid; grid-template-columns:repeat(3,1fr); gap:8px;}
-  .act-btn{
-    display:inline-flex; align-items:center; justify-content:center; gap:6px;
-    padding:10px 8px; border-radius:11px; font-size:12.5px; font-weight:800; color:#fff;
-    transition:transform .16s ease;
-  }
-  .act-btn svg{width:15px; height:15px; flex:none;}
-  .act-btn:hover{transform:translateY(-2px);}
-  .act-call{background:linear-gradient(135deg,#f97316,#c2410c);}
-  .act-rubika{background:linear-gradient(135deg,#8b5cf6,#6d28d9);}
-  .act-eitaa{background:linear-gradient(135deg,#f59e0b,#d97706);}
+    .btn-call-top:hover {
+      background: #c2410c;
+    }
 
-  footer{text-align:center; color:var(--ink-soft); font-size:12px; padding:24px 18px 40px; line-height:2;}
-  footer b{color:var(--ink);}
+    /* بخش اصلی */
+    main {
+      max-width: 1200px;
+      margin: 1.5rem auto;
+      padding: 0 1.25rem;
+    }
 
-  .to-top{
-    position:fixed; left:18px; bottom:18px; z-index:70;
-    width:46px; height:46px; border-radius:50%;
-    background:#1e293b; color:#fff; font-size:20px;
-    display:grid; place-items:center;
-    box-shadow:0 8px 20px rgba(18,30,25,.25);
-    opacity:0; visibility:hidden; transform:translateY(10px);
-    transition:.22s ease;
-  }
-  [data-theme="dark"] .to-top{background:#7c3aed;}
-  .to-top.show{opacity:1; visibility:visible; transform:translateY(0);}
+    /* بنر اصلی (Hero) */
+    .hero {
+      background: var(--hero-gradient);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 2rem;
+    }
 
-  @media (max-width: 700px){
-    .hero{padding:24px 20px; border-radius:22px;}
-    .hero h1{font-size:22px;}
-    .items-grid, .cat-grid{grid-template-columns:1fr;}
-    .cat-hero{flex-direction:column; text-align:center; padding:18px;}
-    .section-head{flex-direction:column; align-items:flex-start; gap:8px;}
-  }
-  @media (max-width: 420px){
-    .brand-text span{display:none;}
-    .person-actions{grid-template-columns:1fr;}
-  }
-</style>
+    .hero-top-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge-glass {
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 0.4rem 0.9rem;
+      border-radius: 99px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* نشانگر وضعیت زنده باز/بسته بودن */
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .status-open .status-dot {
+      background-color: #4ade80;
+      box-shadow: 0 0 8px #4ade80;
+      animation: pulse 1.8s infinite;
+    }
+
+    .status-closed .status-dot {
+      background-color: #f87171;
+      box-shadow: 0 0 8px #f87171;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.9; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.9; }
+    }
+
+    .hero h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero p {
+      max-width: 680px;
+      font-size: 1rem;
+      opacity: 0.92;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .btn-white {
+      background: #ffffff;
+      color: #312e81;
+      padding: 0.7rem 1.4rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.92rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-outline-white {
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 0.7rem 1.4rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      transition: background 0.2s;
+    }
+
+    .btn-outline-white:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* نوار دسترسی سریع دسته‌بندی‌ها */
+    .quick-pills {
+      display: flex;
+      gap: 0.6rem;
+      overflow-x: auto;
+      padding-bottom: 0.75rem;
+      margin-bottom: 2rem;
+      scrollbar-width: thin;
+    }
+
+    .pill {
+      white-space: nowrap;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.5rem 1rem;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .pill:hover, .pill.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    /* بخش عنوان دسته‌بندی‌ها */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-header h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+    }
+
+    .count-tag {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 0.3rem 0.8rem;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* گرید کارت‌های دسته‌بندی (با آیکون‌های گرافیکی SVG بدون هیچ لینک شکسته) */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.15rem;
+      margin-bottom: 3rem;
+    }
+
+    .cat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+
+    .cat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+    }
+
+    .cat-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cat-visual {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cat-visual svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .cat-text h4 {
+      font-size: 1.02rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .cat-text span {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .cat-arrow {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-body);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: bold;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .cat-card:hover .cat-arrow {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    /* بخش نمایش لیست خدمات یک دسته یا نتایج جستجو */
+    .services-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow-sm);
+      display: none;
+    }
+
+    .services-panel.visible {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn-close-panel {
+      background: var(--bg-body);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.4rem 0.9rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .services-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .service-item {
+      background: var(--bg-body);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .service-item a {
+      text-decoration: none;
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* بخش ارتباط و آدرس */
+    .contact-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .contact-section h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-section > p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .contact-card {
+      background: var(--bg-body);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.25rem;
+    }
+
+    .contact-card h4 {
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .phone-number {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary);
+      direction: ltr;
+      display: inline-block;
+      margin-bottom: 0.85rem;
+    }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn-social {
+      padding: 0.45rem 0.9rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.84rem;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-social:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    @media (max-width: 640px) {
+      .hero h2 { font-size: 1.5rem; }
+      .hero { padding: 1.75rem 1.25rem; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ===== SPLASH ===== -->
-<div id="splash" aria-hidden="true">
-  <div class="sp-logo" id="splashLogo"></div>
-  <h1>خوش آمدید</h1>
-  <p>مرکز خدمات آنلاین جاوید</p>
-  <div class="sp-bar"></div>
-</div>
-
-<!-- ===== HEADER ===== -->
-<header>
-  <div class="header-top">
-    <a href="#home" class="brand" id="brandLink">
-      <span class="mark" id="brandIcon"></span>
-      <span class="brand-text">
-        <h2>مرکز خدمات آنلاین جاوید</h2>
-        <span>خدمات دولتی • بیمه • قبض • خودرو • مالیات • ثنا • چاپ</span>
-      </span>
-    </a>
-    <div class="header-actions">
-      <button class="theme-toggle" id="themeToggle" aria-label="تغییر حالت روشن/تاریک">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-      </button>
-      <button class="call-btn" id="headerCallBtn" aria-label="تماس سریع">
-        <span id="headerCallIcon"></span>
-        <span>تماس</span>
-      </button>
-    </div>
-  </div>
-
-  <div class="search-wrap" id="searchWrap">
-    <div class="search-box">
-      <span id="searchIcon"></span>
-      <input id="searchInput" type="text" placeholder="جستجوی خدمت... مثلاً: مالیات، خلافی، مای مدیو، بیمه نیروهای مسلح" aria-label="جستجوی خدمات">
-      <button class="search-clear" id="searchClear" type="button" aria-label="پاک کردن جستجو" hidden>×</button>
-    </div>
-  </div>
-</header>
-
-<!-- ===== MAIN ===== -->
-<main>
-  <section id="view-home" class="view">
-    <div class="hero">
-      <div class="hero-top-row">
-        <div class="hero-badge">⚡ سریع • مطمئن • انجام غیرحضوری و حضوری</div>
-        <div class="status-pill" id="shopStatus"></div>
-      </div>
-      <h1>خدمات آنلاین، <span>ساده و سریع</span></h1>
-      <p>تمامی امور اداری، دولتی، بانکی، بیمه، خودرو، مالیات، ثنا، مای مدیو و چاپ خود را بدون دردسر به ما بسپارید؛ کافیست تماس بگیرید یا در روبیکا و ایتا پیام دهید.</p>
-      <div class="hero-actions">
-        <button class="hero-btn hero-call" id="heroCallBtn" type="button"></button>
-        <button class="hero-btn hero-browse" id="heroBrowseBtn" type="button">مشاهده خدمات ↓</button>
-      </div>
-    </div>
-
-    <div class="quick-chips" id="quickChips"></div>
-
-    <div id="categoriesSection">
-      <div class="section-head">
-        <div class="titles">
-          <span class="eyebrow">دسته‌بندی خدمات</span>
-          <h2>چه کاری می‌خواهید انجام دهید؟</h2>
+  <!-- هدر -->
+  <header>
+    <div class="nav-container">
+      <a href="#home" class="brand" onclick="resetView()">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-text">
+          <h1>مرکز خدمات آنلاین جاوید</h1>
+          <p>خدمات دولتی • بیمه • خودرو • مالیات • ثنا • چاپ</p>
         </div>
-        <span class="hint" id="totalCount"></span>
-      </div>
-      <div class="cat-grid" id="catGrid"></div>
-    </div>
-
-    <div id="searchResults"></div>
-
-    <section class="support-section" id="supportSection">
-      <h3>پشتیبانی و ارتباط مستقیم</h3>
-      <p class="lead">برای استعلام هزینه، ارسال مدارک یا انجام فوری خدمات، از طریق تماس تلفنی یا پیام‌رسان‌های روبیکا و ایتا با ما در ارتباط باشید.</p>
-      <div class="support-grid" id="supportGrid"></div>
-      <div class="address-box" id="addressBox"></div>
-    </section>
-  </section>
-
-  <section id="view-category" class="view">
-    <a href="#home" class="back-link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      بازگشت به همه خدمات
-    </a>
-    <div id="categoryContent"></div>
-  </section>
-</main>
-
-<!-- ===== MODAL ===== -->
-<div class="modal-backdrop" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal">
-    <button class="modal-close" id="modalClose" aria-label="بستن">×</button>
-    <div class="modal-icon" id="modalIcon"></div>
-    <h3 id="modalTitle">سفارش و انجام خدمت</h3>
-    <p class="modal-sub" id="modalSub"></p>
-    <div class="phone-list" id="modalPhones"></div>
-  </div>
-</div>
-
-<button class="to-top" id="toTop" aria-label="بازگشت به بالا">↑</button>
-
-<footer>
-  © تمامی حقوق برای <b>مرکز خدمات آنلاین جاوید</b> محفوظ است — <b>قیمت تمامی خدمات توافقی می‌باشد.</b>
-</footer>
-
-<script>
-/* ============================================================
-   اطلاعات پشتیبانی
-============================================================ */
-const SUPPORT = [
-  { name: "محمد جاوید", phone: "09142552768", display: "0914 255 2768", rubikaId: "09142552768", eitaaId: "09142552768" },
-  { name: "هادی جاوید",  phone: "09195080321", display: "0919 508 0321", rubikaId: "09195080321", eitaaId: "09195080321" }
-];
-const ADDRESS = "تهران، شهرک ولیعصر، خیابان سجادی جنوبی، کوچه صاحب‌الزمان غربی، مغازه جاوید";
-
-/* ============================================================
-   آیکون‌ها
-============================================================ */
-const ICON_PATHS = {
-  briefcase:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="3" y1="12.5" x2="21" y2="12.5"/>',
-  shield:'<path d="M12 2.5l7.5 3.2V11c0 5-3.2 8.6-7.5 10.5C7.7 19.6 4.5 16 4.5 11V5.7L12 2.5z"/>',
-  idcard:'<rect x="2.5" y="5.5" width="19" height="13" rx="2"/><circle cx="8.2" cy="12" r="2"/><line x1="13" y1="9.7" x2="18.5" y2="9.7"/><line x1="13" y1="13.3" x2="18.5" y2="13.3"/>',
-  gavel:'<line x1="12" y1="3" x2="12" y2="21"/><path d="M5 7h14"/><path d="M8 7l-3.2 6.2a3.2 3.2 0 0 0 6.4 0z"/><path d="M19.2 7l-3.2 6.2a3.2 3.2 0 0 0 6.4 0z"/>',
-  lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/>',
-  car:'<path d="M3.5 13l1.4-4.3A2 2 0 0 1 6.8 7.3h10.4a2 2 0 0 1 1.9 1.4L20.5 13"/><rect x="2.5" y="13" width="19" height="6" rx="2"/><circle cx="7.5" cy="19.3" r="1.5"/><circle cx="16.5" cy="19.3" r="1.5"/>',
-  motorcycle:'<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h5.5l2.7-5.4h-4L11.2 15H9z"/><path d="M13.5 8h4.2"/><path d="M17.7 8l1.3 4"/>',
-  fuel:'<path d="M6.5 3h6.5v18H6.5z"/><line x1="6.5" y1="10" x2="13" y2="10"/><path d="M13 8.3h1.8a2 2 0 0 1 2 2V16a1.4 1.4 0 0 0 2.8 0V9.2l-2.1-2.1"/>',
-  road:'<path d="M9.5 3L4.5 21"/><path d="M14.5 3l5 18"/><line x1="12" y1="5.5" x2="12" y2="8"/><line x1="12" y1="11" x2="12" y2="13.5"/><line x1="12" y1="16.5" x2="12" y2="19"/>',
-  water:'<path d="M12 3.2s6.5 7 6.5 11.3a6.5 6.5 0 0 1-13 0C5.5 10.2 12 3.2 12 3.2z"/>',
-  bolt:'<polygon points="13 2 4.5 14 11 14 10 22 19.5 10 13 10"/>',
-  flame:'<path d="M12 2.5c1.6 2.4-1.3 3.6-1.6 6a3.6 3.6 0 0 0 7.2 0c0-1.8-.9-2.9-1.8-4.4.6 3.3-1.7 3.4-1.8 1-.1-1.1-1-1.7-2-2.6z"/>',
-  mobile:'<rect x="7.5" y="2.5" width="9" height="19" rx="2"/><line x1="10.8" y1="18" x2="13.2" y2="18"/>',
-  phone:'<path d="M4.5 4.8c-.4 6.8 4 15.7 14.7 14.7l1.3-4-4.3-1.7-1.6 1.9c-2.4-1.1-4-2.8-5-5l1.9-1.6-1.7-4.3z"/>',
-  train:'<rect x="5.5" y="3" width="13" height="13.5" rx="3.5"/><circle cx="9" cy="14" r="1.1"/><circle cx="15" cy="14" r="1.1"/><path d="M8 20.5l-2 2M16 20.5l2 2"/><line x1="5.5" y1="9" x2="18.5" y2="9"/>',
-  plane:'<path d="M21.5 12.2l-8-2.7-2.8-6.3-1.8.9 1.8 5.6-6.2 1.8v1.8l6.2 1.8-1.8 5.6 1.8.9 2.8-6.3 8-2.7z"/>',
-  bus:'<rect x="3.5" y="5" width="17" height="12" rx="2.2"/><circle cx="7.5" cy="19" r="1.4"/><circle cx="16.5" cy="19" r="1.4"/><line x1="3.5" y1="11" x2="20.5" y2="11"/>',
-  graduation:'<path d="M12 3.5L2.5 8l9.5 4.5L21.5 8 12 3.5z"/><path d="M6.2 10.2v4.4c0 1.5 2.9 3 5.8 3s5.8-1.5 5.8-3v-4.4"/>',
-  mail:'<rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M3.3 6.5l8.7 6.7 8.7-6.7"/>',
-  calendar:'<rect x="3.5" y="5" width="17" height="16" rx="2"/><line x1="3.5" y1="10" x2="20.5" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/>',
-  bank:'<path d="M3 10L12 4l9 6"/><rect x="4.5" y="10" width="15" height="8.5"/><line x1="2.5" y1="20.5" x2="21.5" y2="20.5"/>',
-  percent:'<line x1="19" y1="5" x2="5" y2="19"/><circle cx="7" cy="7" r="2.3"/><circle cx="17" cy="17" r="2.3"/>',
-  printer:'<path d="M6.5 9V3.5h11V9"/><rect x="4" y="9" width="16" height="7.5" rx="1.5"/><path d="M6.5 16.5h11v4.5h-11z"/>',
-  pen:'<path d="M3.5 20.5l3.7-.9L18.6 8.2l-2.8-2.8L4.4 16.8z"/><path d="M14.4 4.4l3 3"/>',
-  megaphone:'<path d="M3.5 10v4.2h4l7 3.8V6.2l-7 3.8z"/><path d="M14.5 9a3.3 3.3 0 0 1 0 6.2"/>',
-  ruler:'<path d="M3.3 16.7L16.7 3.3l4 4L7.3 20.7z"/><line x1="9.5" y1="10.5" x2="11.3" y2="12.3"/><line x1="12.3" y1="7.7" x2="14.1" y2="9.5"/>',
-  passport:'<rect x="4.5" y="2.5" width="15" height="19" rx="2"/><circle cx="12" cy="10" r="2.8"/><line x1="8.3" y1="16.7" x2="15.7" y2="16.7"/>',
-  wallet:'<rect x="2.5" y="6" width="19" height="13.5" rx="2"/><path d="M15.5 12.2h4.5v4H15.5a2 2 0 0 1 0-4z"/>',
-  receipt:'<path d="M6 2.5v19l2.6-1.7 2.6 1.7 2.6-1.7 2.6 1.7 2.6-1.7v-19z"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="9" y1="12" x2="15" y2="12"/>',
-  pin:'<path d="M12 21s7-6.7 7-12.2A7 7 0 0 0 5 8.8C5 14.3 12 21 12 21z"/><circle cx="12" cy="8.8" r="2.4"/>',
-  money:'<rect x="2.5" y="6.5" width="19" height="11" rx="2"/><circle cx="12" cy="12" r="2.7"/>',
-  search:'<circle cx="10.5" cy="10.5" r="6.5"/><line x1="19.5" y1="19.5" x2="15.3" y2="15.3"/>',
-  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>',
-  tag:'<path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
-  bellRing:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
-  chat:'<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
-  award:'<circle cx="12" cy="9" r="6"/><path d="M9 14.5L8 22l4-2 4 2-1-7.5"/>',
-  city:'<path d="M3 21V8l7-5 7 5v13"/><path d="M3 21h18"/><rect x="9" y="12" width="6" height="6"/>',
-  heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>',
-  home:'<path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2z"/>',
-  fileText:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/>',
-  clipboard:'<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/>',
-  wifi:'<path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><line x1="12" y1="20" x2="12" y2="20"/>',
-  wrench:'<path d="M14.7 6.3a4 4 0 0 0 5 5l-2.6 2.6-2.4-2.4L4.3 22l-2.3-2.3 10.3-10.4-2.4-2.4z"/>',
-  phoneOff:'<path d="M3 3l18 18"/><path d="M8.5 8.5A11 11 0 0 0 3.5 18l3.8 3 3-3.7"/>',
-  scan:'<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><line x1="3" y1="12" x2="21" y2="12"/>',
-  book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
-  image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
-  school:'<path d="M3 10l9-5 9 5"/><path d="M5 10v10h14V10"/><rect x="9" y="14" width="6" height="6"/>',
-  star:'<polygon points="12 2 15 9 22 9.3 17 14 18.5 21 12 17.5 5.5 21 7 14 2 9.3 9 9"/>',
-  layers:'<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
-  copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
-  mapPin:'<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>'
-};
-function icon(key, cls){
-  const inner = ICON_PATHS[key] || ICON_PATHS.briefcase;
-  return `<svg class="${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
-}
-
-/* ============================================================
-   داده‌های کامل خدمات (همراه با بیمه نیروهای مسلح و مای مدیو)
-============================================================ */
-const DATA = [
-  { id:"services", icon:"briefcase", title:"خدمات عمومی و دولتی", accent:"#0d9488", tint:"#e6fffa", items:[
-    { name:"وام ازدواج", icon:"money", price:"تعرفه ثبت‌نام", desc:"از ۱۱ صبح الی ۱۷ عصر باز است — مبلغ وام ۳۰۰ تا ۳۵۰ میلیون تومان", docs:"کارت ملی زوجین، شناسنامه، کد پستی، شماره شبا و سیم‌کارت به نام متقاضی" },
-    { name:"وام فرزندآوری", icon:"money", price:"تعرفه ثبت‌نام", desc:"از ۱۱ صبح الی ۱۷ عصر باز است — مبلغ وام هر فرزند ۴۴ میلیون تومان", docs:"کارت ملی والدین، شناسنامه فرزند، کد پستی و سیم‌کارت به نام سرپرست" },
-    { name:"سجام (احراز هویت و ثبت‌نام)", icon:"idcard", price:"توافقی", docs:"کارت ملی، شماره شبا بانکی، کد پستی و سیم‌کارت به نام شخص" },
-    { name:"همیاب ۲۴ (گوشی سرقتی)", icon:"mobile", price:"توافقی", desc:"ثبت گوشی سرقتی و مفقودی شما در سامانه سراسری", docs:"کد IMEI (روی جعبه گوشی)، کارت ملی و سیم‌کارت به نام مالک" },
-    { name:"تاییدیه پستی (کد پستی)", icon:"mail", price:"تعرفه دولتی + کارمزد", docs:"کد پستی ۱۰ رقمی، کد ملی و شماره همراه" },
-    { name:"گواهینامه یک روزه موتور", icon:"idcard", price:"توافقی", docs:"اصل شناسنامه و کارت ملی، عکس پرسنلی و سیم‌کارت به نام" },
-    { name:"کارت سوخت (ثبت‌نام و پیگیری)", icon:"fuel", price:"توافقی", docs:"کارت ماشین یا برگ سبز، کارت ملی مالک و شماره موبایل به نام" },
-    { name:"اعتبار سنجی بانکی", icon:"idcard", price:"تعرفه دولتی + کارمزد", docs:"کد ملی و سیم‌کارت به نام متقاضی" },
-    { name:"دوگانه سوز خودرو", icon:"fuel", price:"توافقی", docs:"برگ سبز خودرو، کارت ملی مالک و کد پستی" },
-    { name:"گواهینامه مهارت", icon:"award", price:"توافقی", docs:"کد ملی، مشخصات دوره آموزشی و شماره همراه" },
-    { name:"استعلام گواهینامه مهارت", icon:"award", price:"توافقی", docs:"کد ملی و کد پیگیری گواهینامه" },
-    { name:"ثبت نام کارت ملی هوشمند", icon:"idcard", price:"توافقی", docs:"اصل شناسنامه، کد پستی و شماره موبایل به نام" },
-    { name:"ثبت نام تهران من", icon:"city", price:"توافقی", docs:"کارت ملی، کارت خودرو و شماره همراه" },
-    { name:"سخا (خدمات الکترونیک انتظامی)", icon:"heart", price:"توافقی", docs:"کد ملی و رمز سخا (یا سیم‌کارت به نام برای بازیابی)" },
-    { name:"املاک و اسکان", icon:"home", price:"توافقی", docs:"کد پستی محل سکونت، کد رهگیری یا سند و سیم‌کارت به نام سرپرست" },
-    { name:"دریافت جواب آزمایش", icon:"fileText", price:"توافقی", docs:"کد ملی و کد پیگیری آزمایشگاه" },
-    { name:"وام مستاجری (ودیعه مسکن)", icon:"money", price:"توافقی", docs:"اجاره‌نامه دارای کد رهگیری، کارت ملی، شناسنامه و گواهی اشتغال" },
-    { name:"ثبت نام سماح (اربعین)", icon:"clipboard", price:"توافقی", docs:"گذرنامه معتبر، کارت ملی، کد پستی و شماره همراه" },
-    { name:"قولنامه کد رهگیری دار", icon:"fileText", price:"توافقی", docs:"مدارک هویتی طرفین، سند ملک و کد پستی" },
-    { name:"گواهی اشتغال به تحصیل", icon:"graduation", price:"توافقی", docs:"کد ملی و مشخصات محل تحصیل" },
-    { name:"گواهی اشتغال به کار", icon:"briefcase", price:"توافقی", docs:"کد ملی و مشخصات محل کار" },
-  ]},
-
-  { id:"insurance", icon:"shield", title:"بیمه و تامین اجتماعی", accent:"#2563eb", tint:"#eff6ff",
-    subgroups:[
-      { title:"سازمان تامین اجتماعی", items:[
-        { name:"سابقه بیمه تامین اجتماعی", icon:"idcard", price:"توافقی", docs:"کد ملی و رمز سامانه تامین اجتماعی (یا سیم‌کارت به نام)" },
-        { name:"پرداخت بیمه تامین اجتماعی", icon:"wallet", price:"توافقی", docs:"کد ملی و شماره همراه" },
-        { name:"ثبت افراد تحت تکفل", icon:"idcard", price:"توافقی", docs:"شناسنامه و کارت ملی بیمه‌شده و افراد تحت تکفل" },
-        { name:"فیش حقوقی بازنشستگان", icon:"receipt", price:"توافقی", docs:"کد ملی و شماره مستمری" },
-        { name:"کسر از حقوق", icon:"receipt", price:"توافقی", docs:"کد ملی و کد کارگاهی یا مستمری" },
-        { name:"حکم مستمری (افزایش حقوق)", icon:"receipt", price:"توافقی", docs:"کد ملی و سیم‌کارت به نام بازنشسته" },
-      ]}
-    ],
-    items:[
-      { name:"بیمه نیروهای مسلح", icon:"shield", price:"توافقی", desc:"خدمات درمانی، استعلام پوشش، ثبت‌نام و امور الکترونیک بیمه نیروهای مسلح (سخا / ساتا)", docs:"کد ملی، شماره کارت حکمت یا دفترچه و سیم‌کارت به نام" },
-      { name:"پرداخت بیمه ملت", icon:"shield", price:"توافقی", docs:"شناسه قبض یا شماره بیمه‌نامه" },
-      { name:"اقساط بیمه ایران", icon:"shield", price:"توافقی", docs:"شناسه پرداخت یا شماره بیمه‌نامه" },
-      { name:"پرداخت بیمه پاسارگاد", icon:"shield", price:"توافقی", docs:"شماره بیمه‌نامه یا کد ملی" },
-      { name:"یافتن ادامه قبض بیمه پاسارگاد", icon:"receipt", price:"توافقی", docs:"کد ملی بیمه‌گذار و شماره بیمه‌نامه" },
-      { name:"بیمه ورزشی", icon:"shield", price:"تعرفه دولتی + کارمزد", docs:"کد ملی، تاریخ تولد و شماره موبایل" },
-      { name:"بیمه سلامت ایران", icon:"shield", price:"توافقی", docs:"کد ملی سرپرست و اعضای خانواده + کد پستی" },
-      { name:"پرداخت بیمه کشاورزی", icon:"shield", price:"توافقی", docs:"کد ملی و شماره بیمه‌نامه" },
-      { name:"سابقه بیمه کشاورزی", icon:"idcard", price:"توافقی", docs:"کد ملی و سیم‌کارت به نام" },
-      { name:"وام بازنشستگی", icon:"money", price:"توافقی", docs:"کارت ملی، شماره حساب رفاه و سیم‌کارت به نام بازنشسته" },
-      { name:"بیمه اربعین", icon:"shield", price:"تعرفه مصوب", docs:"کد ملی، شماره گذرنامه و شماره همراه" },
-      { name:"پرداخت بیمه سرمد", icon:"shield", price:"توافقی", docs:"شناسه قبض یا کد ملی" },
-      { name:"ثبت نام بیمه تکمیلی", icon:"heart", price:"توافقی", docs:"کد ملی و مشخصات بیمه‌شده پایه" },
-      { name:"پرداخت بیمه اختیاری", icon:"shield", price:"توافقی", docs:"کد ملی و شماره همراه" },
-      { name:"پرداخت بیمه مشاغل آزاد", icon:"briefcase", price:"توافقی", docs:"کد ملی و شماره همراه" },
-      { name:"پرداخت بیمه کارگر ساختمانی", icon:"shield", price:"توافقی", docs:"کد ملی و کارت مهارت" },
-      { name:"پرداخت بیمه زنان خانه دار", icon:"home", price:"توافقی", docs:"کد ملی و شماره همراه" },
-      { name:"پرداخت بیمه رانندگان", icon:"car", price:"توافقی", docs:"کد ملی و کارت هوشمند راننده" },
-    ]
-  },
-
-  { id:"education", icon:"graduation", title:"آموزش و پرورش و مای مدیو", accent:"#7c3aed", tint:"#f3f0ff", items:[
-    { name:"مای مدیو (my.medu.ir)", icon:"school", price:"توافقی", desc:"ورود به درگاه یکپارچه آموزش و پرورش، دریافت کارنامه، ثبت‌نام مدارس، انتخاب رشته و تاییدیه تحصیلی", docs:"کد ملی دانش‌آموز و شماره سریال شناسنامه (یا شماره همراه ثبت‌شده در سامانه)" },
-    { name:"کنکور (ثبت‌نام و دریافت کارت)", icon:"graduation", price:"توافقی", docs:"شناسنامه، کارت ملی، عکس پرسنلی، کد سوابق تحصیلی و کد پستی" },
-    { name:"سنجش (اعلام نتایج و اعتراض)", icon:"graduation", price:"توافقی", docs:"کد ملی، شماره پرونده و کد رهگیری سنجش" },
-    { name:"تاییدیه مدارک تحصیلی", icon:"idcard", price:"تعرفه دولتی + کارمزد", docs:"کد ملی، کد دانش‌آموزی و نام منطقه آموزشی" },
-    { name:"کارنامه تحصیلی", icon:"receipt", price:"توافقی", docs:"کد ملی دانش‌آموز و سریال شناسنامه" },
-    { name:"ثبت نام آزمون غربالگری", icon:"clipboard", price:"توافقی", docs:"کد ملی دانش‌آموز و رمز مای مدیو" },
-    { name:"ثبت نام آزمون استعداد یابی", icon:"award", price:"توافقی", docs:"کد ملی دانش‌آموز و اطلاعات هویتی" },
-    { name:"پیش ثبت نام مدرسه", icon:"school", price:"توافقی", docs:"کد ملی دانش‌آموز و والدین + کد پستی محل سکونت" },
-    { name:"ثبت نام کتاب درسی", icon:"book", price:"توافقی", docs:"کد ملی دانش‌آموز و سریال شناسنامه" },
-    { name:"سرویس مدرسه (سپند)", icon:"bus", price:"توافقی", docs:"کد ملی دانش‌آموز، کد پستی منزل و آدرس مدرسه" },
-  ]},
-
-  { id:"car", icon:"car", title:"ماشین و موتور", accent:"#e11d48", tint:"#fff1f2", items:[
-    { name:"استعلام و پرداخت خلافی خودرو", icon:"road", price:"استعلام لحظه‌ای", docs:"شماره پلاک، کد ملی و شماره موبایل مالک" },
-    { name:"استعلام و پرداخت خلافی موتور", icon:"motorcycle", price:"استعلام لحظه‌ای", docs:"شماره پلاک موتور، کد ملی و شماره موبایل مالک" },
-    { name:"استعلام و پرداخت مالیات نقل و انتقال", icon:"percent", price:"توافقی", docs:"برگ سبز خودرو و کارت ملی فروشنده" },
-    { name:"استعلام و پرداخت طرح ترافیک", icon:"road", price:"توافقی", docs:"شماره پلاک و کد ملی مالک" },
-    { name:"استعلام و پرداخت عوارض آزادراه", icon:"road", price:"توافقی", docs:"شماره پلاک خودرو" },
-    { name:"استعلام و پرداخت عوارض سالیانه (شهرداری)", icon:"receipt", price:"توافقی", docs:"شماره پلاک و کد ملی مالک" },
-    { name:"شارژ آزادراهی", icon:"wallet", price:"آنی", docs:"شماره پلاک خودرو" },
-    { name:"نوبت نمایندگی سایپا", icon:"calendar", price:"توافقی", docs:"شماره شاسی یا پلاک و شماره تماس" },
-    { name:"نوبت نمایندگی ایران خودرو", icon:"calendar", price:"توافقی", docs:"شماره شاسی یا پلاک و شماره تماس" },
-    { name:"بیمه شخص ثالث", icon:"shield", price:"استعلام قیمت", docs:"کارت خودرو یا بیمه‌نامه قبلی و کد ملی مالک" },
-    { name:"استعلام بیمه شخص ثالث", icon:"shield", price:"توافقی", desc:"با پلاک و کد ملی شخص انجام می‌شود", docs:"شماره پلاک و کد ملی مالک" },
-    { name:"نوبت دهی تعویض پلاک", icon:"calendar", price:"توافقی", docs:"کارت ملی خریدار/فروشنده، شماره پلاک و سیم‌کارت به نام" },
-  ]},
-
-  { id:"sana", icon:"gavel", title:"ثنا و خدمات قضایی", accent:"#a21caf", tint:"#fdf4ff", items:[
-    { name:"ابلاغیه قضایی", icon:"bellRing", price:"توافقی", desc:"مشاهده و پیگیری ابلاغیه‌های قضایی در سامانه ثنا", docs:"کد ملی و رمز شخصی ثنا (یا سیم‌کارت به نام)" },
-    { name:"فرم ثنا (برگه اطلاعات ثنا)", icon:"fileText", price:"توافقی", docs:"کد ملی و رمز ثنا" },
-    { name:"ثبت نام و احراز هویت ثنا", icon:"idcard", price:"توافقی", docs:"کارت ملی، شناسنامه، کد پستی و سیم‌کارت به نام" },
-    { name:"دریافت رمز ثنا (رمز شخصی)", icon:"lock", price:"توافقی", docs:"کد ملی و سیم‌کارت ثبت‌شده در ثنا" },
-    { name:"دریافت سوء پیشینه", icon:"idcard", price:"تعرفه دولتی + کارمزد", docs:"کد ملی، ثبت‌نام ثنا و سیم‌کارت به نام" },
-    { name:"تغییر اطلاعات ثنا", icon:"idcard", price:"توافقی", docs:"کد ملی، رمز ثنا و مدارک جدید" },
-    { name:"تایپ و چاپ لایحه دادگاه", icon:"pen", price:"توافقی", docs:"متن دست‌نویس یا توضیحات پرونده" },
-    { name:"پیگیری پرونده قضایی", icon:"gavel", price:"توافقی", docs:"شماره پرونده ۱۶ رقمی، رمز پرونده و کد ملی" },
-    { name:"نوبت دهی قضایی", icon:"calendar", price:"توافقی", docs:"کد ملی و شماره همراه" },
-  ]},
-
-  { id:"tax", icon:"percent", title:"مالیات و کارتخوان", accent:"#ea580c", tint:"#fff7ed", items:[
-    { name:"ثبت نام اظهارنامه مالیاتی", icon:"receipt", price:"توافقی", docs:"کد ملی، رمز درگاه مالیات (یا سیم‌کارت به نام) و شماره شبا" },
-    { name:"پرداخت قبض مالیات", icon:"wallet", price:"توافقی", docs:"شناسه قبض مالیاتی یا کد ملی" },
-    { name:"ثبت نام و تشکیل پرونده مالیاتی", icon:"idcard", price:"توافقی", docs:"کارت ملی، کد پستی محل کسب و جواز کسب" },
-    { name:"دریافت کد اقتصادی", icon:"idcard", price:"توافقی", docs:"کد ملی و کد پستی واحد صنفی" },
-    { name:"ثبت نام گام ۴ مالیات", icon:"idcard", price:"توافقی", docs:"کد ملی و سیم‌کارت به نام مودی" },
-    { name:"پیگیری پرونده مالیاتی", icon:"gavel", price:"توافقی", docs:"کد ملی و رمز سامانه مالیاتی" },
-    { name:"مشاهده و پرداخت بدهی مالیاتی", icon:"wallet", price:"توافقی", docs:"کد ملی و سیم‌کارت به نام" },
-    { name:"ابلاغیه‌های مالیاتی", icon:"mail", price:"توافقی", docs:"کد ملی و رمز درگاه مالیاتی" },
-    { name:"تغییر اطلاعات مودی", icon:"idcard", price:"توافقی", docs:"کد ملی و مدارک جدید" },
-    { name:"ثبت شماره حساب / حساب‌های بانکی", icon:"bank", price:"توافقی", docs:"کد ملی و شماره شبا حساب‌های تجاری" },
-    { name:"غیرفعال سازی کارتخوان", icon:"lock", price:"توافقی", docs:"کد ملی مالک کارتخوان و شماره پایانه" },
-  ]},
-
-  { id:"bills", icon:"receipt", title:"قبض و سیم‌کارت", accent:"#0891b2", tint:"#ecfeff", items:[
-    { name:"قبض آب", icon:"water", price:"آنی", docs:"شناسه قبض و شناسه پرداخت (یا شماره اشتراک)" },
-    { name:"قبض برق", icon:"bolt", price:"آنی", docs:"شناسه قبض و شناسه پرداخت" },
-    { name:"قبض گاز", icon:"flame", price:"آنی", docs:"شماره اشتراک یا شناسه قبض" },
-    { name:"پرداخت بدهی ایرانسل", icon:"mobile", price:"آنی", docs:"شماره خط ایرانسل" },
-    { name:"پرداخت بدهی رایتل", icon:"mobile", price:"آنی", docs:"شماره خط رایتل" },
-    { name:"پرداخت بدهی همراه اول", icon:"mobile", price:"آنی", docs:"شماره خط همراه اول" },
-    { name:"پرداخت تلفن ثابت", icon:"phone", price:"آنی", docs:"شماره تلفن ثابت با کد شهر" },
-    { name:"وصل قطعی تلفن ثابت", icon:"phone", price:"آنی", docs:"شماره تلفن ثابت با کد شهر" },
-    { name:"شارژ مددجویان (زندانیان)", icon:"wallet", price:"آنی", docs:"کد ملی مددجو و نام زندان" },
-    { name:"عوارض خروج از کشور", icon:"passport", price:"تعرفه دولتی + کارمزد", docs:"کد ملی مسافر" },
-    { name:"بسته اینترنت همراه اول و ایرانسل و رایتل", icon:"wifi", price:"آنی", docs:"شماره موبایل" },
-    { name:"وصل خرابی تلفن", icon:"wrench", price:"توافقی", docs:"شماره تلفن ثابت و شماره همراه" },
-    { name:"وصل قطعی همراه اول و ایرانسل و رایتل", icon:"phoneOff", price:"آنی", docs:"شماره موبایل" },
-  ]},
-
-  { id:"travel", icon:"plane", title:"بلیط سفر", accent:"#4f46e5", tint:"#eef2ff", items:[
-    { name:"بلیط قطار", icon:"train", price:"نرخ مصوب", docs:"کد ملی، تاریخ تولد مسافران و تاریخ حرکت" },
-    { name:"بلیط هواپیما", icon:"plane", price:"نرخ مصوب", docs:"کارت ملی (یا پاسپورت برای پرواز خارجی)" },
-    { name:"بلیط اتوبوس", icon:"bus", price:"نرخ مصوب", docs:"کد ملی مسافر و مقصد" },
-  ]},
-
-  { id:"carreg", icon:"car", title:"ثبت نام ماشین", accent:"#16a34a", tint:"#f0fdf4", items:[
-    { name:"ثبت نام ایران خودرو", icon:"car", price:"توافقی", docs:"کارت ملی، گواهینامه، شماره شبا، کد پستی و سیم‌کارت به نام" },
-    { name:"ثبت نام سایپا", icon:"car", price:"توافقی", docs:"کارت ملی، گواهینامه، شماره شبا، کد پستی و سیم‌کارت به نام" },
-    { name:"ثبت نام بهمن موتور", icon:"car", price:"توافقی", docs:"کارت ملی، گواهینامه، شماره شبا، کد پستی و سیم‌کارت به نام" },
-  ]},
-
-  { id:"subsidy", icon:"wallet", title:"یارانه و کالابرگ", accent:"#d97706", tint:"#fef3c7", items:[
-    { name:"استعلام و اعتراض به یارانه", icon:"money", price:"توافقی", docs:"کد ملی سرپرست خانوار و سیم‌کارت به نام" },
-    { name:"استعلام و اعتراض کالابرگ", icon:"receipt", price:"توافقی", docs:"کد ملی سرپرست خانوار" },
-  ]},
-
-  { id:"print", icon:"printer", title:"چاپ، تایپ و فتوشاپ", accent:"#475569", tint:"#f1f5f9",
-    note:"تمامی چاپ‌ها به صورت سیاه و سفید می‌باشند و برگه‌ها به صورت A4 هستند.",
-    items:[
-      { name:"کپی", icon:"printer", price:"بر اساس تعداد" },
-      { name:"پرینت", icon:"printer", price:"بر اساس تعداد" },
-      { name:"تایپ و چاپ آگهی استخدامی", icon:"megaphone", price:"توافقی" },
-      { name:"تایپ و چاپ آگهی فروش", icon:"megaphone", price:"توافقی" },
-      { name:"انواع تایپ", icon:"pen", price:"بر اساس صفحه" },
-      { name:"اندازه گیری طرح تتو", icon:"ruler", price:"توافقی" },
-      { name:"اسکن", icon:"scan", price:"توافقی" },
-      { name:"فکس", icon:"printer", price:"توافقی" },
-      { name:"تحقیق", icon:"book", price:"توافقی" },
-      { name:"فتوشاپ", icon:"image", price:"توافقی" },
-    ]
-  },
-];
-
-/* ============================================================
-   Utilities
-============================================================ */
-function normalizeText(v){
-  return String(v || "").toLowerCase()
-    .replace(/ي/g,"ی").replace(/ى/g,"ی").replace(/ك/g,"ک")
-    .replace(/[\u200c\u200f\u200e]/g," ")
-    .replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
-    .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
-    .replace(/\s+/g," ").trim();
-}
-function escapeHTML(s){
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function categoryCount(cat){
-  return (cat.items ? cat.items.length : 0) + (cat.subgroups ? cat.subgroups.reduce((a,s) => a + s.items.length, 0) : 0);
-}
-function findCategory(id){ return DATA.find(c => c.id === id); }
-function rubikaLink(id){ return `https://rubika.ir/${id}`; }
-function eitaaLink(id){ return `https://eitaa.com/${id}`; }
-
-/* ============================================================
-   Templates
-============================================================ */
-function categoryCardHTML(cat){
-  return `
-    <a class="cat-card" href="#cat-${cat.id}" style="--accent:${cat.accent}; --tint:${cat.tint};">
-      <span class="cat-icon">${icon(cat.icon)}</span>
-      <span class="cat-info">
-        <h3>${escapeHTML(cat.title)}</h3>
-        <span class="cat-meta">${categoryCount(cat)} خدمت</span>
-      </span>
-      <span class="cat-arrow">‹</span>
-    </a>`;
-}
-
-function itemCardHTML(catId, item, idx, accent){
-  const priceLabel = item.price || "توافقی";
-  const desc = item.desc ? `<p class="item-desc">${escapeHTML(item.desc)}</p>` : "";
-  const docs = item.docs ? `<div class="item-docs"><strong>مدارک لازم:</strong> ${escapeHTML(item.docs)}</div>` : "";
-  return `
-    <article class="item-card" style="--accent:${accent}; --tint:${accent}15;">
-      <div class="item-media">
-        <span class="price-corner">${icon('tag')}<span>${escapeHTML(priceLabel)}</span></span>
-        ${icon(item.icon)}
-      </div>
-      <div class="item-body">
-        <h4 class="item-title">${escapeHTML(item.name)}</h4>
-        ${desc}
-        ${docs}
-        <div class="item-foot">
-          <button class="contact-btn" type="button" data-action="contact" data-name="${escapeHTML(item.name)}">
-            ${icon('phone')}<span>درخواست انجام کار</span>
-          </button>
-        </div>
-      </div>
-    </article>`;
-}
-
-function renderCategoryView(cat){
-  let html = `
-    <div class="cat-hero" style="--accent:${cat.accent}; --tint:${cat.tint};">
-      <div class="cat-hero-icon">${icon(cat.icon)}</div>
-      <div class="cat-hero-text">
-        <h1>${escapeHTML(cat.title)}</h1>
-        <p>${categoryCount(cat)} خدمت فعال — برای انجام هر کار روی دکمه درخواست بزنید.</p>
-      </div>
-    </div>`;
-
-  if(cat.note){
-    html += `
-      <div class="cat-note-box" style="--accent:${cat.accent};">
-        ${icon('printer')}<span>${escapeHTML(cat.note)}</span>
-      </div>`;
-  }
-
-  if(cat.subgroups){
-    cat.subgroups.forEach((sg, sgi) => {
-      html += `
-        <div style="margin:8px 0 22px;">
-          <h3 style="margin:0 0 14px; font-size:16px; font-weight:800; color:${cat.accent}; display:flex; align-items:center; gap:8px;">
-            <span style="width:5px; height:18px; border-radius:3px; background:${cat.accent};"></span>
-            ${escapeHTML(sg.title)}
-          </h3>
-          <div class="items-grid">
-            ${sg.items.map((it, i) => itemCardHTML(cat.id, it, "sg" + sgi + "_" + i, cat.accent)).join("")}
-          </div>
-        </div>`;
-    });
-  }
-
-  if(cat.items && cat.items.length){
-    html += `<div class="items-grid">${cat.items.map((it, i) => itemCardHTML(cat.id, it, i, cat.accent)).join("")}</div>`;
-  }
-
-  document.getElementById("categoryContent").innerHTML = html;
-}
-
-/* ============================================================
-   Shop Status (ساعت کاری ۱۰ صبح تا ۲۲ شب)
-============================================================ */
-function updateShopStatus(){
-  const hour = new Date().getHours();
-  const isOpen = hour >= 10 && hour < 22;
-  const el = document.getElementById("shopStatus");
-  if(isOpen){
-    el.innerHTML = `<span class="status-dot"></span><span>اکنون باز است (۱۰ صبح تا ۲۲ شب)</span>`;
-  } else {
-    el.innerHTML = `<span class="status-dot closed"></span><span>ساعت کاری: ۱۰ صبح تا ۲۲ شب</span>`;
-  }
-}
-
-/* ============================================================
-   Theme Toggle
-============================================================ */
-const themeToggle = document.getElementById("themeToggle");
-const savedTheme = localStorage.getItem("javid-theme");
-function setTheme(theme){
-  if(theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
-  else document.documentElement.removeAttribute("data-theme");
-  localStorage.setItem("javid-theme", theme);
-}
-if(savedTheme) setTheme(savedTheme);
-else if(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) setTheme("dark");
-
-themeToggle.addEventListener("click", () => {
-  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-  setTheme(isDark ? "light" : "dark");
-});
-
-/* ============================================================
-   Static icons & Render home
-============================================================ */
-document.getElementById("splashLogo").innerHTML = icon('star');
-document.getElementById("brandIcon").innerHTML = icon('layers');
-document.getElementById("searchIcon").innerHTML = icon('search');
-document.getElementById("headerCallIcon").innerHTML = icon('phone');
-document.getElementById("heroCallBtn").innerHTML = icon('phone') + "<span>تماس یا پیام سریع</span>";
-
-function renderHome(){
-  updateShopStatus();
-  document.getElementById("quickChips").innerHTML = DATA.map(cat => `
-    <a class="chip" href="#cat-${cat.id}">
-      ${icon(cat.icon)}<span>${escapeHTML(cat.title)}</span>
-    </a>`).join("");
-
-  document.getElementById("catGrid").innerHTML = DATA.map(categoryCardHTML).join("");
-  const total = DATA.reduce((a, c) => a + categoryCount(c), 0);
-  document.getElementById("totalCount").textContent = `${DATA.length} دسته • ${total} خدمت`;
-
-  document.getElementById("supportGrid").innerHTML = SUPPORT.map(s => `
-    <div class="support-card">
-      <div class="support-card-top">
-        <span class="avatar">${icon('user')}</span>
-        <span class="info">
-          <strong>${escapeHTML(s.name)}</strong>
-          <span>${s.display}</span>
-        </span>
-      </div>
-      <div class="support-links">
-        <a class="s-link" href="tel:${s.phone}">${icon('phone')}<span>تماس</span></a>
-        <a class="s-link" href="${rubikaLink(s.rubikaId)}" target="_blank" rel="noopener">${icon('chat')}<span>روبیکا</span></a>
-        <a class="s-link" href="${eitaaLink(s.eitaaId)}" target="_blank" rel="noopener">${icon('chat')}<span>ایتا</span></a>
-      </div>
-    </div>`).join("");
-
-  const mapQuery = encodeURIComponent("تهران شهرک ولیعصر خیابان سجادی جنوبی کوچه صاحب الزمان غربی");
-  document.getElementById("addressBox").innerHTML = `
-    <div class="address-main">
-      <span class="avatar">${icon('pin')}</span>
-      <span class="txt">
-        <strong>آدرس مراجعه حضوری (۱۰ صبح تا ۲۲ شب)</strong>
-        <span>${escapeHTML(ADDRESS)}</span>
-      </span>
-    </div>
-    <div class="address-actions">
-      <a class="map-btn" href="https://nshn.ir/?q=${mapQuery}" target="_blank" rel="noopener">
-        ${icon('mapPin')}<span>مسیریابی</span>
       </a>
-      <button class="copy-addr-btn" type="button" id="copyAddrBtn">
-        ${icon('copy')}<span>کپی آدرس</span>
-      </button>
-    </div>`;
 
-  document.getElementById("copyAddrBtn").addEventListener("click", function(){
-    navigator.clipboard.writeText(ADDRESS).then(() => {
-      this.innerHTML = `<span>✓ کپی شد</span>`;
-      setTimeout(() => { this.innerHTML = `${icon('copy')}<span>کپی آدرس</span>`; }, 2000);
-    });
-  });
-}
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="جستجوی خدمت... مثلاً: مالیات، خلافی، مای مدیو، سجام" oninput="handleSearch(this.value)" />
+        <button class="clear-search" id="clearBtn" onclick="clearSearch()">×</button>
+      </div>
 
-/* ============================================================
-   Router
-============================================================ */
-const views = {
-  home: document.getElementById("view-home"),
-  category: document.getElementById("view-category")
-};
-function setView(name){
-  Object.values(views).forEach(v => v.classList.remove("active"));
-  views[name].classList.add("active");
-  document.body.classList.toggle("view-category", name === "category");
-}
-function route(){
-  const hash = (location.hash || "#home").replace(/^#/, "");
-  if(hash.startsWith("cat-")){
-    const cat = findCategory(hash.slice(4));
-    if(cat){
-      renderCategoryView(cat);
-      setView("category");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-  }
-  setView("home");
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-window.addEventListener("hashchange", route);
-
-/* ============================================================
-   Search
-============================================================ */
-const searchInput = document.getElementById("searchInput");
-const searchClear = document.getElementById("searchClear");
-const searchResults = document.getElementById("searchResults");
-
-const ALL_ITEMS = [];
-DATA.forEach(cat => {
-  if(cat.items) cat.items.forEach(it => ALL_ITEMS.push({ cat, item: it }));
-  if(cat.subgroups) cat.subgroups.forEach(sg => sg.items.forEach(it => ALL_ITEMS.push({ cat, item: it })));
-});
-
-let searchTimer = null;
-function applySearch(){
-  const q = normalizeText(searchInput.value);
-  searchClear.hidden = !searchInput.value;
-
-  if(!q){
-    document.body.classList.remove("searching");
-    searchResults.classList.remove("show");
-    searchResults.innerHTML = "";
-    return;
-  }
-
-  const matches = ALL_ITEMS.filter(({ item }) => normalizeText(item.name + " " + (item.desc || "") + " " + (item.docs || "")).includes(q));
-  document.body.classList.add("searching");
-  searchResults.classList.add("show");
-
-  if(!matches.length){
-    searchResults.innerHTML = `<div class="empty-state"><div class="emoji">🔍</div><p>خدمتی با این عنوان پیدا نشد. می‌توانید از پایین صفحه تماس بگیرید.</p></div>`;
-    return;
-  }
-
-  searchResults.innerHTML = `
-    <div class="section-head">
-      <div class="titles">
-        <span class="eyebrow">نتایج جستجو</span>
-        <h2>${matches.length} خدمت پیدا شد</h2>
+      <div class="header-actions">
+        <button class="btn-theme" id="themeToggle" title="تغییر تم روشن/تاریک" onclick="toggleTheme()">🌙</button>
+        <a href="tel:09142552768" class="btn-call-top">📞 تماس</a>
       </div>
     </div>
-    <div class="items-grid">
-      ${matches.map(({ cat, item }, i) => itemCardHTML(cat.id, item, "search_" + i, cat.accent)).join("")}
-    </div>`;
-}
-searchInput.addEventListener("input", () => {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(applySearch, 100);
-}, { passive: true });
-searchClear.addEventListener("click", () => { searchInput.value = ""; applySearch(); searchInput.focus(); });
+  </header>
 
-/* ============================================================
-   Contact Modal
-============================================================ */
-const modal = document.getElementById("contactModal");
-const modalIcon = document.getElementById("modalIcon");
-const modalSub = document.getElementById("modalSub");
-const modalPhones = document.getElementById("modalPhones");
-
-function contactPersonHTML(person){
-  return `
-    <div class="contact-person">
-      <div class="person-head">
-        <span class="avatar">${icon('user')}</span>
-        <div class="pinfo">
-          <strong>${escapeHTML(person.name)}</strong>
-          <span>${person.display}</span>
+  <main id="home">
+    <!-- بنر اصلی -->
+    <section class="hero">
+      <div class="hero-top-badges">
+        <div class="badge-glass">
+          <span>⚡ سریع • مطمئن • انجام غیرحضوری و حضوری</span>
+        </div>
+        <!-- نشانگر وضعیت زنده بر اساس ساعت رسمی ایران -->
+        <div class="badge-glass" id="liveStatusBadge">
+          <span class="status-dot"></span>
+          <span id="liveStatusText">در حال بررسی ساعت کاری...</span>
         </div>
       </div>
-      <div class="person-actions">
-        <a class="act-btn act-call" href="tel:${person.phone}">${icon('phone')}<span>تماس</span></a>
-        <a class="act-btn act-rubika" href="${rubikaLink(person.rubikaId)}" target="_blank" rel="noopener">${icon('chat')}<span>روبیکا</span></a>
-        <a class="act-btn act-eitaa" href="${eitaaLink(person.eitaaId)}" target="_blank" rel="noopener">${icon('chat')}<span>ایتا</span></a>
+
+      <h2>خدمات آنلاین، ساده و سریع</h2>
+      <p>تمامی امور اداری، دولتی، بانکی، بیمه، خودرو، مالیات، ثنا، مای مدیو و چاپ خود را بدون دردسر به ما بسپارید؛ کافیست تماس بگیرید یا در روبیکا و ایتا پیام دهید.</p>
+
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-white">📞 تماس یا پیام سریع</a>
+        <a href="#categories" class="btn-outline-white">مشاهده خدمات ↓</a>
       </div>
-    </div>`;
-}
+    </section>
 
-function openContactModal(itemName){
-  modalIcon.innerHTML = icon('phone');
-  modalSub.innerHTML = itemName
-    ? `برای انجام <span class="item-name">${escapeHTML(itemName)}</span> تماس بگیرید یا مدارک را در روبیکا و ایتا بفرستید:`
-    : `برای مشاوره و انجام خدمات، با یکی از راه‌های زیر با ما در تماس باشید:`;
-  modalPhones.innerHTML = SUPPORT.map(contactPersonHTML).join("");
-  modal.classList.add("show");
-  document.body.classList.add("modal-open");
-}
-function closeContactModal(){
-  modal.classList.remove("show");
-  document.body.classList.remove("modal-open");
-}
-document.getElementById("modalClose").addEventListener("click", closeContactModal);
-modal.addEventListener("click", e => { if(e.target === modal) closeContactModal(); });
-document.addEventListener("keydown", e => { if(e.key === "Escape" && modal.classList.contains("show")) closeContactModal(); });
+    <!-- نوار دسترسی سریع -->
+    <div class="quick-pills" id="quickPills"></div>
 
-document.addEventListener("click", e => {
-  const btn = e.target.closest("[data-action='contact']");
-  if(btn) openContactModal(btn.dataset.name);
-});
-document.getElementById("headerCallBtn").addEventListener("click", () => openContactModal(null));
-document.getElementById("heroCallBtn").addEventListener("click", () => openContactModal(null));
+    <!-- پنل نمایش جزئیات خدمات یک دسته یا نتیجه جستجو -->
+    <section class="services-panel" id="servicesPanel">
+      <div class="panel-header">
+        <h3 id="panelTitle">لیست خدمات</h3>
+        <button class="btn-close-panel" onclick="closePanel()">بستن ✕</button>
+      </div>
+      <div class="services-list" id="servicesList"></div>
+    </section>
 
-/* ============================================================
-   Hero Smooth Scroll & To Top
-============================================================ */
-document.getElementById("heroBrowseBtn").addEventListener("click", () => {
-  const target = document.getElementById("categoriesSection");
-  const headerH = document.querySelector("header").offsetHeight;
-  const top = target.getBoundingClientRect().top + window.pageYOffset - headerH - 12;
-  window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-});
+    <!-- دسته‌بندی خدمات -->
+    <section id="categories">
+      <div class="section-header">
+        <h3>چه کاری می‌خواهید انجام دهید؟</h3>
+        <span class="count-tag" id="totalStats">۱۱ دسته • ۱۱۸ خدمت</span>
+      </div>
+      <div class="categories-grid" id="categoriesGrid"></div>
+    </section>
 
-const toTop = document.getElementById("toTop");
-window.addEventListener("scroll", () => {
-  toTop.classList.toggle("show", window.scrollY > 450);
-}, { passive: true });
-toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    <!-- بخش پشتیبانی و ارتباط -->
+    <section class="contact-section" id="contact">
+      <h3>پشتیبانی و ارتباط مستقیم</h3>
+      <p>برای استعلام هزینه، ارسال مدارک یا انجام فوری خدمات، از طریق تماس تلفنی یا پیام‌رسان‌های روبیکا و ایتا با ما در ارتباط باشید.</p>
 
-/* ============================================================
-   Splash (1.4s)
-============================================================ */
-const splash = document.getElementById("splash");
-setTimeout(() => {
-  splash.classList.add("hide");
-  setTimeout(() => { splash.style.display = "none"; }, 450);
-}, 1400);
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h4>👤 محمد جاوید</h4>
+          <div class="phone-number">0914 255 2768</div>
+          <div class="social-links">
+            <a href="tel:09142552768" class="btn-social">📞 تماس تلفنی</a>
+            <a href="https://rubika.ir/" target="_blank" class="btn-social">💬 روبیکا</a>
+            <a href="https://eitaa.com/" target="_blank" class="btn-social">📨 ایتا</a>
+          </div>
+        </div>
 
-renderHome();
-route();
-</script>
+        <div class="contact-card">
+          <h4>👤 هادی جاوید</h4>
+          <div class="phone-number">0919 508 0321</div>
+          <div class="social-links">
+            <a href="tel:09195080321" class="btn-social">📞 تماس تلفنی</a>
+            <a href="https://rubika.ir/" target="_blank" class="btn-social">💬 روبیکا</a>
+            <a href="https://eitaa.com/" target="_blank" class="btn-social">📨 ایتا</a>
+          </div>
+        </div>
+
+        <div class="contact-card">
+          <h4>📍 آدرس مراجعه حضوری (۱۰ صبح تا ۲۲ شب)</h4>
+          <p style="font-size: 0.9rem; margin: 0.5rem 0 0.85rem; color: var(--text-main);" id="shopAddress">
+            تهران، شهرک ولیعصر، خیابان سجادی جنوبی، کوچه صاحب‌الزمان غربی، مغازه جاوید
+          </p>
+          <div class="social-links">
+            <a href="https://maps.google.com/?q=تهران+شهرک+ولیعصر+خیابان+سجادی+جنوبی" target="_blank" class="btn-social">🗺️ مسیریابی</a>
+            <button class="btn-social" onclick="copyAddress()">📋 کپی آدرس</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © تمامی حقوق برای <strong>مرکز خدمات آنلاین جاوید</strong> محفوظ است — <em>قیمت تمامی خدمات توافقی می‌باشد.</em>
+  </footer>
+
+  <script>
+    // ۱. محاسبه دقیق وضعیت باز یا بسته بودن بر اساس ساعت زنده ایران (Asia/Tehran)
+    function updateIranShopStatus() {
+      const badge = document.getElementById('liveStatusBadge');
+      const textEl = document.getElementById('liveStatusText');
+
+      try {
+        const now = new Date();
+        // دریافت ساعت و دقیقه فعلی به وقت رسمی تهران بدون وابستگی به ساعت سیستم کاربر
+        const tehranFormatter = new Intl.DateTimeFormat('en-US', {
+          timeZone: 'Asia/Tehran',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: false
+        });
+
+        const parts = tehranFormatter.formatToParts(now);
+        const hour = parseInt(parts.find(p => p.type === 'hour').value, 10);
+        const minute = parseInt(parts.find(p => p.type === 'minute').value, 10);
+        const formattedTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+
+        // ساعت کاری: ۱۰ صبح (10:00) تا ۱۰ شب (22:00)
+        const isOpen = hour >= 10 && hour < 22;
+
+        if (isOpen) {
+          badge.classList.remove('status-closed');
+          badge.classList.add('status-open');
+          textEl.textContent = `اکنون باز است • ساعت ایران ${formattedTime} (۱۰ صبح تا ۲۲ شب)`;
+        } else {
+          badge.classList.remove('status-open');
+          badge.classList.add('status-closed');
+          textEl.textContent = `اکنون بسته است • ساعت ایران ${formattedTime} (شروع کار ۱۰ صبح)`;
+        }
+      } catch (e) {
+        // در صورت عدم پشتیبانی مرورگرهای خیلی قدیمی، مخفی می‌شود
+        badge.style.display = 'none';
+      }
+    }
+
+    // اجرای اولیه و بروزرسانی هر ۳۰ ثانیه
+    updateIranShopStatus();
+    setInterval(updateIranShopStatus, 30000);
+
+    // ۲. داده‌های کامل ۱۱ دسته‌بندی به همراه آیکون‌های گرافیکی برداری (SVG) توکار بدون نیاز به فایل خارجی
+    const categoriesData = [
+      {
+        id: 'gov',
+        title: 'خدمات عمومی و دولتی',
+        color: '#2563eb',
+        bg: 'rgba(37, 99, 235, 0.12)',
+        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>`,
+        items: [
+          'احراز هویت سجام و کارگزاری', 'ثبت‌نام و تغییر کد پستی (GNAF)', 'دریافت گواهی عدم سوءپیشینه',
+          'ثبت‌نام سامانه سخا (نظام وظیفه و گذرنامه)', 'درخواست و پیگیری کارت ملی هوشمند', 'تغییر آدرس و نشانی در ثبت احوال',
+          'استعلام و ثبت‌نام وام ازدواج و فرزندآوری', 'ثبت‌نام مسکن ملی (نهضت ملی مسکن)', 'دریافت ابلاغیه و فیش حقوقی بازنشستگان',
+          'ثبت‌نام کارت سوخت المثنی', 'نوبت‌دهی تعویض پلاک و مراکز اداری', 'استعلام شماره شبا و حساب بانکی',
+          'ثبت‌نام در درگاه ملی مجوزها', 'دریافت گواهی امضای الکترونیک', 'استعلام ممنوع‌الخروجی',
+          'ثبت درخواست انشعابات آب، برق و گاز', 'تنظیم وکالت‌نامه و قراردادهای عادی', 'ثبت شکایت در سامانه ۱۲۴ و تعزیرات',
+          'پیگیری مرسولات پستی', 'ثبت‌نام آزمون‌های استخدامی', 'سایر امور اداری و اینترنتی'
+        ]
+      },
+      {
+        id: 'insurance',
+        title: 'بیمه و تامین اجتماعی',
+        color: '#059669',
+        bg: 'rgba(5, 150, 105, 0.12)',
+        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>`,
+        items: [
+          'مشاهده و چاپ سوابق بیمه تامین اجتماعی', 'دریافت فیش و پرداخت حق بیمه خویش‌فرما', 'ثبت‌نام بیمه زنان خانه‌دار و دانشجویی',
+          'درخواست بیمه بیکاری و پیگیری پرونده', 'استعلام و تمدید اعتبار بیمه سلامت', 'خدمات ساتا و بیمه نیروهای مسلح',
+          'صدور و تمدید بیمه‌نامه شخص ثالث خودرو', 'صدور بیمه‌نامه بدنه با تخفیف', 'صدور بیمه‌نامه شخص ثالث موتورسیکلت',
+          'دریافت گواهی کسر از حقوق بازنشستگان', 'ثبت شماره شبای تامین اجتماعی', 'نوبت‌دهی درمانگاه‌های تامین اجتماعی',
+          'استعلام نسخ الکترونیک پزشکی', 'درخواست غرامت دستمزد ایام بیماری', 'ثبت درخواست کمک‌هزینه ازدواج و پروتز',
+          'ارسال لیست بیمه کارفرمایان', 'صدور مفاصاحساب بیمه', 'تغییر شعبه بیمه تامین اجتماعی',
+          'استعلام اصالت بیمه‌نامه', 'بیمه حوادث و مسئولیت', 'بیمه تکمیلی درمان',
+          'مشاوره بازنشستگی و خرید سابقه', 'ثبت اعتراض به سوابق بیمه', 'چاپ دفترچه و حکم بازنشستگی'
+        ]
+      },
+      {
+        id: 'edu',
+        title: 'آموزش و پرورش و مای مدیو',
+        color: '#7c3aed',
+        bg: 'rgba(124, 58, 237, 0.12)',
+        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
+        items: [
+          'ورود و ثبت‌نام در سامانه مای مدیو (my.medu.ir)', 'ثبت‌نام کتاب‌های درسی دانش‌آموزان', 'دریافت کارنامه و سوابق تحصیلی',
+          'ثبت‌نام مدارس شاهد و نمونه دولتی', 'ثبت‌نام آزمون تیزهوشان (سمپاد)', 'تاییدیه تحصیلی دیپلم و پیش‌دانشگاهی',
+          'انتخاب رشته کنکور سراسری و دانشگاه آزاد', 'ثبت‌نام آزمون‌های سازمان سنجش', 'استعلام کد سوابق تحصیلی',
+          'درخواست انتقال و جابجایی دانش‌آموز'
+        ]
+      },
+      {
+        id: 'car',
+        title: 'ماشین و موتور',
+        color: '#d97706',
+        bg: 'rgba(217, 119, 6, 0.12)',
+        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14v-5l-2-5H7l-2 5v5z"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/></svg>`,
+        items: [
+          'استعلام و پرداخت خلافی خودرو و موتور', 'نوبت‌دهی تعویض پلاک اینترنتی', 'پرداخت عوارض آزادراهی و طرح ترافیک',
+          'پرداخت مالیات نقل و انتقال خودرو', 'استعلام پلاک‌های فعال به نام شخص', 'پیگیری وضعیت صدور کارت ماشین و برگ سبز',
+          'استعلام و پرداخت عوارض سالیانه شهرداری خودرو', 'نوبت‌دهی معاینه فنی خودرو', 'ثبت درخواست کارت سوخت المثنی',
+          'استعلام نمره منفی گواهینامه', 'پیگیری صدور و ارسال گواهینامه', 'احراز محل سکونت در سامانه سخا برای پلاک'
+        ]
+      },
+      {
+        id: 'sana',
+        title: 'ثنا و خدمات قضایی',
+        color: '#dc2626',
+        bg: 'rgba(220, 38, 38, 0.12)',
+        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7h18M6 7l-3 7h6l-3-7zM18 7l-3 7h6l-3-7z"/></svg>`,
+        items: [
+          'ثبت‌نام غیرحضوری سامانه ثنا (عدالت همراه)', 'مشاهده و چاپ ابلاغیه‌های قضایی', 'بازیابی رمز عبور و شماره ثنا',
+          'تغییر شماره موبایل و آدرس در ثنا', 'نوبت‌دهی دفاتر خدمات الکترونیک قضایی', 'پیگیری روند پرونده‌های قضایی',
+          'استعلام اصالت گواهی عدم سوءپیشینه', 'تنظیم لایحه، دادخواست و شکواییه', 'استعلام ممنوع‌الخروجی قضایی'
+        ]
+      },
+      {
+        id: 'tax',
+        title: 'مالیات و کارتخوان',
+        color: '#0891b2',
+        bg: 'rgba(8, 145, 178, 0.12)',
+        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 12h4M14 12h4M6 16h12M6 8h12"/></svg>`,
+        items: [
+          'ثبت‌نام کد اقتصادی و تشکیل پرونده مالیاتی', 'اتصال دستگاه کارتخوان (POS) به پرونده مالیاتی', 'تنظیم و ارسال اظهارنامه مالیاتی مشاغل',
+          'تکمیل فرم تبصره ماده ۱۰۰ مالیاتی', 'استعلام و پرداخت بدهی مالیاتی', 'دریافت گواهی ثبت‌نام مالیات بر ارزش افزوده',
+          'تغییر حساب بانکی متصل به کارتخوان', 'غیرفعال‌سازی پرونده مالیاتی و کارتخوان', 'دریافت کد رهگیری مالیاتی اجاره‌نامه',
+          'استعلام ممنوع‌الخروجی مالیاتی', 'مشاوره و ثبت اعتراض به برگ تشخیص مالیات'
+        ]
+      },
+      {
+        id: 'bills',
+        title: 'قبض و سیم‌کارت',
+        color: '#0284c7',
+        bg: 'rgba(2, 132, 199, 0.12)',
+        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01M9 6h6"/></svg>`,
+        items: [
+          'استعلام و پرداخت قبض برق، آب و گاز', 'استعلام و پرداخت قبض تلفن ثابت و همراه', 'خرید شارژ و بسته‌های اینترنتی کلیه اپراتورها',
+          'استعلام تعداد سیم‌کارت‌های ثبت‌شده با کد ملی', 'ثبت و استعلام کد رجیستری گوشی (همتا)', 'انتقال مالکیت گوشی در سامانه همتا',
+          'رفع مسدودی سیم‌کارت و پیگیری قبض میان‌دوره', 'تغییر تعرفه و طرح‌های اینترنتی', 'ثبت‌نام سیم‌کارت جدید و ترابرد',
+          'فعال‌سازی و غیرفعال‌سازی پیامک‌های تبلیغاتی', 'استعلام بدهی قبوض معوقه', 'چاپ رسید رسمی پرداخت قبوض', 'پیگیری مشکلات آنتن‌دهی و اینترنت'
+        ]
+      },
+      {
+        id: 'travel',
+        title: 'بلیط سفر',
+        color: '#0d9488',
+        bg: 'rgba(13, 148, 136, 0.12)',
+        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.2-1.1.6L3 8l6 4-4 4-3-1-1 1 4 2 2 4 1-1-1-3 4-4 4 6 1.2-.7c.4-.2.7-.6.6-1.1z"/></svg>`,
+        items: [
+          'صدور بلیط هواپیما (داخلی و خارجی) با کمترین نرخ',
+          'رزرو و صدور بلیط قطار کلیه مسیرها',
+          'صدور بلیط اتوبوس VIP به تمام شهرها'
+        ]
+      },
+      {
+        id: 'car-reg',
+        title: 'ثبت نام ماشین',
+        color: '#4f46e5',
+        bg: 'rgba(79, 70, 229, 0.12)',
+        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>`,
+        items: [
+          'ثبت‌نام سامانه یکپارچه تخصیص خودرو (ایران‌خودرو و سایپا)',
+          'ثبت‌نام طرح مادران (جوانی جمعیت) و خودروهای فرسوده',
+          'افتتاح حساب وکالتی و پیگیری قرعه‌کشی و واریز وجه'
+        ]
+      },
+      {
+        id: 'subsidy',
+        title: 'یارانه و کالابرگ',
+        color: '#16a34a',
+        bg: 'rgba(22, 163, 74, 0.12)',
+        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>`,
+        items: [
+          'استعلام دهک خانوار، ثبت اعتراض یارانه و تفکیک یارانه',
+          'استعلام اعتبار کالابرگ الکترونیکی و یارانه معیشتی'
+        ]
+      },
+      {
+        id: 'print',
+        title: 'چاپ، تایپ و فتوشاپ',
+        color: '#db2777',
+        bg: 'rgba(219, 39, 119, 0.12)',
+        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>`,
+        items: [
+          'پرینت رنگی و سیاه‌وسفید با کیفیت بالا', 'تایپ فوری متون فارسی و انگلیسی، پایان‌نامه و تحقیق',
+          'طراحی و ویرایش حرفه‌ای عکس با فتوشاپ', 'تغییر پس‌زمینه و آماده سازی عکس پرسنلی ۳×۴',
+          'اسکن مدارک و تبدیل فایل‌ها (PDF به Word و بالعکس)', 'طراحی کارت ویزیت، تراکت و بنر تبلیغاتی',
+          'تنظیم رزومه کاری حرفه‌ای', 'کپی برابر اصل و لمینت (پرس کارت)',
+          'سیمی کردن جزوه و کتاب', 'ارسال فایل از طریق روبیکا و ایتا و تحویل فوری'
+        ]
+      }
+    ];
+
+    // ۳. رندر کارت‌ها و قرص‌های دسترسی سریع
+    const categoriesGrid = document.getElementById('categoriesGrid');
+    const quickPills = document.getElementById('quickPills');
+
+    function renderCategories() {
+      categoriesGrid.innerHTML = '';
+      quickPills.innerHTML = '';
+
+      categoriesData.forEach(cat => {
+        // ساخت قرص دسترسی سریع
+        const pill = document.createElement('button');
+        pill.className = 'pill';
+        pill.textContent = cat.title;
+        pill.onclick = () => openCategory(cat.id);
+        quickPills.appendChild(pill);
+
+        // ساخت کارت دسته‌بندی
+        const card = document.createElement('div');
+        card.className = 'cat-card';
+        card.onclick = () => openCategory(cat.id);
+        card.innerHTML = `
+          <div class="cat-info">
+            <div class="cat-visual" style="background: ${cat.bg}; color: ${cat.color};">
+              ${cat.svg}
+            </div>
+            <div class="cat-text">
+              <h4>${cat.title}</h4>
+              <span>${cat.items.length} خدمت فعال</span>
+            </div>
+          </div>
+          <div class="cat-arrow">‹</div>
+        `;
+        categoriesGrid.appendChild(card);
+      });
+    }
+
+    // ۴. نمایش خدمات یک دسته
+    function openCategory(catId) {
+      const cat = categoriesData.find(c => c.id === catId);
+      if (!cat) return;
+
+      const panel = document.getElementById('servicesPanel');
+      const title = document.getElementById('panelTitle');
+      const list = document.getElementById('servicesList');
+
+      title.textContent = `${cat.title} (${cat.items.length} خدمت)`;
+      list.innerHTML = cat.items.map(item => `
+        <div class="service-item">
+          <span>• ${item}</span>
+          <a href="#contact">سفارش ↗</a>
+        </div>
+      `).join('');
+
+      panel.classList.add('visible');
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function closePanel() {
+      document.getElementById('servicesPanel').classList.remove('visible');
+    }
+
+    // ۵. جستجوی زنده در تمام ۱۱۸ خدمت
+    function handleSearch(query) {
+      const clearBtn = document.getElementById('clearBtn');
+      const panel = document.getElementById('servicesPanel');
+      const title = document.getElementById('panelTitle');
+      const list = document.getElementById('servicesList');
+
+      const q = query.trim();
+      clearBtn.style.display = q ? 'block' : 'none';
+
+      if (!q) {
+        panel.classList.remove('visible');
+        return;
+      }
+
+      const results = [];
+      categoriesData.forEach(cat => {
+        cat.items.forEach(item => {
+          if (item.includes(q) || cat.title.includes(q)) {
+            results.push({ title: item, category: cat.title });
+          }
+        });
+      });
+
+      title.textContent = `نتایج جستجو برای «${q}» (${results.length} مورد)`;
+      if (results.length === 0) {
+        list.innerHTML = `<div style="padding: 1rem; color: var(--text-muted);">موردی یافت نشد. می‌توانید از طریق تماس یا پیام‌رسان‌ها مستقیماً سوال بفرمایید.</div>`;
+      } else {
+        list.innerHTML = results.map(r => `
+          <div class="service-item">
+            <div>
+              <div>${r.title}</div>
+              <small style="color: var(--text-muted); font-size: 0.75rem;">دسته: ${r.category}</small>
+            </div>
+            <a href="#contact">انجام خدمت ↗</a>
+          </div>
+        `).join('');
+      }
+
+      panel.classList.add('visible');
+    }
+
+    function clearSearch() {
+      const input = document.getElementById('searchInput');
+      input.value = '';
+      handleSearch('');
+      input.focus();
+    }
+
+    function resetView() {
+      clearSearch();
+      closePanel();
+    }
+
+    // ۶. تغییر تم روشن و تاریک با ذخیره در حافظه مرورگر
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle('dark-mode');
+      document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('javid_theme', isDark ? 'dark' : 'light');
+    }
+
+    if (localStorage.getItem('javid_theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      document.getElementById('themeToggle').textContent = '☀️';
+    }
+
+    // ۷. کپی کردن آدرس
+    function copyAddress() {
+      const addr = document.getElementById('shopAddress').textContent.trim();
+      navigator.clipboard.writeText(addr).then(() => {
+        alert('آدرس مغازه با موفقیت کپی شد!');
+      });
+    }
+
+    renderCategories();
+  </script>
 </body>
 </html>

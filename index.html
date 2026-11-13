@@ -4,232 +4,228 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مرکز خدمات آنلاین جاوید | خدمات دولتی، بیمه، خودرو و مالیات</title>
-    
-    <!-- لینک به استایل‌های شما (اولویت اول بر اساس CSS اولیه) -->
     <style>
-        /* متغیرهای تم روشن و تاریک */
         :root {
-            --bg-color: #0b0f19;
-            --text-color: #f3f4f6;
-            --card-bg: #111827;
-            --card-border: #1f2937;
-            --primary-color: #8b5cf6;
-            --accent-color: #6366f1;
-            --hover-color: #374151;
-        }
-
-        [data-theme="light"] {
-            --bg-color: #f3f4f6;
-            --text-color: #1f2937;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
             --card-bg: #ffffff;
-            --card-border: #e5e7eb;
-            --primary-color: #7c3aed;
-            --accent-color: #4f46e5;
-            --hover-color: #f9fafb;
+            --primary-color: #3b82f6;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        /* پایبندی به ساختار و استایل‌های اصلی کد شما */
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --card-bg: #1e293b;
+            --primary-color: #60a5fa;
+            --border-color: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
         body {
+            font-family: Tahoma, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: Tahoma, Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        header {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--card-border);
+            margin-bottom: 30px;
         }
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* محل قرارگیری لوگو برای گیت‌هاب (فایل خود را با نام دلخواه در پوشه ریشه گیت‌هاب آپلود کنید) */
-        .logo-img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-
-        .theme-toggle-btn {
+        .theme-toggle {
             background: var(--primary-color);
-            color: #fff;
+            color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
-            transition: background 0.2s;
-        }
-
-        .theme-toggle-btn:hover {
-            background: var(--accent-color);
-        }
-
-        .search-section {
-            text-align: center;
-            padding: 30px 20px;
+            font-family: Tahoma, sans-serif;
         }
 
         .search-box {
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            display: block;
             padding: 12px 20px;
             border-radius: 8px;
-            border: 1px solid var(--card-border);
-            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
             color: var(--text-color);
             font-size: 16px;
-            outline: none;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border-right: 4px solid var(--primary-color);
-            padding-right: 10px;
-        }
-
-        .grid-services {
+        .categories {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .service-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
         }
 
-        .service-card:hover {
+        .card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        .service-info h3 {
-            margin: 0 0 5px 0;
-            font-size: 16px;
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 18px;
         }
 
-        .service-info span {
-            font-size: 12px;
-            opacity: 0.7;
+        .card p {
+            font-size: 14px;
+            color: #64748b;
         }
 
-        /* جایگاه عکس دلخواه خدمات برای آپلود در گیت‌هاب */
-        .service-icon {
-            width: 48px;
-            height: 48px;
-            object-fit: contain;
+        /* استایل بخش ساعت و وضعیت کاری */
+        .status-bar {
+            max-width: 1200px;
+            margin: 40px auto 20px auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: var(--shadow);
         }
 
-        footer {
-            margin-top: 50px;
-            background-color: var(--card-bg);
-            border-top: 1px solid var(--card-border);
-            padding: 30px 20px;
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .status-open {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-closed {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-open .dot { background-color: #22c55e; }
+        .status-closed .dot { background-color: #ef4444; }
+
+        .footer {
             text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #64748b;
         }
     </style>
 </head>
-<body data-theme="dark">
+<body>
 
-    <!-- هدر سایت با دکمه تغییر تم و جایگاه عکس لوگو -->
-    <header>
-        <div class="logo-area">
-            <!-- 
-              نکته گیت‌هاب: عکس لوگو را با نام logo.png در مخزن خود آپلود کنید 
-              یا مسیر دلخواه خود را جایگزین مقدار زیر کنید.
-            -->
-            <img src="logo.png" alt="لوگو جاوید" class="logo-img" onerror="this.style.display='none'">
-            <h2>مرکز خدمات آنلاین جاوید</h2>
+    <div class="header">
+        <h1>مرکز خدمات آنلاین جاوید</h1>
+        <button class="theme-toggle" onclick="toggleTheme()">حالت تاریک / روشن</button>
+    </div>
+
+    <input type="text" class="search-box" placeholder="جستجوی سریع خدمت... (مثلاً: مای مدیو، نیروهای مسلح، سجام، خلافی)">
+
+    <div class="categories">
+        <!-- کارت بهینه‌شده آموزش و مای مدیو -->
+        <div class="card">
+            <h3>آموزش و پرورش و مای مدیو</h3>
+            <p>خدمات جامع دانش‌آموزی، فرهنگیان، ورود به سامانه مای‌مدیو (MyMedu)، نتایج و ثبت‌نام‌ها با دسترسی روان و سریع.</p>
         </div>
-        <button class="theme-toggle-btn" id="themeToggle" onclick="toggleTheme()">☀️ حالت روشن</button>
-    </header>
 
-    <!-- بخش جستجوی سریع -->
-    <section class="search-section">
-        <input type="text" class="search-box" placeholder="جستجوی سریع خدمت... (مثلاً سجام، خلافی، مالیات)">
-    </section>
+        <!-- کارت بهینه‌شده نیروهای مسلح -->
+        <div class="card">
+            <h3>خدمات نیروهای مسلح و بیمه درمانی</h3>
+            <p>پیگیری امور درمانی، خدمات حکمت، بیمه تکمیلی و استعلامات مرتبط با نیروهای مسلح به صورت متمرکز.</p>
+        </div>
 
-    <!-- بخش اصلی دسته‌بندی خدمات -->
-    <div class="container" id="contact">
-        <div class="section-title">دسته‌بندی خدمات تخصصی</div>
-        
-        <div class="grid-services">
-            <!-- کارت خدمت ۱ -->
-            <div class="service-card">
-                <div class="service-info">
-                    <h3>خدمات عمومی و دولتی</h3>
-                    <span>۲۱ خدمت</span>
-                </div>
-                <!-- جایگاه عکس گیت‌هاب برای آیکون این کارت (مثلاً images/service1.png) -->
-                <img src="images/service1.png" alt="خدمات دولتی" class="service-icon" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%238b5cf6\' stroke-width=\'2\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><path d=\'M9 3v18\'/></svg>'">
-            </div>
-
-            <!-- کارت خدمت ۲ -->
-            <div class="service-card">
-                <div class="service-info">
-                    <h3>بیمه و تامین اجتماعی</h3>
-                    <span>۲۴ خدمت</span>
-                </div>
-                <img src="images/service2.png" alt="بیمه" class="service-icon" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%238b5cf6\' stroke-width=\'2\'><path d=\'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\'/></svg>'">
-            </div>
-
-            <!-- کارت خدمت ۳ -->
-            <div class="service-card">
-                <div class="service-info">
-                    <h3>آموزش و پرورش و مای مدیو</h3>
-                    <span>۱۰ خدمت</span>
-                </div>
-                <img src="images/service3.png" alt="آموزش" class="service-icon" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'48\' height=\'48\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%238b5cf6\' stroke-width=\'2\'><path d=\'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z\'/><path d=\'M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z\'/></svg>'">
-            </div>
+        <div class="card">
+            <h3>خدمات عمومی و دولتی</h3>
+            <p>ثبت‌نام سجام، خلافی خودرو، مالیات و سایر امور اداری پرکاربرد.</p>
         </div>
     </div>
 
-    <!-- فوتر و راه‌های ارتباطی -->
-    <footer>
-        <p>پشتیبانی و ارتباط مستقیم با ما | آدرس حضوری (۱۰ صبح تا ۲۲ شب)</p>
-    </footer>
+    <!-- بخش ساعت کاری و وضعیت زنده -->
+    <div class="status-bar">
+        <div>
+            <span>⏰ ساعت کاری حضوری: <strong>۱۰ صبح تا ۲۲ شب</strong></span>
+        </div>
+        <div>
+            <span id="workStatus" class="status-badge">
+                <span class="dot"></span>
+                <span id="statusText">در حال بررسی ساعت...</span>
+            </span>
+        </div>
+    </div>
 
-    <!-- اسکریپت جاوااسکریپت برای تغییر حالت دارک و لایت -->
+    <div class="footer">
+        پشتیبانی و ارتباط مستقیم با ما | آدرس حضوری (۱۰ صبح تا ۲۲ شب)
+    </div>
+
     <script>
-        const body = document.body;
-        const themeToggleBtn = document.getElementById('themeToggle');
-
+        // اسکریپت تغییر تم
         function toggleTheme() {
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.setAttribute('data-theme', 'light');
-                themeToggleBtn.textContent = '🌙 حالت تاریک';
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // اسکریپت هوشمند محاسبه وضعیت باز یا بسته بودن بر اساس ساعت ۱۰ تا ۲۲ ایران
+        function checkWorkingHours() {
+            const now = new Date();
+            // تنظیم ساعت بر اساس وقت ایران (UTC+3.5 یا استفاده از Intl)
+            const options = { timeZone: 'Asia/Tehran', hour: 'numeric', minute: 'numeric', hour12: false };
+            const formatter = new Intl.DateTimeFormat([], options);
+            const timeString = formatter.format(now);
+            const [hour, minute] = timeString.split(':').map(Number);
+            
+            const currentMinutes = hour * 60 + minute;
+            const openMinutes = 10 * 60; // ۱۰:۰۰ صبح
+            const closeMinutes = 22 * 60; // ۲۲:۰۰ شب
+
+            const statusBadge = document.getElementById('workStatus');
+            const statusText = document.getElementById('statusText');
+
+            if (currentMinutes >= openMinutes && currentMinutes < closeMinutes) {
+                statusBadge.className = 'status-badge status-open';
+                statusText.textContent = 'اکنون باز هستیم (پاسخگویی فعال)';
             } else {
-                body.setAttribute('data-theme', 'dark');
-                themeToggleBtn.textContent = '☀️ حالت روشن';
+                statusBadge.className = 'status-badge status-closed';
+                statusText.textContent = 'اکنون بسته است (ساعت کاری ۱۰ تا ۲۲)';
             }
         }
-    </script>
+
+        checkWorkingHours();
+        setInterval(checkWorkingHours, 60000); // به‌روزرسانی هر یک دقیقه
+    >
 </body>
 </html>

@@ -7,225 +7,289 @@
     <style>
         :root {
             --bg-color: #f8fafc;
-            --text-color: #1e293b;
             --card-bg: #ffffff;
-            --primary-color: #3b82f6;
+            --text-color: #1e293b;
+            --text-secondary: #64748b;
             --border-color: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --primary-color: #0284c7;
+            --primary-hover: #0369a1;
+            --badge-open-bg: #dcfce7;
+            --badge-open-text: #15803d;
+            --badge-close-bg: #fee2e2;
+            --badge-close-text: #b91c1c;
         }
 
-        body.dark-mode {
+        [data-theme="dark"] {
             --bg-color: #0f172a;
-            --text-color: #f1f5f9;
             --card-bg: #1e293b;
-            --primary-color: #60a5fa;
+            --text-color: #f1f5f9;
+            --text-secondary: #94a3b8;
             --border-color: #334155;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --primary-color: #38bdf8;
+            --primary-hover: #0ea5e9;
+            --badge-open-bg: #052e16;
+            --badge-open-text: #4ade80;
+            --badge-close-bg: #450a0a;
+            --badge-close-text: #f87171;
         }
 
         body {
-            font-family: Tahoma, sans-serif;
+            font-family: Tahoma, system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
             transition: background-color 0.3s, color 0.3s;
         }
 
-        .header {
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .theme-toggle {
-            background: var(--primary-color);
-            color: white;
-            border: none;
+        h1 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .header-left {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
             padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
-            font-family: Tahoma, sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
 
+        .btn:hover {
+            border-color: var(--primary-color);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .status-badge.open {
+            background-color: var(--badge-open-bg);
+            color: var(--badge-open-text);
+        }
+        .status-badge.closed {
+            background-color: var(--badge-close-bg);
+            color: var(--badge-close-text);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: currentColor;
+        }
+
+        /* Search Box */
         .search-box {
             width: 100%;
-            max-width: 600px;
-            margin: 0 auto 30px auto;
-            display: block;
             padding: 12px 20px;
-            border-radius: 8px;
+            font-size: 1rem;
             border: 1px solid var(--border-color);
-            background: var(--card-bg);
+            border-radius: 12px;
+            background-color: var(--card-bg);
             color: var(--text-color);
-            font-size: 16px;
+            margin-bottom: 25px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
         }
 
-        .categories {
+        .search-box:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Grid Sections */
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+            margin-bottom: 25px;
         }
 
         .card {
-            background: var(--card-bg);
+            background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .card:hover {
             transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .card h3 {
-            margin-top: 0;
+        .card h2 {
+            font-size: 1.1rem;
             color: var(--primary-color);
-            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 10px;
         }
 
         .card p {
-            font-size: 14px;
-            color: #64748b;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
         }
 
-        /* استایل بخش ساعت و وضعیت کاری */
-        .status-bar {
-            max-width: 1200px;
-            margin: 40px auto 20px auto;
-            background: var(--card-bg);
+        .sub-list {
+            margin-top: 10px;
+            padding-right: 15px;
+            font-size: 0.85rem;
+            color: var(--text-color);
+        }
+
+        .sub-list li {
+            margin-bottom: 4px;
+        }
+
+        /* Footer info */
+        .info-bar {
+            background-color: var(--card-bg);
             border: 1px solid var(--border-color);
+            border-radius: 12px;
             padding: 15px 20px;
-            border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
             flex-wrap: wrap;
             gap: 10px;
-            box-shadow: var(--shadow);
-        }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .status-open {
-            background-color: #dcfce7;
-            color: #15803d;
-        }
-
-        .status-closed {
-            background-color: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .status-open .dot { background-color: #22c55e; }
-        .status-closed .dot { background-color: #ef4444; }
-
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 14px;
-            color: #64748b;
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
-    <div class="header">
-        <h1>مرکز خدمات آنلاین جاوید</h1>
-        <button class="theme-toggle" onclick="toggleTheme()">حالت تاریک / روشن</button>
-    </div>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>مرکز خدمات آنلاین جاوید</h1>
+            <div class="header-left">
+                <div id="statusBadge" class="status-badge closed">
+                    <span class="status-dot"></span>
+                    <span id="statusText">در حال بررسی ساعت...</span>
+                </div>
+                <button class="btn" onclick="toggleTheme()">حالت تاریک / روشن</button>
+            </div>
+        </header>
 
-    <input type="text" class="search-box" placeholder="جستجوی سریع خدمت... (مثلاً: مای مدیو، نیروهای مسلح، سجام، خلافی)">
+        <!-- Search Input -->
+        <input type="text" class="search-box" placeholder="جستجوی سریع خدمت... (مثلاً: مای مدیو، نیروهای مسلح، سجام، خلافی)">
 
-    <div class="categories">
-        <!-- کارت بهینه‌شده آموزش و مای مدیو -->
-        <div class="card">
-            <h3>آموزش و پرورش و مای مدیو</h3>
-            <p>خدمات جامع دانش‌آموزی، فرهنگیان، ورود به سامانه مای‌مدیو (MyMedu)، نتایج و ثبت‌نام‌ها با دسترسی روان و سریع.</p>
+        <!-- Cards Grid -->
+        <div class="grid">
+            <!-- Card 1: Education & MyMedu -->
+            <div class="card">
+                <h2>آموزش و پرورش و مای مدیو</h2>
+                <p>خدمات جامع دانش‌آموزی، فرهنگیان، ورود به سامانه مای مدیو (MyMedu)، نتایج و ثبت‌نام‌ها با دسترسی روان و سریع.</p>
+                <ul class="sub-list">
+                    <li>ورود به سامانه مای مدیو</li>
+                    <li>ثبت‌نام و خدمات دانش‌آموزی</li>
+                </ul>
+            </div>
+
+            <!-- Card 2: Armed Forces & Insurance -->
+            <div class="card">
+                <h2>خدمات نیروهای مسلح و بیمه درمانی</h2>
+                <p>پیگیری امور درمانی، خدمات حکمت، بیمه تکمیلی و استعلامات مرتبط با نیروهای مسلح به صورت متمرکز.</p>
+                <ul class="sub-list">
+                    <li>بیمه نیروهای مسلح</li>
+                    <li>خدمات درمانی و حکمت</li>
+                </ul>
+            </div>
+
+            <!-- Card 3: General & Government -->
+            <div class="card">
+                <h2>خدمات عمومی و دولتی</h2>
+                <p>ثبت‌نام سجام، خلافی خودرو، مالیات و سایر امور اداری پرکاربرد.</p>
+                <ul class="sub-list">
+                    <li>ثبت‌نام سجام و مالیات</li>
+                    <li>خلافی خودرو و خدمات اداری</li>
+                </ul>
+            </div>
         </div>
 
-        <!-- کارت بهینه‌شده نیروهای مسلح -->
-        <div class="card">
-            <h3>خدمات نیروهای مسلح و بیمه درمانی</h3>
-            <p>پیگیری امور درمانی، خدمات حکمت، بیمه تکمیلی و استعلامات مرتبط با نیروهای مسلح به صورت متمرکز.</p>
+        <!-- Footer / Working Hours -->
+        <div class="info-bar">
+            <span>📅 ساعت کاری حضوری: ۱۰ صبح تا ۲۲ شب</span>
+            <span>پشتیبانی و ارتباط مستقیم با ما | آدرس حضوری (۱۰ صبح تا ۲۲ شب)</span>
         </div>
-
-        <div class="card">
-            <h3>خدمات عمومی و دولتی</h3>
-            <p>ثبت‌نام سجام، خلافی خودرو، مالیات و سایر امور اداری پرکاربرد.</p>
-        </div>
-    </div>
-
-    <!-- بخش ساعت کاری و وضعیت زنده -->
-    <div class="status-bar">
-        <div>
-            <span>⏰ ساعت کاری حضوری: <strong>۱۰ صبح تا ۲۲ شب</strong></span>
-        </div>
-        <div>
-            <span id="workStatus" class="status-badge">
-                <span class="dot"></span>
-                <span id="statusText">در حال بررسی ساعت...</span>
-            </span>
-        </div>
-    </div>
-
-    <div class="footer">
-        پشتیبانی و ارتباط مستقیم با ما | آدرس حضوری (۱۰ صبح تا ۲۲ شب)
     </div>
 
     <script>
-        // اسکریپت تغییر تم
+        // Theme Toggle Functionality
         function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            body.setAttribute('data-theme', currentTheme === 'light' ? 'dark' : 'light');
         }
 
-        // اسکریپت هوشمند محاسبه وضعیت باز یا بسته بودن بر اساس ساعت ۱۰ تا ۲۲ ایران
+        // Live Iran Time & Status Checker (10:00 to 22:00)
         function checkWorkingHours() {
+            const badge = document.getElementById('statusBadge');
+            const text = document.getElementById('statusText');
+
+            // Get current time in Iran timezone (Asia/Tehran)
             const now = new Date();
-            // تنظیم ساعت بر اساس وقت ایران (UTC+3.5 یا استفاده از Intl)
-            const options = { timeZone: 'Asia/Tehran', hour: 'numeric', minute: 'numeric', hour12: false };
-            const formatter = new Intl.DateTimeFormat([], options);
-            const timeString = formatter.format(now);
-            const [hour, minute] = timeString.split(':').map(Number);
+            const options = { timeZone: 'Asia/Tehran', hour12: false, hour: 'numeric', minute: 'numeric' };
+            const timeString = new Intl.DateTimeFormat('en-GB', options).format(now);
             
-            const currentMinutes = hour * 60 + minute;
-            const openMinutes = 10 * 60; // ۱۰:۰۰ صبح
-            const closeMinutes = 22 * 60; // ۲۲:۰۰ شب
+            const [hourStr, minuteStr] = timeString.split(':');
+            const currentHour = parseInt(hourStr, 10);
+            const currentMinute = parseInt(minuteStr, 10);
+            
+            // Convert current time to total minutes from midnight
+            const totalMinutes = currentHour * 60 + currentMinute;
+            const openTime = 10 * 60; // 10:00 AM
+            const closeTime = 22 * 60; // 22:00 (10:00 PM)
 
-            const statusBadge = document.getElementById('workStatus');
-            const statusText = document.getElementById('statusText');
-
-            if (currentMinutes >= openMinutes && currentMinutes < closeMinutes) {
-                statusBadge.className = 'status-badge status-open';
-                statusText.textContent = 'اکنون باز هستیم (پاسخگویی فعال)';
+            if (totalMinutes >= openTime && totalMinutes < closeTime) {
+                badge.className = 'status-badge open';
+                text.textContent = 'اکنون باز است';
             } else {
-                statusBadge.className = 'status-badge status-closed';
-                statusText.textContent = 'اکنون بسته است (ساعت کاری ۱۰ تا ۲۲)';
+                badge.className = 'status-badge closed';
+                text.textContent = 'اکنون بسته است';
             }
         }
 
+        // Run immediately and check every minute
         checkWorkingHours();
-        setInterval(checkWorkingHours, 60000); // به‌روزرسانی هر یک دقیقه
-    >
+        setInterval(checkWorkingHours, 60000);
+    </script>
 </body>
 </html>

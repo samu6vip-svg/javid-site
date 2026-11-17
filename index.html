@@ -363,7 +363,7 @@
   [data-theme="dark"] .cat-card .cat-icon{box-shadow:0 6px 16px color-mix(in srgb, var(--accent) 30%, transparent), inset 0 0 0 1px rgba(255,255,255,.05);}
   .cat-card:hover .cat-icon{transform:scale(1.08) rotate(-5deg);}
   .cat-card .cat-icon svg{width:30px; height:30px;}
-  .cat-card .cat-icon img{width:100%; height:100%; object-fit:cover;}
+  .cat-card .cat-icon img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:2;}
   .cat-card .cat-info{flex:1; min-width:0;}
   .cat-card h3{margin:0 0 4px; font-size:15.5px; font-weight:800; color:var(--ink);}
   .cat-card .cat-meta{
@@ -475,8 +475,7 @@
   }
   [data-theme="dark"] .item-media{background:radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 60%), linear-gradient(145deg, var(--tint), color-mix(in srgb, var(--accent) 20%, var(--surface)));}
   .item-media img{
-    width:100%; height:100%; object-fit:cover;
-    position:relative; z-index:1;
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:2;
     transition:transform .5s cubic-bezier(.2,.8,.25,1);
   }
   .item-card:hover .item-media img{transform:scale(1.06);}
@@ -488,7 +487,7 @@
   }
   .item-card:hover .item-media svg{transform:scale(1.1) rotate(-4deg);}
   .item-media .price-corner{
-    position:absolute; top:12px; right:12px; z-index:2;
+    position:absolute; top:12px; right:12px; z-index:3;
     background:linear-gradient(135deg, rgba(255,255,255,.98), rgba(255,255,255,.90));
     color:var(--accent); font-size:11.5px; font-weight:800;
     border-radius:999px; padding:6px 12px;
@@ -704,9 +703,44 @@
   .to-top.show{opacity:1; visibility:visible; transform:translateY(0);}
   .to-top:hover{transform:translateY(-3px);}
 
+  /* ===== Hero status / live Iran time ===== */
+  .hero-status{
+    position:absolute; top:18px; left:22px; right:auto; z-index:3;
+    display:inline-flex; align-items:center; gap:7px;
+    padding:8px 12px; border-radius:999px;
+    background:rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.24);
+    box-shadow:0 7px 18px rgba(0,0,0,.10);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    color:#fff; font-size:11.5px; font-weight:700;
+    direction:rtl;
+  }
+  .status-dot{width:8px; height:8px; flex:none; border-radius:50%; background:#22c55e; box-shadow:0 0 0 4px rgba(34,197,94,.15),0 0 10px rgba(34,197,94,.75);}
+  .hero-status.closed .status-dot{background:#ef4444; box-shadow:0 0 0 4px rgba(239,68,68,.15),0 0 10px rgba(239,68,68,.75);}
+  .hero-status.closed{background:rgba(127,29,29,.20);}
+  .iran-clock{direction:ltr; font-variant-numeric:tabular-nums; font-weight:900; letter-spacing:.3px;}
+  .status-hours{opacity:.82; white-space:nowrap;}
+
+  /* ===== Service details / required documents ===== */
+  .item-details{
+    margin-top:2px; border:1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
+    border-radius:12px; background:color-mix(in srgb, var(--accent) 4%, var(--surface));
+    overflow:hidden;
+  }
+  .item-details summary{
+    list-style:none; cursor:pointer; padding:9px 11px;
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    color:var(--accent); font-size:12px; font-weight:800;
+  }
+  .item-details summary::-webkit-details-marker{display:none;}
+  .item-details summary::after{content:"＋"; font-size:15px; line-height:1;}
+  .item-details[open] summary::after{content:"−";}
+  .docs-list{margin:0; padding:0 28px 11px 11px; color:var(--ink-soft); font-size:11.5px; line-height:1.9; font-weight:500;}
+  .docs-list li{margin:2px 0;}
+  .item-desc{margin:0; font-size:12.5px; line-height:1.9; color:var(--ink-soft); font-weight:500;}
+
   /* ===== Responsive / Performance ===== */
   @media (max-width: 900px){
-    /* Reduce heavy effects */
     .hero::before, .hero::after, .support-section::before, .support-section::after, .cat-hero::after{display:none;}
     .cat-card::before{opacity:.5;}
     .cat-card, .item-card, .contact-btn, .cat-card .cat-icon, .cat-card .cat-arrow{transition-duration:.18s;}
@@ -714,7 +748,9 @@
     .item-card:hover .item-media img{transform:none;}
   }
   @media (max-width: 700px){
-    .hero{padding:26px 22px; border-radius:22px; margin-bottom:26px;}
+    .hero-status{display:inline-flex; top:12px; left:12px; right:auto; padding:7px 9px; gap:6px; font-size:10.5px;}
+    .status-hours{display:none;}
+    .hero{padding:58px 22px 26px; border-radius:22px; margin-bottom:26px;}
     .hero h1{font-size:23px;}
     .hero p{font-size:13px;}
     main{padding:20px 15px 55px;}
@@ -797,6 +833,12 @@
 <main>
   <section id="view-home" class="view">
     <div class="hero">
+      <div class="hero-status" id="heroStatus" aria-live="polite">
+        <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+        <strong id="statusText">اکنون باز است</strong>
+        <span class="iran-clock" id="iranClock">00:00</span>
+        <span class="status-hours">(۱۰ صبح الی ۲۲ شب)</span>
+      </div>
       <div class="hero-badge">⚡ سریع • مطمئن • حضوری</div>
       <h1>خدمات آنلاین، <span>ساده و سریع</span></h1>
       <p>خدمات دولتی، بیمه، خودرو، مالیات، ثنا، چاپ و ده‌ها خدمت دیگر — همه در یکجا، با پشتیبانی تلفنی مستقیم.</p>
@@ -858,8 +900,8 @@
    اطلاعات پشتیبانی
 ============================================================ */
 const SUPPORT = [
-  { name: "محمد جاوید", phone: "09142552768", display: "0914 255 2768" },
-  { name: "هادی جاوید",  phone: "09195080321", display: "0919 508 0321" }
+  { name: "محمد جاوید", phone: "09142552768", display: "0914 255 2768", rubika: "mohamad_javid_vip", eitaa: "mohamad_javid_vip" },
+  { name: "هادی جاوید",  phone: "09195080321", display: "0919 508 0321", rubika: "hady_javid_vip", eitaa: "hady_javid_vip" }
 ];
 const ADDRESS = "تهران، شهرک ولیعصر، خیابان سجادی جنوبی، کوچه صاحب‌الزمان غربی، مغازه جاوید";
 
@@ -926,167 +968,231 @@ function icon(key, cls){
 }
 
 /* ============================================================
-   داده‌ها — با تمام موارد جدید
+   داده‌ها — با تمام موارد جدید و مسیر عکس‌ها
 ============================================================ */
 const DATA = [
-  { id:"services", icon:"briefcase", title:"خدمات", accent:"#0d9488", tint:"#e6fffa", items:[
-    { name:"وام ازدواج", icon:"money", desc:"از ۱۱ صبح الی ۱۷ عصر باز است — مبلغ وام ۳۰۰ تا ۳۵۰ میلیون تومان" },
-    { name:"وام فرزندآوری", icon:"money", desc:"از ۱۱ صبح الی ۱۷ عصر باز است — مبلغ وام هر فرزند ۴۴ میلیون تومان" },
-    { name:"سجام", icon:"idcard" },
-    { name:"همیاب ۲۴", icon:"mobile", desc:"ثبت گوشی سرقتی و مفقودی شما" },
-    { name:"تاییدیه پستی", icon:"mail" },
-    { name:"گواهینامه یک روزه موتور", icon:"idcard" },
-    { name:"کارت سوخت", icon:"fuel" },
-    { name:"اعتبار سنجی", icon:"idcard" },
-    { name:"دوگانه سوز خودرو", icon:"fuel" },
-    { name:"گواهینامه مهارت", icon:"award" },
-    { name:"ثبت نام کارت ملی هوشمند", icon:"idcard" },
-    { name:"ثبت نام تهران من", icon:"city" },
-    { name:"سخا", icon:"heart" },
-    { name:"املاک و اسکان", icon:"home" },
-    { name:"جواب آزمایش", icon:"fileText" },
-    { name:"وام مستاجری", icon:"money" },
-    { name:"ثبت نام سماح", icon:"clipboard" },
-    { name:"استعلام گواهینامه مهارت", icon:"award" },
-    { name:"قولنامه کد رهگیری دار", icon:"fileText" },
-    { name:"گواهی اشتغال به تحصیل", icon:"graduation" },
-    { name:"گواهی اشتغال به کار", icon:"briefcase" },
+  { id:"services", icon:"briefcase", img:"images/cat-services.jpg", title:"خدمات", accent:"#0d9488", tint:"#e6fffa", items:[
+    { name:"وام ازدواج", icon:"money", img:"images/marriage-loan.jpg", desc:"از ۱۱ صبح الی ۱۷ عصر باز است — مبلغ وام ۳۰۰ تا ۳۵۰ میلیون تومان" },
+    { name:"وام فرزندآوری", icon:"money", img:"images/child-loan.jpg", desc:"از ۱۱ صبح الی ۱۷ عصر باز است — مبلغ وام هر فرزند ۴۴ میلیون تومان" },
+    { name:"سجام", icon:"idcard", img:"images/sejam.jpg" },
+    { name:"همیاب ۲۴", icon:"mobile", img:"images/hamyab24.jpg", desc:"ثبت گوشی سرقتی و مفقودی شما" },
+    { name:"تاییدیه پستی", icon:"mail", img:"images/postal-confirmation.jpg" },
+    { name:"گواهینامه یک روزه موتور", icon:"idcard", img:"images/motor-license.jpg" },
+    { name:"کارت سوخت", icon:"fuel", img:"images/fuel-card.jpg" },
+    { name:"اعتبار سنجی", icon:"idcard", img:"images/credit-check.jpg" },
+    { name:"دوگانه سوز خودرو", icon:"fuel", img:"images/dual-fuel-car.jpg" },
+    { name:"گواهینامه مهارت", icon:"award", img:"images/skill-cert.jpg" },
+    { name:"ثبت نام کارت ملی هوشمند", icon:"idcard", img:"images/national-smart-card.jpg" },
+    { name:"ثبت نام تهران من", icon:"city", img:"images/tehran-man.jpg" },
+    { name:"سخا", icon:"heart", img:"images/sakha.jpg" },
+    { name:"املاک و اسکان", icon:"home", img:"images/housing-residence.jpg" },
+    { name:"جواب آزمایش", icon:"fileText", img:"images/lab-result.jpg" },
+    { name:"وام مستاجری", icon:"money", img:"images/tenant-loan.jpg" },
+    { name:"ثبت نام سماح", icon:"clipboard", img:"images/samah.jpg" },
+    { name:"استعلام گواهینامه مهارت", icon:"award", img:"images/skill-cert-inquiry.jpg" },
+    { name:"قولنامه کد رهگیری دار", icon:"fileText", img:"images/tracking-contract.jpg" },
+    { name:"گواهی اشتغال به تحصیل", icon:"graduation", img:"images/study-cert.jpg" },
+    { name:"گواهی اشتغال به کار", icon:"briefcase", img:"images/work-cert.jpg" },
   ]},
 
-  { id:"insurance", icon:"shield", title:"بیمه", accent:"#2563eb", tint:"#eff6ff",
+  { id:"insurance", icon:"shield", img:"images/cat-insurance.jpg", title:"بیمه", accent:"#2563eb", tint:"#eff6ff",
     subgroups:[
       { title:"سازمان تامین اجتماعی", items:[
-        { name:"سابقه بیمه", icon:"idcard" },
-        { name:"پرداخت بیمه", icon:"wallet" },
-        { name:"ثبت افراد تحت تکفل", icon:"idcard" },
-        { name:"فیش حقوقی", icon:"receipt" },
-        { name:"کسر از حقوق", icon:"receipt" },
-        { name:"حکم مستمری ( افزایش )", icon:"receipt" },
+        { name:"سابقه بیمه", icon:"idcard", img:"images/insurance-history.jpg" },
+        { name:"پرداخت بیمه", icon:"wallet", img:"images/insurance-payment.jpg" },
+        { name:"ثبت افراد تحت تکفل", icon:"idcard", img:"images/insurance-dependents.jpg" },
+        { name:"فیش حقوقی", icon:"receipt", img:"images/payslip.jpg" },
+        { name:"کسر از حقوق", icon:"receipt", img:"images/salary-deduct.jpg" },
+        { name:"حکم مستمری ( افزایش )", icon:"receipt", img:"images/pension-order.jpg" },
       ]}
     ],
     items:[
-      { name:"پرداخت بیمه ملت", icon:"shield" },
-      { name:"اقساط بیمه ایران", icon:"shield" },
-      { name:"پرداخت بیمه پاسارگارد", icon:"shield" },
-      { name:"یافتن ادامه قبض بیمه پاسارگارد", icon:"receipt" },
-      { name:"بیمه ورزشی", icon:"shield" },
-      { name:"بیمه سلامت ایران", icon:"shield" },
-      { name:"پرداخت بیمه کشاورزی", icon:"shield" },
-      { name:"سابقه بیمه کشاورزی", icon:"idcard" },
-      { name:"وام بازنشستگی", icon:"money" },
-      { name:"بیمه اربعین", icon:"shield" },
-      { name:"پرداخت بیمه سرمد", icon:"shield" },
-      { name:"ثبت نام بیمه تکمیلی", icon:"heart" },
-      { name:"پرداخت بیمه اختیاری", icon:"shield" },
-      { name:"پرداخت بیمه مشاغل آزاد", icon:"briefcase" },
-      { name:"پرداخت بیمه کارگر ساختمانی", icon:"shield" },
-      { name:"پرداخت بیمه زنان خانه دار", icon:"home" },
-      { name:"پرداخت بیمه رانندگان", icon:"car" },
+      { name:"پرداخت بیمه ملت", icon:"shield", img:"images/mellat-insurance-pay.jpg" },
+      { name:"اقساط بیمه ایران", icon:"shield", img:"images/iran-insurance-installment.jpg" },
+      { name:"پرداخت بیمه پاسارگارد", icon:"shield", img:"images/pasargad-insurance-pay.jpg" },
+      { name:"یافتن ادامه قبض بیمه پاسارگارد", icon:"receipt", img:"images/pasargad-insurance-receipt.jpg" },
+      { name:"بیمه ورزشی", icon:"shield", img:"images/sports-insurance.jpg" },
+      { name:"بیمه سلامت ایران", icon:"shield", img:"images/iran-health-insurance.jpg" },
+      { name:"پرداخت بیمه کشاورزی", icon:"shield", img:"images/agri-insurance-pay.jpg" },
+      { name:"سابقه بیمه کشاورزی", icon:"idcard", img:"images/agri-insurance-history.jpg" },
+      { name:"وام بازنشستگی", icon:"money", img:"images/pension-loan.jpg" },
+      { name:"بیمه اربعین", icon:"shield", img:"images/arbaeen-insurance.jpg" },
+      { name:"پرداخت بیمه سرمد", icon:"shield", img:"images/sarmad-insurance-pay.jpg" },
+      { name:"ثبت نام بیمه تکمیلی", icon:"heart", img:"images/supplementary-insurance.jpg" },
+      { name:"پرداخت بیمه اختیاری", icon:"shield", img:"images/optional-insurance-pay.jpg" },
+      { name:"پرداخت بیمه مشاغل آزاد", icon:"briefcase", img:"images/freelance-insurance-pay.jpg" },
+      { name:"پرداخت بیمه کارگر ساختمانی", icon:"shield", img:"images/construction-insurance-pay.jpg" },
+      { name:"پرداخت بیمه زنان خانه دار", icon:"home", img:"images/housewife-insurance-pay.jpg" },
+      { name:"پرداخت بیمه رانندگان", icon:"car", img:"images/driver-insurance-pay.jpg" },
+      { name:"بیمه نیرو های مسلح", icon:"shield", img:"images/military-insurance.jpg" },
     ]
   },
 
-  { id:"education", icon:"graduation", title:"آموزش و پرورش", accent:"#7c3aed", tint:"#f3f0ff", items:[
-    { name:"کنکور", icon:"graduation" },
-    { name:"سنجش", icon:"graduation" },
-    { name:"تاییدیه مدارک تحصیلی", icon:"idcard" },
-    { name:"کارنامه تحصیلی", icon:"receipt" },
-    { name:"ثبت نام آزمون غربالگری", icon:"clipboard" },
-    { name:"ثبت نام آزمون استعداد یابی", icon:"award" },
-    { name:"پیش ثبت نام مدرسه", icon:"school" },
-    { name:"ثبت نام کتاب درسی", icon:"book" },
-    { name:"سرویس مدرسه", icon:"bus" },
+  { id:"education", icon:"graduation", img:"images/cat-education.jpg", title:"آموزش و پرورش", accent:"#7c3aed", tint:"#f3f0ff", items:[
+    { name:"کنکور", icon:"graduation", img:"images/konkur.jpg" },
+    { name:"سنجش", icon:"graduation", img:"images/sanjesh.jpg" },
+    { name:"تاییدیه مدارک تحصیلی", icon:"idcard", img:"images/education-docs.jpg" },
+    { name:"کارنامه تحصیلی", icon:"receipt", img:"images/transcript.jpg" },
+    { name:"ثبت نام آزمون غربالگری", icon:"clipboard", img:"images/screening-exam.jpg" },
+    { name:"ثبت نام آزمون استعداد یابی", icon:"award", img:"images/aptitude-exam.jpg" },
+    { name:"پیش ثبت نام مدرسه", icon:"school", img:"images/school-pre-register.jpg" },
+    { name:"ثبت نام کتاب درسی", icon:"book", img:"images/textbook-register.jpg" },
+    { name:"سرویس مدرسه", icon:"bus", img:"images/school-service.jpg" },
+    { name:"مای مدیو", icon:"graduation", img:"images/mymedio.jpg" },
   ]},
 
-  { id:"subsidy", icon:"wallet", title:"یارانه", accent:"#d97706", tint:"#fef3c7", items:[
-    { name:"استعلام و اعتراض به یارانه", icon:"money" },
-    { name:"استعلام و اعتراض کالابرگ", icon:"receipt" },
+  { id:"subsidy", icon:"wallet", img:"images/cat-subsidy.jpg", title:"یارانه", accent:"#d97706", tint:"#fef3c7", items:[
+    { name:"استعلام و اعتراض به یارانه", icon:"money", img:"images/subsidy-inquiry.jpg" },
+    { name:"استعلام و اعتراض کالابرگ", icon:"receipt", img:"images/kalabarg-inquiry.jpg" },
   ]},
 
-  { id:"bills", icon:"receipt", title:"قبض", accent:"#0891b2", tint:"#ecfeff", items:[
-    { name:"قبض آب", icon:"water" },
-    { name:"قبض برق", icon:"bolt" },
-    { name:"قبض گاز", icon:"flame" },
-    { name:"پرداخت بدهی ایرانسل", icon:"mobile" },
-    { name:"پرداخت بدهی رایتل", icon:"mobile" },
-    { name:"پرداخت بدهی همراه اول", icon:"mobile" },
-    { name:"پرداخت تلفن ثابت", icon:"phone" },
-    { name:"وصل قطعی تلفن ثابت", icon:"phone" },
-    { name:"شارژ مددجویان (زندانیان)", icon:"wallet" },
-    { name:"عوارض خروج از کشور", icon:"passport" },
-    { name:"بسته اینترنت همراه اول و ایرانسل و رایتل", icon:"wifi" },
-    { name:"وصل خرابی تلفن", icon:"wrench" },
-    { name:"وصل قطعی همراه اول و ایرانسل و رایتل", icon:"phoneOff" },
+  { id:"bills", icon:"receipt", img:"images/cat-bills.jpg", title:"قبض", accent:"#0891b2", tint:"#ecfeff", items:[
+    { name:"قبض آب", icon:"water", img:"images/water-bill.jpg" },
+    { name:"قبض برق", icon:"bolt", img:"images/electricity-bill.jpg" },
+    { name:"قبض گاز", icon:"flame", img:"images/gas-bill.jpg" },
+    { name:"پرداخت بدهی ایرانسل", icon:"mobile", img:"images/irancell-debt.jpg" },
+    { name:"پرداخت بدهی رایتل", icon:"mobile", img:"images/rightel-debt.jpg" },
+    { name:"پرداخت بدهی همراه اول", icon:"mobile", img:"images/mci-debt.jpg" },
+    { name:"پرداخت تلفن ثابت", icon:"phone", img:"images/landline-pay.jpg" },
+    { name:"وصل قطعی تلفن ثابت", icon:"phone", img:"images/landline-connect.jpg" },
+    { name:"شارژ مددجویان (زندانیان)", icon:"wallet", img:"images/prisoner-charge.jpg" },
+    { name:"عوارض خروج از کشور", icon:"passport", img:"images/exit-tax.jpg" },
+    { name:"بسته اینترنت همراه اول و ایرانسل و رایتل", icon:"wifi", img:"images/internet-package.jpg" },
+    { name:"وصل خرابی تلفن", icon:"wrench", img:"images/phone-repair.jpg" },
+    { name:"وصل قطعی همراه اول و ایرانسل و رایتل", icon:"phoneOff", img:"images/mobile-reconnect.jpg" },
   ]},
 
-  { id:"car", icon:"car", title:"ماشین", accent:"#e11d48", tint:"#fff1f2", items:[
-    { name:"استعلام و پرداخت خلافی خودرو", icon:"road" },
-    { name:"استعلام و پرداخت خلافی موتور", icon:"motorcycle" },
-    { name:"استعلام و پرداخت مالیات نقل و انتقال", icon:"percent" },
-    { name:"استعلام و پرداخت طرح ترافیک", icon:"road" },
-    { name:"استعلام و پرداخت عوارض آزادراه", icon:"road" },
-    { name:"استعلام و پرداخت عوارض سالیانه (شهرداری)", icon:"receipt" },
-    { name:"شارژ آزادراهی", icon:"wallet" },
-    { name:"نوبت نمایندگی سایپا", icon:"calendar" },
-    { name:"نوبت نمایندگی ایران خودرو", icon:"calendar" },
-    { name:"بیمه شخص ثالث", icon:"shield" },
-    { name:"استعلام بیمه شخص ثالث", icon:"shield", desc:"با پلاک و کد ملی شخص انجام می‌شود" },
-    { name:"نوبت دهی تعویض پلاک", icon:"calendar" },
+  { id:"car", icon:"car", img:"images/cat-car.jpg", title:"ماشین", accent:"#e11d48", tint:"#fff1f2", items:[
+    { name:"استعلام و پرداخت خلافی خودرو", icon:"road", img:"images/car-fine.jpg" },
+    { name:"استعلام و پرداخت خلافی موتور", icon:"motorcycle", img:"images/motor-fine.jpg" },
+    { name:"استعلام و پرداخت مالیات نقل و انتقال", icon:"percent", img:"images/car-transfer-tax.jpg" },
+    { name:"استعلام و پرداخت طرح ترافیک", icon:"road", img:"images/traffic-plan.jpg" },
+    { name:"استعلام و پرداخت عوارض آزادراه", icon:"road", img:"images/highway-toll.jpg" },
+    { name:"استعلام و پرداخت عوارض سالیانه (شهرداری)", icon:"receipt", img:"images/annual-toll.jpg" },
+    { name:"شارژ آزادراهی", icon:"wallet", img:"images/highway-charge.jpg" },
+    { name:"نوبت نمایندگی سایپا", icon:"calendar", img:"images/saipa-appointment.jpg" },
+    { name:"نوبت نمایندگی ایران خودرو", icon:"calendar", img:"images/ikco-appointment.jpg" },
+    { name:"بیمه شخص ثالث", icon:"shield", img:"images/third-party-insurance.jpg" },
+    { name:"استعلام بیمه شخص ثالث", icon:"shield", img:"images/third-party-inquiry.jpg", desc:"با پلاک و کد ملی شخص انجام می‌شود" },
+    { name:"نوبت دهی تعویض پلاک", icon:"calendar", img:"images/plate-change.jpg" },
   ]},
 
-  { id:"travel", icon:"plane", title:"سفر", accent:"#4f46e5", tint:"#eef2ff", items:[
-    { name:"بلیط قطار", icon:"train" },
-    { name:"بلیط هواپیما", icon:"plane" },
-    { name:"بلیط اتوبوس", icon:"bus" },
+  { id:"travel", icon:"plane", img:"images/cat-travel.jpg", title:"سفر", accent:"#4f46e5", tint:"#eef2ff", items:[
+    { name:"بلیط قطار", icon:"train", img:"images/train-ticket.jpg" },
+    { name:"بلیط هواپیما", icon:"plane", img:"images/plane-ticket.jpg" },
+    { name:"بلیط اتوبوس", icon:"bus", img:"images/bus-ticket.jpg" },
   ]},
 
-  { id:"sana", icon:"gavel", title:"ثنا", accent:"#a21caf", tint:"#fdf4ff", items:[
-    { name:"ابلاغیه قضایی", icon:"bellRing", desc:"مشاهده و پیگیری ابلاغیه‌های قضایی در سامانه ثنا" },
-    { name:"فرم ثنا ( برگه اطلاعات ثنا )", icon:"fileText" },
-    { name:"ثبت نام و احراز هویت ثنا", icon:"idcard" },
-    { name:"دریافت رمز ثنا ( رمز شخصی )", icon:"lock" },
-    { name:"دریافت سوء پیشینه", icon:"idcard" },
-    { name:"تغییر اطلاعات ثنا", icon:"idcard" },
-    { name:"تایپ و چاپ لایحه دادگاه", icon:"pen" },
-    { name:"پیگیری پرونده", icon:"gavel" },
-    { name:"نوبت دهی قضایی", icon:"calendar" },
+  { id:"sana", icon:"gavel", img:"images/cat-sana.jpg", title:"ثنا", accent:"#a21caf", tint:"#fdf4ff", items:[
+    { name:"ابلاغیه قضایی", icon:"bellRing", img:"images/judicial-notice.jpg", desc:"مشاهده و پیگیری ابلاغیه‌های قضایی در سامانه ثنا" },
+    { name:"فرم ثنا ( برگه اطلاعات ثنا )", icon:"fileText", img:"images/sana-form.jpg" },
+    { name:"ثبت نام و احراز هویت ثنا", icon:"idcard", img:"images/sana-register.jpg" },
+    { name:"دریافت رمز ثنا ( رمز شخصی )", icon:"lock", img:"images/sana-password.jpg" },
+    { name:"دریافت سوء پیشینه", icon:"idcard", img:"images/criminal-record.jpg" },
+    { name:"تغییر اطلاعات ثنا", icon:"idcard", img:"images/sana-edit.jpg" },
+    { name:"تایپ و چاپ لایحه دادگاه", icon:"pen", img:"images/legal-brief.jpg" },
+    { name:"پیگیری پرونده", icon:"gavel", img:"images/case-tracking.jpg" },
+    { name:"نوبت دهی قضایی", icon:"calendar", img:"images/judicial-appointment.jpg" },
   ]},
 
-  { id:"carreg", icon:"car", title:"ثبت نام ماشین", accent:"#16a34a", tint:"#f0fdf4", items:[
-    { name:"ثبت نام ایران خودرو", icon:"car" },
-    { name:"ثبت نام سایپا", icon:"car" },
-    { name:"ثبت نام بهمن موتور", icon:"car" },
+  { id:"carreg", icon:"car", img:"images/cat-carreg.jpg", title:"ثبت نام ماشین", accent:"#16a34a", tint:"#f0fdf4", items:[
+    { name:"ثبت نام ایران خودرو", icon:"car", img:"images/ikco-register.jpg" },
+    { name:"ثبت نام سایپا", icon:"car", img:"images/saipa-register.jpg" },
+    { name:"ثبت نام بهمن موتور", icon:"car", img:"images/bahman-register.jpg" },
   ]},
 
-  { id:"tax", icon:"percent", title:"مالیات", accent:"#ea580c", tint:"#fff7ed", items:[
-    { name:"ثبت نام اظهارنامه مالیاتی", icon:"receipt" },
-    { name:"پرداخت قبض مالیات", icon:"wallet" },
-    { name:"ثبت نام و تشکیل پرونده مالیاتی", icon:"idcard" },
-    { name:"دریافت کد اقتصادی", icon:"idcard" },
-    { name:"ثبت نام گام ۴ مالیات", icon:"idcard" },
-    { name:"پیگیری پرونده مالیاتی", icon:"gavel" },
-    { name:"مشاهده و پرداخت بدهی مالیاتی", icon:"wallet" },
-    { name:"ابلاغیه‌های مالیاتی", icon:"mail" },
-    { name:"تغییر اطلاعات مودی", icon:"idcard" },
-    { name:"ثبت شماره حساب / حساب‌های بانکی", icon:"bank" },
-    { name:"غیرفعال سازی کارتخوان", icon:"lock" },
+  { id:"tax", icon:"percent", img:"images/cat-tax.jpg", title:"مالیات", accent:"#ea580c", tint:"#fff7ed", items:[
+    { name:"ثبت نام اظهارنامه مالیاتی", icon:"receipt", img:"images/tax-return.jpg" },
+    { name:"پرداخت قبض مالیات", icon:"wallet", img:"images/tax-bill.jpg" },
+    { name:"ثبت نام و تشکیل پرونده مالیاتی", icon:"idcard", img:"images/tax-file.jpg" },
+    { name:"دریافت کد اقتصادی", icon:"idcard", img:"images/economic-code.jpg" },
+    { name:"ثبت نام گام ۴ مالیات", icon:"idcard", img:"images/tax-step4.jpg" },
+    { name:"پیگیری پرونده مالیاتی", icon:"gavel", img:"images/tax-tracking.jpg" },
+    { name:"مشاهده و پرداخت بدهی مالیاتی", icon:"wallet", img:"images/tax-debt.jpg" },
+    { name:"ابلاغیه‌های مالیاتی", icon:"mail", img:"images/tax-notice.jpg" },
+    { name:"تغییر اطلاعات مودی", icon:"idcard", img:"images/taxpayer-edit.jpg" },
+    { name:"ثبت شماره حساب / حساب‌های بانکی", icon:"bank", img:"images/bank-account.jpg" },
+    { name:"غیرفعال سازی کارتخوان", icon:"lock", img:"images/pos-deactivate.jpg" },
   ]},
 
-  { id:"print", icon:"printer", title:"چاپ", accent:"#475569", tint:"#f1f5f9",
+  { id:"print", icon:"printer", img:"images/cat-print.jpg", title:"چاپ", accent:"#475569", tint:"#f1f5f9",
     note:"تمامی چاپ‌ها به صورت سیاه و سفید می‌باشند و برگه‌ها به صورت A4 هستند.",
     items:[
-      { name:"کپی", icon:"printer" },
-      { name:"پرینت", icon:"printer" },
-      { name:"تایپ و چاپ آگهی استخدامی", icon:"megaphone" },
-      { name:"تایپ و چاپ آگهی فروش", icon:"megaphone" },
-      { name:"انواع تایپ", icon:"pen" },
-      { name:"اندازه گیری طرح تتو", icon:"ruler" },
-      { name:"اسکن", icon:"scan" },
-      { name:"فکس", icon:"printer" },
-      { name:"تحقیق", icon:"book" },
-      { name:"فتوشاپ", icon:"image" },
+      { name:"کپی", icon:"printer", img:"images/copy.jpg" },
+      { name:"پرینت", icon:"printer", img:"images/print-service.jpg" },
+      { name:"تایپ و چاپ آگهی استخدامی", icon:"megaphone", img:"images/job-ad.jpg" },
+      { name:"تایپ و چاپ آگهی فروش", icon:"megaphone", img:"images/sale-ad.jpg" },
+      { name:"انواع تایپ", icon:"pen", img:"images/typing.jpg" },
+      { name:"اندازه گیری طرح تتو", icon:"ruler", img:"images/tattoo-measure.jpg" },
+      { name:"اسکن", icon:"scan", img:"images/scan.jpg" },
+      { name:"فکس", icon:"printer", img:"images/fax.jpg" },
+      { name:"تحقیق", icon:"book", img:"images/research.jpg" },
+      { name:"فتوشاپ", icon:"image", img:"images/photoshop.jpg" },
     ]
   },
 ];
+
+/* ============================================================
+   توضیح و مدارک خدمات
+============================================================ */
+const CATEGORY_META = {
+  services:{desc:"انجام و پیگیری خدمات اداری و آنلاین مربوط به این خدمت.", docs:["کارت ملی یا شناسنامه","شماره همراه به نام متقاضی","مدرک مرتبط با درخواست در صورت نیاز"]},
+  insurance:{desc:"ثبت، استعلام، پرداخت یا پیگیری خدمات بیمه‌ای مربوط به این خدمت.", docs:["کارت ملی","شماره بیمه یا اطلاعات بیمه‌شده در صورت وجود","مدارک مرتبط با نوع بیمه یا درخواست"]},
+  education:{desc:"ثبت‌نام و پیگیری خدمات آموزشی، دانش‌آموزی و آموزش‌وپرورش.", docs:["کد ملی","شماره همراه","اطلاعات دانش‌آموز یا پرونده تحصیلی در صورت نیاز"]},
+  subsidy:{desc:"استعلام و پیگیری وضعیت یارانه یا کالابرگ خانوار.", docs:["کد ملی سرپرست خانوار","شماره همراه سرپرست","اطلاعات حساب یا خانوار در صورت نیاز"]},
+  bills:{desc:"استعلام یا پرداخت قبض و خدمات ارتباطی مربوط به این خدمت.", docs:["شناسه قبض و شناسه پرداخت در صورت وجود","شماره تلفن یا شماره همراه مربوط","کارت بانکی برای پرداخت"]},
+  car:{desc:"استعلام، پرداخت یا نوبت‌گیری خدمات خودرو و موتورسیکلت.", docs:["کارت ملی","شماره پلاک","مدارک خودرو یا اطلاعات لازم برای همان خدمت"]},
+  travel:{desc:"خرید یا پیگیری بلیت و خدمات سفر مربوط به این خدمت.", docs:["کارت ملی یا شناسنامه","مشخصات کامل مسافر","شماره همراه"]},
+  sana:{desc:"ثبت، دریافت یا پیگیری خدمات قضایی و سامانه ثنا.", docs:["کارت ملی و شناسنامه","شماره همراه به نام متقاضی","اطلاعات پرونده یا کد رهگیری در صورت وجود"]},
+  carreg:{desc:"ثبت‌نام و پیگیری طرح‌های فروش و خدمات خودروسازان.", docs:["کارت ملی","شماره همراه به نام متقاضی","اطلاعات بانکی/شبا در صورت اعلام سامانه"]},
+  tax:{desc:"ثبت، پرداخت و پیگیری امور مالیاتی مربوط به این خدمت.", docs:["کد ملی یا شناسه ملی","شماره همراه و اطلاعات هویتی","اطلاعات پرونده یا حساب بانکی در صورت نیاز"]},
+  print:{desc:"انجام خدمات چاپ، تایپ، اسکن و ویرایش فایل.", docs:["فایل یا متن موردنظر","مدارک یا تصویر اصلی در صورت نیاز","اندازه و تعداد صفحات موردنظر"]}
+};
+
+const ITEM_META = {
+  "وام ازدواج": {desc:"ثبت‌نام و پیگیری تسهیلات قرض‌الحسنه ازدواج.", docs:["اصل شناسنامه زوجین","کارت ملی زوجین","کد پستی و آدرس","کد رهگیری ثبت‌نام"]},
+  "وام فرزندآوری": {desc:"ثبت‌نام و پیگیری تسهیلات قرض‌الحسنه فرزندآوری.", docs:["اصل شناسنامه پدر و فرزند","کارت ملی پدر یا نماینده قانونی","کد پستی و آدرس","کد رهگیری ثبت‌نام"]},
+  "سجام": {desc:"ثبت‌نام و تکمیل اطلاعات سامانه جامع اطلاعات مشتریان بازار سرمایه.", docs:["کارت ملی","شناسنامه","شماره همراه به نام متقاضی","شماره حساب و شبا"]},
+  "همیاب ۲۴": {desc:"ثبت و پیگیری گوشی سرقتی یا مفقودی.", docs:["کارت ملی","شماره سریال یا IMEI گوشی","فاکتور خرید در صورت وجود","مشخصات سیم‌کارت"]},
+  "تاییدیه پستی": {desc:"پیگیری و دریافت تاییدیه‌های پستی موردنیاز.", docs:["کارت ملی","کد رهگیری یا مرسوله","شماره همراه"]},
+  "گواهینامه یک روزه موتور": {desc:"پیگیری فرایند ثبت‌نام و خدمات مربوط به گواهینامه موتور.", docs:["کارت ملی","شناسنامه","عکس و مدارک پزشکی در صورت نیاز"]},
+  "کارت سوخت": {desc:"ثبت درخواست، پیگیری و خدمات کارت سوخت.", docs:["کارت ملی مالک","شماره پلاک","مدارک خودرو"]},
+  "اعتبار سنجی": {desc:"بررسی و دریافت گزارش اعتبارسنجی مالی.", docs:["کارت ملی","شماره همراه به نام متقاضی","اطلاعات هویتی"]},
+  "ثبت نام کارت ملی هوشمند": {desc:"ثبت‌نام و پیگیری صدور کارت ملی هوشمند.", docs:["اصل شناسنامه","شماره ملی","شماره همراه"]},
+  "املاک و اسکان": {desc:"ثبت یا اصلاح اطلاعات محل سکونت در سامانه املاک و اسکان.", docs:["کد ملی","کد پستی","آدرس دقیق","اطلاعات مالک یا اجاره‌نامه در صورت نیاز"]},
+  "قولنامه کد رهگیری دار": {desc:"ثبت و تنظیم قرارداد اجاره یا معامله با کد رهگیری.", docs:["کارت ملی طرفین","اطلاعات ملک","سند یا مدارک مالکیت","شماره همراه طرفین"]},
+  "گواهی اشتغال به تحصیل": {desc:"دریافت و چاپ گواهی اشتغال به تحصیل.", docs:["کارت ملی","شماره دانش‌آموزی یا اطلاعات مدرسه در صورت نیاز"]},
+  "گواهی اشتغال به کار": {desc:"تهیه و چاپ گواهی اشتغال به کار.", docs:["کارت ملی","اطلاعات محل کار","مشخصات شغلی موردنیاز"]},
+  "بیمه نیرو های مسلح": {desc:"خدمات مرتبط با بیمه و خدمات درمانی نیروهای مسلح و ساتا.", docs:["کارت ملی","شماره بیمه یا اطلاعات پرسنلی","مدارک فرد تحت پوشش در صورت نیاز"]},
+  "مای مدیو": {desc:"پنجره واحد خدمات الکترونیک آموزش‌وپرورش برای دانش‌آموزان، والدین و فرهنگیان.", docs:["کد ملی","شماره همراه","اطلاعات دانش‌آموز/فرهنگی بر اساس نقش کاربر"]},
+  "ثبت نام و احراز هویت ثنا": {desc:"ثبت‌نام و احراز هویت در سامانه خدمات قضایی ثنا.", docs:["کارت ملی","شناسنامه","شماره همراه به نام متقاضی","آدرس و کد پستی","عکس مناسب در صورت نیاز"]},
+  "ابلاغیه قضایی": {desc:"مشاهده و پیگیری ابلاغیه‌های قضایی در ثنا.", docs:["کد ملی","رمز شخصی ثنا","شماره همراه"]},
+  "دریافت سوء پیشینه": {desc:"ثبت درخواست و دریافت گواهی عدم سوءپیشینه.", docs:["کارت ملی","اطلاعات ثنا","شماره همراه"]},
+  "استعلام و پرداخت خلافی خودرو": {desc:"استعلام و پرداخت جرایم رانندگی خودرو.", docs:["شماره پلاک","کارت ملی یا اطلاعات مالک در صورت نیاز","کارت بانکی برای پرداخت"]},
+  "نوبت دهی تعویض پلاک": {desc:"دریافت نوبت مرکز تعویض پلاک.", docs:["کارت ملی","اطلاعات خودرو","اطلاعات فروشنده و خریدار در صورت نیاز"]},
+  "بیمه شخص ثالث": {desc:"خرید یا تمدید بیمه شخص ثالث خودرو.", docs:["کارت ملی مالک","شماره پلاک","بیمه‌نامه قبلی در صورت وجود","اطلاعات خودرو"]},
+  "ثبت نام اظهارنامه مالیاتی": {desc:"ثبت و ارسال اظهارنامه مالیاتی.", docs:["کد ملی یا شناسه ملی","اطلاعات پرونده مالیاتی","اطلاعات درآمد و هزینه","اطلاعات حساب بانکی در صورت نیاز"]},
+  "ثبت نام و تشکیل پرونده مالیاتی": {desc:"ایجاد و تکمیل پرونده مالیاتی مودی.", docs:["کارت ملی/شناسه ملی","شماره همراه","آدرس و کد پستی","مجوز یا اطلاعات کسب‌وکار در صورت نیاز"]},
+  "دریافت کد اقتصادی": {desc:"پیگیری و دریافت اطلاعات مربوط به کد اقتصادی.", docs:["کد ملی یا شناسه ملی","اطلاعات پرونده مالیاتی","مدارک کسب‌وکار در صورت نیاز"]},
+  "غیرفعال سازی کارتخوان": {desc:"ثبت درخواست غیرفعال‌سازی دستگاه کارتخوان در پرونده مالیاتی.", docs:["کد ملی یا شناسه ملی","اطلاعات پرونده مالیاتی","شماره پایانه یا اطلاعات دستگاه"]},
+  "کپی": {desc:"کپی سیاه‌وسفید اسناد و مدارک روی برگه A4.", docs:["اصل مدرک یا فایل موردنظر"]},
+  "پرینت": {desc:"چاپ فایل و مدارک به صورت سیاه‌وسفید روی A4.", docs:["فایل آماده چاپ یا مدرک موردنظر"]},
+  "اسکن": {desc:"اسکن مدارک و تبدیل به فایل دیجیتال.", docs:["اصل مدرک یا تصویر موردنظر","فلش یا مقصد ارسال فایل در صورت نیاز"]},
+  "فکس": {desc:"ارسال فکس مدارک به مقصد موردنظر.", docs:["مدرک موردنظر","شماره فکس مقصد"]}
+};
+
+function enrichServiceData(){
+  DATA.forEach(cat => {
+    const apply = item => {
+      const meta = ITEM_META[item.name] || CATEGORY_META[cat.id] || {desc:"انجام و پیگیری خدمت «" + item.name + "».", docs:["کارت ملی یا شناسنامه","شماره همراه","مدرک مرتبط با درخواست در صورت نیاز"]};
+      if(!item.desc || item.desc.length < 20 || item.desc.includes("از ۱۱ صبح")) item.desc = meta.desc;
+      item.docs = meta.docs;
+    };
+    (cat.items || []).forEach(apply);
+    (cat.subgroups || []).forEach(sg => (sg.items || []).forEach(apply));
+  });
+}
+enrichServiceData();
 
 /* ============================================================
    Utilities
@@ -1111,10 +1217,13 @@ function findCategory(id){ return DATA.find(c => c.id === id); }
    Templates
 ============================================================ */
 function categoryCardHTML(cat){
-  const img = cat.img ? `<img src="${cat.img}" alt="${escapeHTML(cat.title)}" loading="lazy" decoding="async">` : icon(cat.icon);
+  const imgTag = cat.img ? `<img src="${cat.img}" alt="${escapeHTML(cat.title)}" loading="lazy" decoding="async" onerror="this.remove()">` : '';
   return `
     <a class="cat-card" href="#cat-${cat.id}" style="--accent:${cat.accent}; --tint:${cat.tint};">
-      <span class="cat-icon">${img}</span>
+      <span class="cat-icon">
+        ${icon(cat.icon)}
+        ${imgTag}
+      </span>
       <span class="cat-info">
         <h3>${escapeHTML(cat.title)}</h3>
         <span class="cat-meta">${categoryCount(cat)} خدمت</span>
@@ -1124,17 +1233,21 @@ function categoryCardHTML(cat){
 }
 
 function itemCardHTML(catId, item, idx, accent){
-  const media = item.img ? `<img src="${item.img}" alt="${escapeHTML(item.name)}" loading="lazy" decoding="async">` : icon(item.icon);
-  const desc = item.desc ? `<p class="item-desc">${escapeHTML(item.desc)}</p>` : "";
+  const imgTag = item.img ? `<img src="${item.img}" alt="${escapeHTML(item.name)}" loading="lazy" decoding="async" onerror="this.remove()">` : '';
+  const desc = `<p class="item-desc">${escapeHTML(item.desc || "انجام و پیگیری این خدمت.")}</p>`;
+  const docs = Array.isArray(item.docs) ? item.docs : ["کارت ملی یا شناسنامه","شماره همراه","مدرک مرتبط با درخواست در صورت نیاز"];
+  const docsHTML = `<details class="item-details"><summary>مدارک لازم</summary><ul class="docs-list">${docs.map(d => `<li>${escapeHTML(d)}</li>`).join("")}</ul></details>`;
   return `
     <article class="item-card" style="--accent:${accent}; --tint:${accent}15;">
       <div class="item-media">
         <span class="price-corner">${icon('tag')}<span>توافقی</span></span>
-        ${media}
+        ${icon(item.icon)}
+        ${imgTag}
       </div>
       <div class="item-body">
         <h4 class="item-title">${escapeHTML(item.name)}</h4>
         ${desc}
+        ${docsHTML}
         <div class="item-foot">
           <button class="contact-btn" type="button" data-action="contact" data-name="${escapeHTML(item.name)}">
             ${icon('phone')}<span>تماس برای انجام کار</span>
@@ -1213,6 +1326,32 @@ themeToggle.addEventListener("click", () => {
 });
 
 /* ============================================================
+   وضعیت باز/بسته + ساعت زنده ایران
+============================================================ */
+const heroStatus = document.getElementById("heroStatus");
+const statusDot = document.getElementById("statusDot");
+const statusText = document.getElementById("statusText");
+const iranClock = document.getElementById("iranClock");
+
+function updateBusinessStatus(){
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone:"Asia/Tehran", hour:"2-digit", minute:"2-digit", hour12:false
+  }).formatToParts(now);
+  const hour = Number(parts.find(p => p.type === "hour")?.value || 0);
+  const minute = Number(parts.find(p => p.type === "minute")?.value || 0);
+  const hh = String(hour).padStart(2,"0");
+  const mm = String(minute).padStart(2,"0");
+  const isOpen = hour >= 10 && hour < 22;
+  iranClock.textContent = `${hh}:${mm}`;
+  statusText.textContent = isOpen ? "اکنون باز است" : "اکنون بسته است";
+  heroStatus.classList.toggle("closed", !isOpen);
+  heroStatus.setAttribute("aria-label", `${isOpen ? "اکنون باز است" : "اکنون بسته است"} — ساعت ایران ${hh}:${mm}`);
+}
+updateBusinessStatus();
+setInterval(updateBusinessStatus, 1000);
+
+/* ============================================================
    Static icons
 ============================================================ */
 document.getElementById("splashLogo").innerHTML = icon('star');
@@ -1230,13 +1369,14 @@ function renderHome(){
   document.getElementById("totalCount").textContent = `${DATA.length} دسته • ${total} خدمت`;
 
   document.getElementById("supportGrid").innerHTML = SUPPORT.map(s => `
-    <div class="support-card">
+    <button class="support-card" type="button" data-action="contact" data-name="">
       <span class="avatar">${icon('user')}</span>
       <span class="info">
         <strong>${escapeHTML(s.name)}</strong>
-        <span>${s.display}</span>
+        <span>${escapeHTML(s.display)}</span>
       </span>
-    </div>`).join("");
+      <span style="font-size:12px;font-weight:800;opacity:.9;">تماس و پیام</span>
+    </button>`).join("");
 
   document.getElementById("addressBox").innerHTML = `
     <span class="avatar">${icon('pin')}</span>
@@ -1340,8 +1480,8 @@ const modalSub = document.getElementById("modalSub");
 const modalPhones = document.getElementById("modalPhones");
 const modalClose = document.getElementById("modalClose");
 
-function rubikaLink(phone){ return `https://rubika.ir/${phone}`; }
-function eitaaLink(phone){ return `https://eitaa.com/${phone}`; }
+function rubikaLink(person){ return `https://rubika.ir/${encodeURIComponent(person.rubika)}`; }
+function eitaaLink(person){ return `https://eitaa.com/${encodeURIComponent(person.eitaa)}`; }
 
 function contactPersonHTML(person){
   return `
@@ -1357,10 +1497,10 @@ function contactPersonHTML(person){
         <a class="act-btn act-call" href="tel:${person.phone}" title="تماس تلفنی">
           ${icon('phone')}<span>تماس</span>
         </a>
-        <a class="act-btn act-rubika" href="${rubikaLink(person.phone)}" target="_blank" rel="noopener" title="روبیکا">
+        <a class="act-btn act-rubika" href="${rubikaLink(person)}" target="_blank" rel="noopener" title="روبیکا">
           ${icon('chat')}<span>روبیکا</span>
         </a>
-        <a class="act-btn act-eitaa" href="${eitaaLink(person.phone)}" target="_blank" rel="noopener" title="ایتا">
+        <a class="act-btn act-eitaa" href="${eitaaLink(person)}" target="_blank" rel="noopener" title="ایتا">
           ${icon('chat')}<span>ایتا</span>
         </a>
       </div>
